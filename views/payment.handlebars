@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="/css/payment.css">
+
+<title>Integration: {{type}}</title>
+
+<div id="whole-page">
+  <div id="container">
+    {{> customerform}}
+
+    {{!-- The Checkout integration type will be conditionally rendered below. --}}
+    {{!-- Note: A custom helper function (./util/helpers.js) was used to implement conditionals in Handlebars. --}}
+    {{#ifeq type "dropin" }}
+    {{!--   * Drop-in includes styling out-of-the-box, so no additional CSS classes are needed. --}}
+    <div id="dropin"></div>
+    {{else}}
+    <div class="payment-container">
+      <div id={{type}} class="payment"></div>
+    </div>
+    {{/ifeq}}
+  </div>
+</div>
+
+<script>
+  const paymentMethodsResponse = {{{ response }}}
+  const originKey = "{{ originKey }}"
+  const type = "{{ type }}";
+
+  const configuration = {
+    paymentMethodsResponse,
+    originKey,
+    locale: "en_US",
+    environment: "test",
+    showPayButton: true,
+    paymentMethodsConfiguration: {
+      ideal: {
+        showImage: true
+      },
+      card: {
+        hasHolderName: true,
+        holderNameRequired: true,
+        name: "Credit or debit card",
+        amount: {
+          value: 1000,
+          currency: "EUR"
+        }
+      },
+    },
+    onSubmit: handleOnSubmit
+  };
+
+  function handleOnSubmit(state, dropin) {
+    function makePayment(data) {
+      return fetch("/create", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': "application/json"
+        }
+      }).then(res => res.json());
+    }
+
+    if (state.isValid) {
+      // If the state is valid, make the call to your server endpoint.
+      makePayment(state.data)
+        .then(res => {
+          // Next, check the response for an action.
+          if (res.action) {
+            if (type === "dropin") {
+              dropin.handleAction(res.action);
+            } else {
+              checkout.createFromAction(res.action).mount(document.getElementById(type));
+            }
+          } else {
+            // If there's no action, conditionally determine 
+            // the outcome for the shopper via the resultCode.
+            // https://docs.adyen.com/checkout/payment-result-codes
+            switch (res.resultCode) {
+              case "Authorised":
+                window.location.href = "../../confirmation"
+                break;
+              case "Cancelled":
+                window.location.href = "../../error"
+                break;
+              default:
+                window.location.href = "../../error"
+            }
+          }
+        })
+        .catch(error => {
+          throw Error(error);
+        });
+    }
+  }
+
+  const checkout = new AdyenCheckout(configuration);
+
+  const integration = checkout
+    .create(type)
+    .mount(document.getElementById(type));
+</script>

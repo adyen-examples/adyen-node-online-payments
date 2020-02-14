@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/css/customerform.css">
+
+<div id="customer-form">
+  <div class="address" id="address">
+    <div class="billing_header">
+      <div class="billing_header_title">
+        <span class="billing_header_radio">
+          <input type="radio" checked="checked" disabled />
+        </span>
+        <span class="billing_header_title_name">Enter Billing Information</span>
+      </div>
+    </div>
+    <form class="addressForm" action="/destination" method="get">
+      <div class=addressLine1" id="addressLine">
+        <div class="addressInput" id="first">
+          <label class="addressLabel" for="firstName">First Name</label>
+          <input type="text" class="form-control" placeholder="First Name" name="firstName" value="Joe" readonly>
+        </div>
+        <div class="addressInput" id="last">
+          <label class="addressLabel" for="lastName">Last Name</label>
+          <input type="text" class="form-control" placeholder="Last Name" name="lastName" value="Bob" readonly>
+        </div>
+      </div>
+      <div class="addressLine2" id="addressLine">
+        <div class="addressInput" id="street">
+          <label class="addressLabel" for="street">Street</label>
+          <input type="text" class="form-control" placeholder="Street" name="street" value="274 Brannan Street"
+            readonly>
+        </div>
+      </div>
+      <div class="addressLine3" id="addressLine">
+        <div class="addressInput" id="city">
+          <label class="addressLabel" for="city">City</label>
+          <input type="text" class="form-control" placeholder="City" name="city" value="San Francisco" readonly>
+        </div>
+      </div>
+      <div class="addressLine4" id="addressLine">
+        <div class="addressInput" id="state">
+          <label class="addressLabel" for="state">State</label>
+          <input type="text" class="form-control" placeholder="State" name="stateOrProvince" value="California"
+            readonly>
+        </div>
+        <div class="addressInput" id="zip">
+          <label class="addressLabel" for="zipcode">Zip Code</label>
+          <input type="text" class="form-control" placeholder="Zip Code" name="postalCode" value="94107" readonly>
+        </div>
+        <div class="addressInput" id="country">
+          <label class="addressLabel" for="country">Country</label>
+          <input type="text" class="form-control" placeholder="Country" name="country" value="United States" readonly>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+.payment-container {
+  display: flex;
+  justify-content: center;
+  background: #f7f8f9;
+  border: 1px solid #e6e9eb;
+  border-radius: 12px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  width: 100%;
+  max-width: 450px;
+  height: 100%;
+}
+
+@media screen and (max-width: 1076px) {
+  .payment-container {
+    align-self: center;
+    max-width: 610px;
+  }
+}
