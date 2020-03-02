@@ -49,7 +49,7 @@ ORIGIN_KEY="your_origin_key_here"
 npm run dev
 ```
 
-3. Visit [http://localhost:3000/](http://localhost:3000/) (**./views/index.handlebars**) to select an integration type.
+3. Visit [http://localhost:8080/](http://localhost:8080/) (**./views/index.handlebars**) to select an integration type.
 
 To try out integrations with test card numbers and payment method details, see [Test card numbers](https://docs.adyen.com/development-resources/test-cards/test-card-numbers).
 

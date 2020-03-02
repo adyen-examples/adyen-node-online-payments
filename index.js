@@ -84,7 +84,7 @@ app.post("/initiatePayment", jsonParser, (req, res) => {
         acceptHeader:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
       },
-      returnUrl: "http://localhost:3000/confirmation"
+      returnUrl: "http://localhost:8080/confirmation"
     })
     .then(response => {
       let paymentMethodType = req.body.paymentMethod.type;
@@ -110,11 +110,7 @@ app.get("/confirmation", (req, res) => res.render("confirmation"));
 app.post("/confirmation", (req, res) => {
   // Create the payload for submitting payment details
   let payload = {};
-  let details = {};
-  let reqBody = req.body;
-  details["MD"] = reqBody["MD"];
-  details["PaRes"] = reqBody["PaRes"];
-  payload["details"] = details;
+  payload["details"] = req.body;
   payload["paymentData"] = req.cookies["paymentData"];
 
   checkout.paymentsDetails(payload).then(response => {
@@ -130,6 +126,6 @@ app.post("/confirmation", (req, res) => {
 // Generic error page
 app.get("/error", (req, res) => res.render("error"));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

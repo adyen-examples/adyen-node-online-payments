@@ -46,7 +46,10 @@
     },
     onSubmit: (state, component) => {
       handleSubmission(state, component, "/initiatePayment");
-    }
+    },
+    onAdditionalDetails: (state, component) => {
+      handleSubmission(state, component, "/submitAdditionalDetails");
+    },
   };
 
   // Calls your server endpoints
