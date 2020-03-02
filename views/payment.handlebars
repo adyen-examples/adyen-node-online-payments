@@ -44,50 +44,45 @@
         }
       },
     },
-    onSubmit: handleOnSubmit
+    onSubmit: (state, component) => {
+      handleSubmission(state, component, "/initiatePayment");
+    }
   };
 
-  function handleOnSubmit(state, dropin) {
-    function makePayment(data) {
-      return fetch("/create", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': "application/json"
-        }
-      }).then(res => res.json());
-    }
+  // Calls your server endpoints
+  function callServer(url, data) {
+    return fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': "application/json"
+      }
+    }).then(res => res.json());
+  }
 
+  // Handles responses sent from your server to the client
+  function handleServerResponse(res, component) {
+    if (res.action) {
+      component.handleAction(res.action);
+    } else {
+      switch (res.resultCode) {
+        case "Authorised":
+          window.location.href = "/confirmation"
+          break;
+        default:
+          window.location.href = "/error"
+          break;
+      }
+    }
+  }
+
+  // Event handlers called when the shopper selects the pay button,
+  // or when additional information is required to complete the payment 
+  function handleSubmission(state, component, url) {
     if (state.isValid) {
-      // If the state is valid, make the call to your server endpoint.
-      makePayment(state.data)
-        .then(res => {
-          // Next, check the response for an action.
-          if (res.action) {
-            if (type === "dropin") {
-              dropin.handleAction(res.action);
-            } else {
-              checkout.createFromAction(res.action).mount(document.getElementById(type));
-            }
-          } else {
-            // If there's no action, conditionally determine 
-            // the outcome for the shopper via the resultCode.
-            // https://docs.adyen.com/checkout/payment-result-codes
-            switch (res.resultCode) {
-              case "Authorised":
-                window.location.href = "../../confirmation"
-                break;
-              case "Cancelled":
-                window.location.href = "../../error"
-                break;
-              default:
-                window.location.href = "../../error"
-            }
-          }
-        })
-        .catch(error => {
-          throw Error(error);
-        });
+      callServer(url, state.data)
+        .then(res => handleServerResponse(res, component))
+        .catch(error => { throw Error(error) });
     }
   }
 

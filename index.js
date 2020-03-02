@@ -69,7 +69,7 @@ app.get("/checkout/:type", (req, res) => {
 });
 
 // Submitting a payment
-app.post("/create", jsonParser, (req, res) => {
+app.post("/initiatePayment", jsonParser, (req, res) => {
   checkout
     .payments({
       amount: { currency: "EUR", value: 1000 },
@@ -83,9 +83,6 @@ app.post("/create", jsonParser, (req, res) => {
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
         acceptHeader:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
-      },
-      additionalData: {
-        executeThreeD: "true"
       },
       returnUrl: "http://localhost:3000/confirmation"
     })
