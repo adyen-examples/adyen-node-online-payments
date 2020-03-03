@@ -43,6 +43,10 @@ a:hover {
   padding-right: 8px;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Integration selection index */
 
 *,

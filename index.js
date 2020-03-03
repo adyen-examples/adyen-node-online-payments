@@ -72,6 +72,7 @@ app.get("/checkout/:type", (req, res) => {
         currency: "EUR",
         value: 1000
       },
+      countryCode: "NL",
       channel: "Web",
       merchantAccount: config.merchantAccount
     })
