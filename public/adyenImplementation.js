@@ -50,7 +50,13 @@ function handleServerResponse(res, component) {
   } else {
     switch (res.resultCode) {
       case "Authorised":
-        window.location.href = "/confirmation";
+        window.location.href = "/success";
+        break;
+      case "Pending":
+        window.location.href = "/pending";
+        break;
+      case "Refused":
+        window.location.href = "/failed";
         break;
       default:
         window.location.href = "/error";

@@ -99,7 +99,7 @@ app.post("/initiatePayment", jsonParser, (req, res) => {
       additionalData: {
         allow3DS2: true
       },
-      returnUrl: "http://localhost:8080/confirmation"
+      returnUrl: "http://localhost:8080/handleShopperRedirect"
     })
     .then(response => {
       let paymentMethodType = req.body.paymentMethod.type;
@@ -117,12 +117,33 @@ app.post("/initiatePayment", jsonParser, (req, res) => {
     });
 });
 
-// Confirmation page
-app.get("/confirmation", (req, res) => res.render("confirmation"));
+app.get("/handleShopperRedirect", (req, res) => {
+  // Create the payload for submitting payment details
+  let payload = {};
+  payload["details"] = req.query;
+  payload["paymentData"] = req.cookies["paymentData"];
 
-// After completing the 3DS2 authentication, the shopper is redirected
-// back to returnUrl via an HTTP POST, appended with MD and PaRes variables
-app.post("/confirmation", (req, res) => {
+  checkout.paymentsDetails(payload).then(response => {
+    res.clearCookie("paymentData");
+    // Conditionally handle different result codes for the shopper
+    switch (response.resultCode) {
+      case "Authorised":
+        res.redirect("/success");
+        break;
+      case "Pending":
+        res.redirect("/pending");
+        break;
+      case "Refused":
+        res.redirect("/failed");
+        break;
+      default:
+        res.redirect("/error");
+        break;
+    }
+  });
+});
+
+app.post("/handleShopperRedirect", (req, res) => {
   // Create the payload for submitting payment details
   let payload = {};
   payload["details"] = req.body;
@@ -131,10 +152,20 @@ app.post("/confirmation", (req, res) => {
   checkout.paymentsDetails(payload).then(response => {
     res.clearCookie("paymentData");
     // Conditionally handle different result codes for the shopper
-    // (a generic error page is used in this demo for simplicity)
-    response.resultCode === "Authorised"
-      ? res.redirect("/confirmation")
-      : res.redirect("/error");
+    switch (response.resultCode) {
+      case "Authorised":
+        res.redirect("/success");
+        break;
+      case "Pending":
+        res.redirect("/pending");
+        break;
+      case "Refused":
+        res.redirect("/failed");
+        break;
+      default:
+        res.redirect("/error");
+        break;
+    }
   });
 });
 
@@ -154,8 +185,17 @@ app.post("/submitAdditionalDetails", (req, res) => {
   });
 });
 
-// Generic error page
+// Success result page
+app.get("/success", (req, res) => res.render("success"));
+
+// Pending result page
+app.get("/pending", (req, res) => res.render("pending"));
+
+// Error result page
 app.get("/error", (req, res) => res.render("error"));
+
+// Failed result page
+app.get("/failed", (req, res) => res.render("failed"));
 
 const PORT = process.env.PORT || 8080;
 
