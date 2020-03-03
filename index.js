@@ -47,6 +47,23 @@ app.get("/preview", (req, res) =>
   })
 );
 
+//
+app.get("getPaymentMethods", (req, res) => {
+  checkout
+    .paymentMethods({
+      amount: {
+        currency: "EUR",
+        value: 1000
+      },
+      countryCode: "NL",
+      channel: "Web",
+      merchantAccount: config.merchantAccount
+    })
+    .then(response => {
+      res.json(response);
+    });
+});
+
 // Checkout page (make a payment)
 app.get("/checkout/:type", (req, res) => {
   checkout
@@ -55,7 +72,6 @@ app.get("/checkout/:type", (req, res) => {
         currency: "EUR",
         value: 1000
       },
-      countryCode: "NL",
       channel: "Web",
       merchantAccount: config.merchantAccount
     })
@@ -78,11 +94,9 @@ app.post("/initiatePayment", jsonParser, (req, res) => {
       merchantAccount: config.merchantAccount,
       shopperIP: "192.168.1.3",
       channel: "Web",
-      browserInfo: {
-        userAgent:
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
-        acceptHeader:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+      browserInfo: req.body.browserInfo,
+      additionalData: {
+        allow3DS2: true
       },
       returnUrl: "http://localhost:8080/confirmation"
     })
@@ -120,6 +134,22 @@ app.post("/confirmation", (req, res) => {
     response.resultCode === "Authorised"
       ? res.redirect("/confirmation")
       : res.redirect("/error");
+  });
+});
+
+app.post("/submitAdditionalDetails", (req, res) => {
+  // Create the payload for submitting payment details
+  let payload = {};
+  payload["details"] = req.body.details;
+  payload["paymentData"] = req.body.paymentData;
+
+  // Return the response back to client
+  // (for further action handling or presenting result to shopper)
+  checkout.paymentsDetails(payload).then(response => {
+    let resultCode = response.resultCode;
+    let action = response.action || null;
+
+    res.json({ action, resultCode });
   });
 });
 
