@@ -47,15 +47,41 @@ app.get("/preview", (req, res) =>
   })
 );
 
-//
+function findCurrency(type) {
+  switch (type) {
+    case "ideal":
+    case "giropay":
+    case "klarna_paynow":
+    case "sepadirectdebit":
+    case "directEbanking":
+      return "EUR";
+      break;
+    case "wechatpayqr":
+    case "alipay":
+      return "CN";
+      break;
+    case "dotpay":
+      return "PLN";
+      break;
+    case "boletobancario":
+      return "BRL";
+      break;
+    default:
+      return "EUR";
+      break;
+  }
+}
+
+// Get payment methods
 app.get("getPaymentMethods", (req, res) => {
+  let currency = findCurrency(req.params.type);
+
   checkout
     .paymentMethods({
       amount: {
-        currency: "EUR",
+        currency,
         value: 1000
       },
-      countryCode: "NL",
       channel: "Web",
       merchantAccount: config.merchantAccount
     })
@@ -66,13 +92,14 @@ app.get("getPaymentMethods", (req, res) => {
 
 // Checkout page (make a payment)
 app.get("/checkout/:type", (req, res) => {
+  let currency = findCurrency(req.params.type);
+
   checkout
     .paymentMethods({
       amount: {
-        currency: "EUR",
+        currency,
         value: 1000
       },
-      countryCode: "NL",
       channel: "Web",
       merchantAccount: config.merchantAccount
     })
@@ -87,9 +114,11 @@ app.get("/checkout/:type", (req, res) => {
 
 // Submitting a payment
 app.post("/initiatePayment", jsonParser, (req, res) => {
+  let currency = findCurrency(req.body.paymentMethod.type);
+
   checkout
     .payments({
-      amount: { currency: "EUR", value: 1000 },
+      amount: { currency, value: 1000 },
       paymentMethod: req.body.paymentMethod,
       reference: "12345",
       merchantAccount: config.merchantAccount,
@@ -185,7 +214,7 @@ app.post("/submitAdditionalDetails", (req, res) => {
   });
 });
 
-// Success result page
+// Authorised result page
 app.get("/success", (req, res) => res.render("success"));
 
 // Pending result page
@@ -194,7 +223,7 @@ app.get("/pending", (req, res) => res.render("pending"));
 // Error result page
 app.get("/error", (req, res) => res.render("error"));
 
-// Failed result page
+// Refused result page
 app.get("/failed", (req, res) => res.render("failed"));
 
 const PORT = process.env.PORT || 8080;
