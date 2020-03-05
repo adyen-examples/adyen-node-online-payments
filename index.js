@@ -120,16 +120,17 @@ app.post("/initiatePayment", jsonParser, (req, res) => {
   checkout
     .payments({
       amount: { currency, value: 1000 },
-      paymentMethod: req.body.paymentMethod,
       reference: "12345",
       merchantAccount: config.merchantAccount,
       shopperIP: "192.168.1.3",
       channel: "Web",
-      browserInfo: req.body.browserInfo,
       additionalData: {
         allow3DS2: true
       },
-      returnUrl: "http://localhost:8080/handleShopperRedirect"
+      returnUrl: "http://localhost:8080/handleShopperRedirect",
+      browserInfo: req.body.browserInfo,
+      riskData: req.body.riskData,
+      paymentMethod: req.body.paymentMethod
     })
     .then(response => {
       let paymentMethodType = req.body.paymentMethod.type;
