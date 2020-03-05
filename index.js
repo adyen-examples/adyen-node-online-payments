@@ -58,7 +58,7 @@ function findCurrency(type) {
       break;
     case "wechatpayqr":
     case "alipay":
-      return "CN";
+      return "CNY";
       break;
     case "dotpay":
       return "PLN";
@@ -93,6 +93,7 @@ app.get("getPaymentMethods", (req, res) => {
 // Checkout page (make a payment)
 app.get("/checkout/:type", (req, res) => {
   let currency = findCurrency(req.params.type);
+  // TODO: find currency for Drop-in
 
   checkout
     .paymentMethods({
