@@ -12,6 +12,10 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 - [Component](https://docs.adyen.com/checkout/components-web)
   - Card
   - iDEAL
+  - Dotpay
+  - giropay
+  - SEPA Direct Debit
+  - SOFORT
 
 Each demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)). See **./util/api.js** for API functions.
 
