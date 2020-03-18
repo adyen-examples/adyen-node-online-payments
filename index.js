@@ -1,18 +1,22 @@
 const express = require("express");
 const path = require("path");
 const hbs = require("express-handlebars");
-const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 const app = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "/public")));
+// Parse JSON bodies
+app.use(express.json());
+// Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+// Parse cookie bodies, and allow setting/getting cookies
 app.use(cookieParser());
 
-// Set up the dotenv config
+app.use(express.static(path.join(__dirname, "/public")));
+
+// config() enables environment variables by
+// parsing the .env file and assigning it to process.env
 dotenv.config({
   path: "./.env"
 });
@@ -20,7 +24,6 @@ dotenv.config({
 // Adyen Node.js API library boilerplate (configuration, etc.)
 const config = new Config();
 config.apiKey = process.env.API_KEY;
-config.merchantAccount = process.env.MERCHANT_ACCOUNT;
 const client = new Client({ config });
 client.setEnvironment("TEST");
 const checkout = new CheckoutAPI(client);
@@ -74,16 +77,10 @@ function findCurrency(type) {
 
 // Get payment methods
 app.get("getPaymentMethods", (req, res) => {
-  let currency = findCurrency(req.params.type);
-
   checkout
     .paymentMethods({
-      amount: {
-        currency,
-        value: 1000
-      },
       channel: "Web",
-      merchantAccount: config.merchantAccount
+      merchantAccount: process.env.MERCHANT_ACCOUNT
     })
     .then(response => {
       res.json(response);
@@ -92,17 +89,10 @@ app.get("getPaymentMethods", (req, res) => {
 
 // Checkout page (make a payment)
 app.get("/checkout/:type", (req, res) => {
-  let currency = findCurrency(req.params.type);
-  // TODO: find currency for Drop-in
-
   checkout
     .paymentMethods({
-      amount: {
-        currency,
-        value: 1000
-      },
       channel: "Web",
-      merchantAccount: config.merchantAccount
+      merchantAccount: process.env.MERCHANT_ACCOUNT
     })
     .then(response => {
       res.render("payment", {
@@ -114,14 +104,14 @@ app.get("/checkout/:type", (req, res) => {
 });
 
 // Submitting a payment
-app.post("/initiatePayment", jsonParser, (req, res) => {
+app.post("/initiatePayment", (req, res) => {
   let currency = findCurrency(req.body.paymentMethod.type);
 
   checkout
     .payments({
       amount: { currency, value: 1000 },
       reference: "12345",
-      merchantAccount: config.merchantAccount,
+      merchantAccount: process.env.MERCHANT_ACCOUNT,
       shopperIP: "192.168.1.3",
       channel: "Web",
       additionalData: {
@@ -129,7 +119,7 @@ app.post("/initiatePayment", jsonParser, (req, res) => {
       },
       returnUrl: "http://localhost:8080/handleShopperRedirect",
       browserInfo: req.body.browserInfo,
-      riskData: req.body.riskData,
+      // riskData: req.body.riskData,
       paymentMethod: req.body.paymentMethod
     })
     .then(response => {
