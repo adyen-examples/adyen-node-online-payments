@@ -52,6 +52,8 @@ app.get("/preview", (req, res) =>
 
 function findCurrency(type) {
   switch (type) {
+    case "ach":
+      return "USD";
     case "ideal":
     case "giropay":
     case "klarna_paynow":
