@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const hbs = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
@@ -16,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // Parse cookie bodies, and allow setting/getting cookies
 app.use(cookieParser());
 // Serve client from build folder
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // enables environment variables by
 // parsing the .env file and assigning it to process.env
@@ -31,22 +30,23 @@ const client = new Client({ config });
 client.setEnvironment("TEST");
 const checkout = new CheckoutAPI(client);
 
-app.engine(
-  "handlebars",
-  hbs({
-    defaultLayout: "main",
-    layoutsDir: __dirname + "/views/layouts",
-    partialsDir: __dirname + "/views/partials",
-    helpers: require("./util/helpers")
-  })
-);
-
-app.set("view engine", "handlebars");
-
 /* ################# API ENDPOINTS ###################### */
 
+// Health check
+app.get("/api/health", (req, res) => {
+  return res.send("ok");
+});
+
+// Get Adyen configuration
+app.get("/api/config", (req, res) => {
+  res.json({
+    environment: "test",
+    originKey: process.env.ORIGIN_KEY
+  });
+});
+
 // Get payment methods
-app.get("getPaymentMethods", async (req, res) => {
+app.post("/api/paymentMethods", async (req, res) => {
   try {
     const response = await checkout.paymentMethods({
       channel: "Web",
@@ -60,7 +60,7 @@ app.get("getPaymentMethods", async (req, res) => {
 });
 
 // Submitting a payment
-app.post("/initiatePayment", async (req, res) => {
+app.post("/api/payments", async (req, res) => {
   const currency = findCurrency(req.body.paymentMethod.type);
   const shopperIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
@@ -77,52 +77,12 @@ app.post("/initiatePayment", async (req, res) => {
         // @ts-ignore
         allow3DS2: true
       },
-      returnUrl: "http://localhost:8080/handleShopperRedirect",
-      // riskData: req.body.riskData,
+      returnUrl: "http://localhost:8080/api/handleShopperRedirect",
       browserInfo: req.body.browserInfo,
-      paymentMethod: req.body.paymentMethod.type.includes("boleto")
-        ? {
-            type: "boletobancario_santander"
-          }
-        : req.body.paymentMethod,
-      // Required for Boleto:
-      socialSecurityNumber: req.body.socialSecurityNumber,
-      shopperName: req.body.shopperName,
-      billingAddress:
-        typeof req.body.billingAddress === "undefined" ||
-        Object.keys(req.body.billingAddress).length === 0
-          ? null
-          : req.body.billingAddress,
-      deliveryDate: "2023-12-31T23:00:00.000Z",
-      shopperStatement:
-        "Aceitar o pagamento até 15 dias após o vencimento.Não cobrar juros. Não aceitar o pagamento com cheque",
-      // Required for Klarna:
-      countryCode: req.body.paymentMethod.type.includes("klarna") ? "DE" : null,
-      shopperReference: "12345",
-      shopperEmail: "youremail@email.com",
-      shopperLocale: "en_US",
-      lineItems: [
-        {
-          quantity: "1",
-          amountExcludingTax: "331",
-          taxPercentage: "2100",
-          description: "Shoes",
-          id: "Item 1",
-          taxAmount: "69",
-          amountIncludingTax: "400"
-        },
-        {
-          quantity: "2",
-          amountExcludingTax: "248",
-          taxPercentage: "2100",
-          description: "Socks",
-          id: "Item 2",
-          taxAmount: "52",
-          amountIncludingTax: "300"
-        }
-      ]
-    })
-
+      paymentMethod: req.body.paymentMethod,
+      billingAddress: req.body.billingAddress,
+      origin: req.body.origin
+    });
     let paymentMethodType = req.body.paymentMethod.type;
     let resultCode = response.resultCode;
     let redirectUrl = response.redirect !== undefined ? response.redirect.url : null;
@@ -143,38 +103,40 @@ app.post("/initiatePayment", async (req, res) => {
 });
 
 // Handle all redirects from payment type
-app.all("/handleShopperRedirect", async (req, res) => {
+app.all("/api/handleShopperRedirect", async (req, res) => {
   // Create the payload for submitting payment details
   const payload = {};
   payload["details"] = req.method === "GET" ? req.query : req.body;
   payload["paymentData"] = req.cookies["paymentData"];
+  const originalHost = req.cookies["originalHost"] || "";
 
   try {
     const response = await checkout.paymentsDetails(payload);
     res.clearCookie("paymentData");
+    res.clearCookie("originalHost");
     // Conditionally handle different result codes for the shopper
     switch (response.resultCode) {
       case "Authorised":
-        res.redirect("/success");
+        res.redirect(`${originalHost}/status/success`);
         break;
       case "Pending":
       case "Received":
-        res.redirect("/pending");
+        res.redirect(`${originalHost}/status/pending`);
         break;
       case "Refused":
-        res.redirect("/failed");
+        res.redirect(`${originalHost}/status/failed`);
         break;
       default:
-        res.redirect("/error");
+        res.redirect(`${originalHost}/status/error?reason=${response.resultCode}`);
         break;
     }
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
-    res.redirect("/error");
+    res.redirect(`${originalHost}/status/error?reason=${err.message}`);
   }
 });
 
-app.post("/submitAdditionalDetails", async (req, res) => {
+app.post("/api/paymentDetails", async (req, res) => {
   // Create the payload for submitting payment details
   const payload = {};
   payload["details"] = req.body.details;
@@ -196,61 +158,25 @@ app.post("/submitAdditionalDetails", async (req, res) => {
 
 /* ################# end API ENDPOINTS ###################### */
 
-/* ################# CLIENT SIDE ENDPOINTS ###################### */
+/* ################# CLIENT ENDPOINTS ###################### */
 
-// Index (select a demo)
-app.get("/", (req, res) => res.render("index"));
-
-// Cart (continue to checkout)
-app.get("/preview", (req, res) =>
-  res.render("preview", {
-    type: req.query.type
-  })
-);
-
-// Checkout page (make a payment)
-app.get("/checkout/:type", (req, res) => {
-  checkout
-    .paymentMethods({
-      channel: "Web",
-      merchantAccount: process.env.MERCHANT_ACCOUNT
-    })
-    .then(response => {
-      res.render("payment", {
-        type: req.params.type,
-        originKey: process.env.ORIGIN_KEY,
-        response: JSON.stringify(response)
-      });
-    });
+// Handles any requests that doesn't match the above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// Authorised result page
-app.get("/success", (req, res) => res.render("success"));
-
-// Pending result page
-app.get("/pending", (req, res) => res.render("pending"));
-
-// Error result page
-app.get("/error", (req, res) => res.render("error"));
-
-// Refused result page
-app.get("/failed", (req, res) => res.render("failed"));
-
-/* ################# end CLIENT SIDE ENDPOINTS ###################### */
+/* ################# end CLIENT ENDPOINTS ###################### */
 
 /* ################# UTILS ###################### */
 
 function findCurrency(type) {
   switch (type) {
-    case "ach":
-      return "USD";
     case "wechatpayqr":
     case "alipay":
       return "CNY";
     case "dotpay":
       return "PLN";
     case "boletobancario":
-    case "boletobancario_santander":
       return "BRL";
     default:
       return "EUR";
