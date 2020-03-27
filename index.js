@@ -209,19 +209,21 @@ app.get("/preview", (req, res) =>
 );
 
 // Checkout page (make a payment)
-app.get("/checkout/:type", (req, res) => {
-  checkout
-    .paymentMethods({
+app.get("/checkout/:type", async (req, res) => {
+  try {
+    const response = await checkout.paymentMethods({
       channel: "Web",
       merchantAccount: process.env.MERCHANT_ACCOUNT
-    })
-    .then(response => {
-      res.render("payment", {
-        type: req.params.type,
-        originKey: process.env.ORIGIN_KEY,
-        response: JSON.stringify(response)
-      });
     });
+    res.render("payment", {
+      type: req.params.type,
+      originKey: process.env.ORIGIN_KEY,
+      response: JSON.stringify(response)
+    });
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
 });
 
 // Authorised result page
