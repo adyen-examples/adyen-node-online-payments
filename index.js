@@ -46,7 +46,7 @@ app.set("view engine", "handlebars");
 /* ################# API ENDPOINTS ###################### */
 
 // Get payment methods
-app.get("getPaymentMethods", async (req, res) => {
+app.get("/api/getPaymentMethods", async (req, res) => {
   try {
     const response = await checkout.paymentMethods({
       channel: "Web",
@@ -60,7 +60,7 @@ app.get("getPaymentMethods", async (req, res) => {
 });
 
 // Submitting a payment
-app.post("/initiatePayment", async (req, res) => {
+app.post("/api/initiatePayment", async (req, res) => {
   const currency = findCurrency(req.body.paymentMethod.type);
   const shopperIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
@@ -77,7 +77,7 @@ app.post("/initiatePayment", async (req, res) => {
         // @ts-ignore
         allow3DS2: true
       },
-      returnUrl: "http://localhost:8080/handleShopperRedirect",
+      returnUrl: "http://localhost:8080/api/handleShopperRedirect",
       browserInfo: req.body.browserInfo,
       paymentMethod: req.body.paymentMethod
     });
@@ -101,7 +101,7 @@ app.post("/initiatePayment", async (req, res) => {
 });
 
 // Handle all redirects from payment type
-app.all("/handleShopperRedirect", async (req, res) => {
+app.all("/api/handleShopperRedirect", async (req, res) => {
   // Create the payload for submitting payment details
   const payload = {};
   payload["details"] = req.method === "GET" ? req.query : req.body;
@@ -132,7 +132,7 @@ app.all("/handleShopperRedirect", async (req, res) => {
   }
 });
 
-app.post("/submitAdditionalDetails", async (req, res) => {
+app.post("/api/submitAdditionalDetails", async (req, res) => {
   // Create the payload for submitting payment details
   const payload = {};
   payload["details"] = req.body.details;

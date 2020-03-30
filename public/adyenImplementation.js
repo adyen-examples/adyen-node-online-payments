@@ -25,10 +25,10 @@ const configuration = {
     }
   },
   onSubmit: (state, component) => {
-    handleSubmission(state, component, "/initiatePayment");
+    handleSubmission(state, component, "/api/initiatePayment");
   },
   onAdditionalDetails: (state, component) => {
-    handleSubmission(state, component, "/submitAdditionalDetails");
+    handleSubmission(state, component, "/api/submitAdditionalDetails");
   }
 };
 
