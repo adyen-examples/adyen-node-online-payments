@@ -12,10 +12,12 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 - [Component](https://docs.adyen.com/checkout/components-web)
   - ACH
   - Alipay
-  - Card
-  - iDEAL
+  - Boleto Bancário
+  - Card (3DS2)
   - Dotpay
   - giropay
+  - iDEAL
+  - Klarna (Pay now, Pay later, Slice it)
   - SEPA Direct Debit
   - SOFORT
 
