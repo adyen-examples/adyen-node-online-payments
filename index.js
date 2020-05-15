@@ -69,6 +69,7 @@ function findCurrency(type) {
       return "PLN";
       break;
     case "boletobancario":
+    case "boletobancario_santander":
       return "BRL";
       break;
     default:
@@ -120,9 +121,49 @@ app.post("/initiatePayment", (req, res) => {
         allow3DS2: true
       },
       returnUrl: "http://localhost:8080/handleShopperRedirect",
-      browserInfo: req.body.browserInfo,
       // riskData: req.body.riskData,
-      paymentMethod: req.body.paymentMethod
+      browserInfo: req.body.browserInfo,
+      paymentMethod: req.body.paymentMethod.type.includes("boleto")
+        ? {
+            type: "boletobancario_santander"
+          }
+        : req.body.paymentMethod,
+      // Required for Boleto:
+      socialSecurityNumber: req.body.socialSecurityNumber,
+      shopperName: req.body.shopperName,
+      billingAddress:
+        typeof req.body.billingAddress === "undefined" ||
+        Object.keys(req.body.billingAddress).length === 0
+          ? null
+          : req.body.billingAddress,
+      deliveryDate: "2023-12-31T23:00:00.000Z",
+      shopperStatement:
+        "Aceitar o pagamento até 15 dias após o vencimento.Não cobrar juros. Não aceitar o pagamento com cheque",
+      // Required for Klarna:
+      countryCode: req.body.paymentMethod.type.includes("klarna") ? "DE" : null,
+      shopperReference: "12345",
+      shopperEmail: "youremail@email.com",
+      shopperLocale: "en_US",
+      lineItems: [
+        {
+          quantity: "1",
+          amountExcludingTax: "331",
+          taxPercentage: "2100",
+          description: "Shoes",
+          id: "Item 1",
+          taxAmount: "69",
+          amountIncludingTax: "400"
+        },
+        {
+          quantity: "2",
+          amountExcludingTax: "248",
+          taxPercentage: "2100",
+          description: "Socks",
+          id: "Item 2",
+          taxAmount: "52",
+          amountIncludingTax: "300"
+        }
+      ]
     })
     .then(response => {
       let paymentMethodType = req.body.paymentMethod.type;
