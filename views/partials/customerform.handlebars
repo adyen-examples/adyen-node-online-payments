@@ -1,49 +1,49 @@
-<div id="customer-form">
-  <div class="address" id="address">
-    <div class="billing_header">
-      <div class="billing_header_title">
-        <span class="billing_header_radio">
+<div class="customer-form">
+  <div class="address">
+    <div class="billing-header">
+      <div class="billing-header-title">
+        <span class="billing-header-radio">
           <input type="radio" checked="checked" disabled />
         </span>
-        <span class="billing_header_title_name">Enter Billing Information</span>
+        <span class="billing-header-title-name">Enter Billing Information</span>
       </div>
     </div>
-    <form class="addressForm" action="/destination" method="get">
-      <div class=addressLine1" id="addressLine">
-        <div class="addressInput" id="first">
-          <label class="addressLabel" for="firstName">First Name</label>
+    <form class="address-form" action="/destination" method="get">
+      <div class="address-line" id="addressLine1">
+        <div class="address-input" id="first">
+          <label class="address-label" for="firstName">First Name</label>
           <input type="text" class="form-control" placeholder="First Name" name="firstName" value="Joe" readonly>
         </div>
-        <div class="addressInput" id="last">
-          <label class="addressLabel" for="lastName">Last Name</label>
+        <div class="address-input" id="last">
+          <label class="address-label" for="lastName">Last Name</label>
           <input type="text" class="form-control" placeholder="Last Name" name="lastName" value="Bob" readonly>
         </div>
       </div>
-      <div class="addressLine2" id="addressLine">
-        <div class="addressInput" id="street">
-          <label class="addressLabel" for="street">Street</label>
+      <div class="address-line" id="addressLine2">
+        <div class="address-input full-width" id="street">
+          <label class="address-label" for="street">Street</label>
           <input type="text" class="form-control" placeholder="Street" name="street" value="274 Brannan Street"
             readonly>
         </div>
       </div>
-      <div class="addressLine3" id="addressLine">
-        <div class="addressInput" id="city">
-          <label class="addressLabel" for="city">City</label>
+      <div class="address-line" id="addressLine3">
+        <div class="address-input full-width" id="city">
+          <label class="address-label" for="city">City</label>
           <input type="text" class="form-control" placeholder="City" name="city" value="San Francisco" readonly>
         </div>
       </div>
-      <div class="addressLine4" id="addressLine">
-        <div class="addressInput" id="state">
-          <label class="addressLabel" for="state">State</label>
+      <div class="address-line" id="addressLine4">
+        <div class="address-input" id="state">
+          <label class="address-label" for="state">State</label>
           <input type="text" class="form-control" placeholder="State" name="stateOrProvince" value="California"
             readonly>
         </div>
-        <div class="addressInput" id="zip">
-          <label class="addressLabel" for="zipcode">Zip Code</label>
+        <div class="address-input" id="zip">
+          <label class="address-label" for="zipcode">Zip Code</label>
           <input type="text" class="form-control" placeholder="Zip Code" name="postalCode" value="94107" readonly>
         </div>
-        <div class="addressInput" id="country">
-          <label class="addressLabel" for="country">Country</label>
+        <div class="address-input" id="country">
+          <label class="address-label" for="country">Country</label>
           <input type="text" class="form-control" placeholder="Country" name="country" value="United States" readonly>
         </div>
       </div>
