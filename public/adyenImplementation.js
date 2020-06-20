@@ -1,12 +1,10 @@
-const paymentMethodsResponse = JSON.parse(
-  document.getElementById("paymentMethodsResponse").innerHTML
-);
-const originKey = document.getElementById("originKey").innerHTML;
+const paymentMethodsResponse = JSON.parse(document.getElementById("paymentMethodsResponse").innerHTML);
+const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
 
 const configuration = {
   paymentMethodsResponse,
-  originKey,
+  clientKey,
   locale: "en_US",
   environment: "test",
   showPayButton: true,

@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 // enables environment variables by
 // parsing the .env file and assigning it to process.env
 dotenv.config({
-  path: "./.env",
+  path: "./.env"
 });
 
 // Adyen Node.js API library boilerplate (configuration, etc.)
@@ -39,7 +39,7 @@ app.engine(
     defaultLayout: "main",
     layoutsDir: __dirname + "/views/layouts",
     partialsDir: __dirname + "/views/partials",
-    helpers: require("./util/helpers"),
+    helpers: require("./util/helpers")
   })
 );
 
@@ -52,7 +52,7 @@ app.get("/api/getPaymentMethods", async (req, res) => {
   try {
     const response = await checkout.paymentMethods({
       channel: "Web",
-      merchantAccount: process.env.MERCHANT_ACCOUNT,
+      merchantAccount: process.env.MERCHANT_ACCOUNT
     });
     res.json(response);
   } catch (err) {
@@ -78,13 +78,13 @@ app.post("/api/initiatePayment", async (req, res) => {
       channel: "Web",
       additionalData: {
         // @ts-ignore
-        allow3DS2: true,
+        allow3DS2: true
       },
       returnUrl: `http://localhost:8080/api/handleShopperRedirect?orderRef=${orderRef}`,
       browserInfo: req.body.browserInfo,
       paymentMethod: req.body.paymentMethod.type.includes("boleto")
         ? {
-            type: "boletobancario_santander",
+            type: "boletobancario_santander"
           }
         : req.body.paymentMethod,
       // Required for Boleto:
@@ -109,7 +109,7 @@ app.post("/api/initiatePayment", async (req, res) => {
           description: "Shoes",
           id: "Item 1",
           taxAmount: "69",
-          amountIncludingTax: "400",
+          amountIncludingTax: "400"
         },
         {
           quantity: "2",
@@ -118,9 +118,9 @@ app.post("/api/initiatePayment", async (req, res) => {
           description: "Socks",
           id: "Item 2",
           taxAmount: "52",
-          amountIncludingTax: "300",
-        },
-      ],
+          amountIncludingTax: "300"
+        }
+      ]
     });
 
     let paymentMethodType = req.body.paymentMethod.type;
@@ -202,7 +202,7 @@ app.get("/", (req, res) => res.render("index"));
 // Cart (continue to checkout)
 app.get("/preview", (req, res) =>
   res.render("preview", {
-    type: req.query.type,
+    type: req.query.type
   })
 );
 
@@ -211,12 +211,12 @@ app.get("/checkout/:type", async (req, res) => {
   try {
     const response = await checkout.paymentMethods({
       channel: "Web",
-      merchantAccount: process.env.MERCHANT_ACCOUNT,
+      merchantAccount: process.env.MERCHANT_ACCOUNT
     });
     res.render("payment", {
       type: req.params.type,
-      originKey: process.env.ORIGIN_KEY,
-      response: JSON.stringify(response),
+      clientKey: process.env.CLIENT_KEY,
+      response: JSON.stringify(response)
     });
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
