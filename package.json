@@ -13,13 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@adyen/api-library": "^2.2.1",
-    "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.4",
     "minimist": ">=1.2.2",
     "morgan": "^1.10.0",
-    "node-gyp": "^7.0.0"
+    "node-gyp": "^7.0.0",
+    "uuidv4": "^6.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
