@@ -2,8 +2,28 @@ const paymentMethodsResponse = JSON.parse(document.getElementById("paymentMethod
 const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
 
+function filterUnimplemented(pm) {
+  pm.paymentMethods = pm.paymentMethods.filter((it) =>
+    [
+      "scheme",
+      "ideal",
+      "dotpay",
+      "giropay",
+      "sepadirectdebit",
+      "directEbanking",
+      "ach",
+      "alipay",
+      "klarna_paynow",
+      "klarna",
+      "klarna_account",
+      "boletobancario_santander",
+    ].includes(it.type)
+  );
+  return pm;
+}
+
 const configuration = {
-  paymentMethodsResponse,
+  paymentMethodsResponse: filterUnimplemented(paymentMethodsResponse),
   clientKey,
   locale: "en_US",
   environment: "test",
