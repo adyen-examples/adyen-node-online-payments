@@ -160,8 +160,19 @@ app.post("/api/submitAdditionalDetails", async (req, res) => {
 app.all("/api/handleShopperRedirect", async (req, res) => {
   // Create the payload for submitting payment details
   const orderRef = req.query.orderRef;
+  const redirect = req.method === "GET" ? req.query : req.body;
+  const details = {};
+  if (redirect.payload) {
+    details.payload = redirect.payload;
+  } else if (redirect.redirectResult) {
+    details.redirectResult = redirect.redirectResult;
+  } else {
+    details.MD = redirect.MD;
+    details.PaRes = redirect.PaRes;
+  }
+
   const payload = {
-    details: req.method === "GET" ? req.query : req.body,
+    details,
     paymentData: paymentDataStore[orderRef],
   };
 
