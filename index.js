@@ -196,7 +196,7 @@ app.all("/api/handleShopperRedirect", async (req, res) => {
     }
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
-    res.redirect("/error");
+    res.redirect("/result/error");
   }
 });
 
