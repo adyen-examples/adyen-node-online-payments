@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@adyen/api-library": "^6.0.0",
     "dot-prop": ">=5.1.1",
