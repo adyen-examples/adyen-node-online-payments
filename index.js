@@ -4,6 +4,7 @@ const hbs = require("express-handlebars");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const { uuid } = require("uuidv4");
+const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 
 // init app
@@ -33,6 +34,11 @@ const checkout = new CheckoutAPI(client);
 // A temporary store to keep payment data to be sent in additional payment details and redirects.
 // This is more secure than a cookie. In a real application this should be in a database.
 const paymentDataStore = {};
+
+// In a live application, notifications should ideally be stored in a database.
+const notificationStore = {};
+
+const hmacKey = "A9B69C93C8BB77BF7D21F1344F37732E16C6D6C1B852F3D642A32601E3467335";
 
 app.engine(
   "handlebars",
@@ -88,8 +94,8 @@ app.post("/api/initiatePayment", async (req, res) => {
       // special handling for boleto
       paymentMethod: req.body.paymentMethod.type.includes("boleto")
         ? {
-            type: "boletobancario_santander",
-          }
+          type: "boletobancario_santander",
+        }
         : req.body.paymentMethod,
       // Below fields are required for Boleto:
       socialSecurityNumber: req.body.socialSecurityNumber,
@@ -202,6 +208,39 @@ app.all("/api/handleShopperRedirect", async (req, res) => {
   }
 });
 
+// Notification webook endpoint
+// For more on how to receive important updates related to your account, visit:
+// https://docs.adyen.com/development-resources/webhooks
+app.post("/notifications", async (req, res) => {
+  res.send("[accepted]");
+
+  try {
+    const validator = new hmacValidator();
+    const notificationRequest = req.body;
+
+    const notificationIdentifier = uuid();
+    notificationStore[notificationIdentifier] = req.body;
+
+    const notificationRequestItems = notificationRequest.notificationItems;
+
+    notificationRequestItems.forEach(item => {
+      if (validator.validateHMAC(item.NotificationRequestItem, hmacKey)) {
+        // The type of event that triggered the notification. For more information, see:
+        // https://docs.adyen.com/development-resources/webhooks/understand-notifications#event-codes
+        const eventCode = item.NotificationRequestItem.eventCode;
+
+        // Your business logic here
+      } else {
+        // Non-valid NotificationRequest
+        console.log("Non-valid NotificationRequest");
+      }
+    });
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
+});
+
 /* ################# end API ENDPOINTS ###################### */
 
 /* ################# CLIENT SIDE ENDPOINTS ###################### */
@@ -257,3 +296,4 @@ function findCurrency(type) {
 // Start server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
