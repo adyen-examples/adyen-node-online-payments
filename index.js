@@ -35,9 +35,6 @@ const checkout = new CheckoutAPI(client);
 // This is more secure than a cookie. In a real application this should be in a database.
 const paymentDataStore = {};
 
-// In a live application, notifications should ideally be stored in a database.
-const notificationStore = {};
-
 const hmacKey = "A9B69C93C8BB77BF7D21F1344F37732E16C6D6C1B852F3D642A32601E3467335";
 
 app.engine(
@@ -216,12 +213,9 @@ app.post("/notifications", async (req, res) => {
 
   try {
     const validator = new hmacValidator();
-    const notificationRequest = req.body;
+    const notificationRequestItems = req.body.notificationItems;
 
-    const notificationIdentifier = uuid();
-    notificationStore[notificationIdentifier] = req.body;
-
-    const notificationRequestItems = notificationRequest.notificationItems;
+    // Be sure to store your notifications in a database (not shown here)
 
     notificationRequestItems.forEach(item => {
       if (validator.validateHMAC(item.NotificationRequestItem, hmacKey)) {
@@ -229,7 +223,7 @@ app.post("/notifications", async (req, res) => {
         // https://docs.adyen.com/development-resources/webhooks/understand-notifications#event-codes
         const eventCode = item.NotificationRequestItem.eventCode;
 
-        // Your business logic here
+        // Your business logic here (i.e., process the notification based on the eventCode)
       } else {
         // Non-valid NotificationRequest
         console.log("Non-valid NotificationRequest");
