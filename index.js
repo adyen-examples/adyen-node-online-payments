@@ -30,10 +30,6 @@ const client = new Client({ config });
 client.setEnvironment("TEST");
 const checkout = new CheckoutAPI(client);
 
-// A temporary store to keep payment data to be sent in additional payment details and redirects.
-// This is more secure than a cookie. In a real application this should be in a database.
-const paymentDataStore = {};
-
 app.engine(
   "handlebars",
   hbs({
@@ -83,7 +79,6 @@ app.post("/api/initiatePayment", async (req, res) => {
       origin: "http://localhost:8080", // required for 3ds2 native flow
       browserInfo: req.body.browserInfo, // required for 3ds2
       shopperIP, // required by some issuers for 3ds2
-      // we pass the orderRef in return URL to get paymentData during redirects
       returnUrl: `http://localhost:8080/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
       // special handling for boleto
       paymentMethod: req.body.paymentMethod.type.includes("boleto")
@@ -127,11 +122,6 @@ app.post("/api/initiatePayment", async (req, res) => {
       ],
     });
 
-    const { action } = response;
-
-    if (action) {
-      paymentDataStore[orderRef] = action.paymentData;
-    }
     res.json(response);
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
@@ -161,25 +151,16 @@ app.post("/api/submitAdditionalDetails", async (req, res) => {
 // Handle all redirects from payment type
 app.all("/api/handleShopperRedirect", async (req, res) => {
   // Create the payload for submitting payment details
-  const orderRef = req.query.orderRef;
   const redirect = req.method === "GET" ? req.query : req.body;
   const details = {};
-  if (redirect.payload) {
-    details.payload = redirect.payload;
-  } else if (redirect.redirectResult) {
+  if (redirect.redirectResult) {
     details.redirectResult = redirect.redirectResult;
-  } else {
-    details.MD = redirect.MD;
-    details.PaRes = redirect.PaRes;
+  } else if (redirect.payload) {
+    details.payload = redirect.payload;
   }
 
-  const payload = {
-    details,
-    paymentData: paymentDataStore[orderRef],
-  };
-
   try {
-    const response = await checkout.paymentsDetails(payload);
+    const response = await checkout.paymentsDetails({ details });
     // Conditionally handle different result codes for the shopper
     switch (response.resultCode) {
       case "Authorised":
