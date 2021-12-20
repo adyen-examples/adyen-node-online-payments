@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@adyen/api-library": "^8.1.0",
+    "ansi-regex": "^6.0.1",
     "dot-prop": ">=5.1.1",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
