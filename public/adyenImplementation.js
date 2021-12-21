@@ -1,77 +1,84 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
+const platform = document.getElementById("platform").innerHTML;
 
-async function initCheckout() {
+// Used to finalize a checkout call in case of redirect
+const urlParams = new URLSearchParams(window.location.search);
+const sessionId = urlParams.get('sessionId'); // Unique identifier for the payment session
+const redirectResult = urlParams.get('redirectResult');
+
+
+async function startCheckout() {
   try {
-    const paymentMethodsResponse = await callServer("/api/getPaymentMethods");
+    // Init Sessions
+    const checkoutSessionResponse = await callServer("/api/sessions?type=" + type);
+
+    // Create AdyenCheckout using Sessions response
+    const checkout = await createAdyenCheckout(checkoutSessionResponse)
+
+  // Create an instance of Drop-in and mount it
+    checkout.create(type).mount(document.getElementById(type));
+
+  } catch (error) {
+    console.error(error);
+    alert("Error occurred. Look at console for details");
+  }
+}
+
+// Some payment methods use redirects. This is where we finalize the operation
+async function finalizeCheckout() {
+    try {
+        // Create AdyenCheckout re-using existing Session
+        const checkout = await createAdyenCheckout({id: sessionId});
+
+        // Submit the extracted redirectResult (to trigger onPaymentCompleted() handler)
+        checkout.submitDetails({details: {redirectResult}});
+    } catch (error) {
+        console.error(error);
+        alert("Error occurred. Look at console for details");
+    }
+}
+
+async function createAdyenCheckout(session) {
+
     const configuration = {
-      paymentMethodsResponse: filterUnimplemented(paymentMethodsResponse),
-      clientKey,
-      locale: "en_US",
-      environment: "test",
-      showPayButton: true,
-      paymentMethodsConfiguration: {
-        ideal: {
-          showImage: true,
+        clientKey,
+        locale: "en_US",
+        environment: platform,
+        showPayButton: true,
+        session: session,
+        paymentMethodsConfiguration: {
+            ideal: {
+                showImage: true
+            },
+            card: {
+                hasHolderName: true,
+                holderNameRequired: true,
+                name: "Credit or debit card",
+                amount: {
+                    value: 1000,
+                    currency: "EUR"
+                }
+            },
+            paypal: {
+                amount: {
+                    currency: "USD",
+                    value: 1000
+                },
+                environment: platform,
+                countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
+            }
         },
-        card: {
-          hasHolderName: true,
-          holderNameRequired: true,
-          name: "Credit or debit card",
-          amount: {
-            value: 1000,
-            currency: "EUR",
-          },
+        onPaymentCompleted: (result, component) => {
+            console.log("result: " + result);
+            handleServerResponse(result, component);
         },
-      },
-      onSubmit: (state, component) => {
-        if (state.isValid) {
-          handleSubmission(state, component, "/api/initiatePayment");
+        onError: (error, component) => {
+            console.error(error.name, error.message, error.stack, component);
         }
-      },
-      onAdditionalDetails: (state, component) => {
-        handleSubmission(state, component, "/api/submitAdditionalDetails");
-      },
     };
 
-    const checkout = new AdyenCheckout(configuration);
-    checkout.create(type).mount(document.getElementById(type));
-  } catch (error) {
-    console.error(error);
-    alert("Error occurred. Look at console for details");
-  }
-}
-
-function filterUnimplemented(pm) {
-  pm.paymentMethods = pm.paymentMethods.filter((it) =>
-    [
-      "scheme",
-      "ideal",
-      "dotpay",
-      "giropay",
-      "sepadirectdebit",
-      "directEbanking",
-      "ach",
-      "alipay",
-      "klarna_paynow",
-      "klarna",
-      "klarna_account",
-      "boletobancario_santander",
-    ].includes(it.type)
-  );
-  return pm;
-}
-
-// Event handlers called when the shopper selects the pay button,
-// or when additional information is required to complete the payment
-async function handleSubmission(state, component, url) {
-  try {
-    const res = await callServer(url, state.data);
-    handleServerResponse(res, component);
-  } catch (error) {
-    console.error(error);
-    alert("Error occurred. Look at console for details");
-  }
+    return new AdyenCheckout(configuration);
 }
 
 // Calls your server endpoints
@@ -110,4 +117,10 @@ function handleServerResponse(res, component) {
   }
 }
 
-initCheckout();
+if (!sessionId) {
+    startCheckout();
+}
+else {
+    // existing session: complete Checkout
+    finalizeCheckout();
+}
