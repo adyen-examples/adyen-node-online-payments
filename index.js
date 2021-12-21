@@ -202,6 +202,7 @@ app.get("/checkout", (req, res) =>
   res.render("checkout", {
     type: req.query.type,
     clientKey: process.env.CLIENT_KEY,
+    platform: process.env.PLATFORM
   })
 );
 
