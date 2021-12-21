@@ -43,6 +43,29 @@ app.set("view engine", "handlebars");
 
 /* ################# API ENDPOINTS ###################### */
 
+// Invoke /sessions endpoint
+app.post("/api/sessions", async (req, res) => {
+
+  try {
+    // unique ref for the transaction
+    const orderRef = uuid();
+    // Ideally the data passed here should be computed based on business logic
+    const response = await checkout.sessions({
+      amount: { currency: "EUR", value: 1000 }, // value is 10€ in minor units
+      countryCode: "NL",
+      merchantAccount: process.env.MERCHANT_ACCOUNT, // required
+      reference: orderRef, // required: your Payment Reference
+      returnUrl: `http://localhost:8080/api/handleShopperRedirect?orderRef=${orderRef}` // set redirect URL required for some payment methods
+    });
+
+    res.json(response);
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
+});
+
+
 // Get payment methods
 app.post("/api/getPaymentMethods", async (req, res) => {
   try {
