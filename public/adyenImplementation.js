@@ -1,6 +1,5 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const type = document.getElementById("type").innerHTML;
-const platform = document.getElementById("platform").innerHTML;
 
 // Used to finalize a checkout call in case of redirect
 const urlParams = new URLSearchParams(window.location.search);
@@ -44,7 +43,7 @@ async function createAdyenCheckout(session) {
     const configuration = {
         clientKey,
         locale: "en_US",
-        environment: platform,
+        environment: "test",  // change to live for production
         showPayButton: true,
         session: session,
         paymentMethodsConfiguration: {
@@ -65,12 +64,11 @@ async function createAdyenCheckout(session) {
                     currency: "USD",
                     value: 1000
                 },
-                environment: platform,
+                environment: "test",
                 countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
             }
         },
         onPaymentCompleted: (result, component) => {
-            console.log("result: " + result);
             handleServerResponse(result, component);
         },
         onError: (error, component) => {

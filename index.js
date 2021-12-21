@@ -27,7 +27,7 @@ dotenv.config({
 const config = new Config();
 config.apiKey = process.env.API_KEY;
 const client = new Client({ config });
-client.setEnvironment(process.env.PLATFORM.toUpperCase());
+client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
 
 app.engine(
@@ -120,8 +120,7 @@ app.get("/preview", (req, res) =>
 app.get("/checkout", (req, res) =>
   res.render("checkout", {
     type: req.query.type,
-    clientKey: process.env.CLIENT_KEY,
-    platform: process.env.PLATFORM
+    clientKey: process.env.CLIENT_KEY
   })
 );
 
