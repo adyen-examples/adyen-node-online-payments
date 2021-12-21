@@ -27,7 +27,7 @@ dotenv.config({
 const config = new Config();
 config.apiKey = process.env.API_KEY;
 const client = new Client({ config });
-client.setEnvironment("TEST");
+client.setEnvironment(process.env.PLATFORM.toUpperCase());
 const checkout = new CheckoutAPI(client);
 
 app.engine(
