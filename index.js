@@ -133,6 +133,24 @@ app.get("/result/:type", (req, res) =>
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
 
+/* ################# WEBHOOK ###################### */
+
+app.post("/api/webhook/notifications", async (req, res) => {
+
+  notificationItems = req.body.notificationItems
+
+  for(let notification of notificationItems) {
+    // log merchantReference and result
+    console.log(`merchantReference: ${notification['NotificationRequestItem']['merchantReference']}
+      result? ${notification['NotificationRequestItem']['success']}`)
+  }
+
+  res.send('[accepted]')
+});
+
+
+/* ################# end WEBHOOK ###################### */
+
 /* ################# UTILS ###################### */
 
 function getPort() {
