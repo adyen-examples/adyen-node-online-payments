@@ -4,6 +4,7 @@ const hbs = require("express-handlebars");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const { uuid } = require("uuidv4");
+const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 
 // init app
@@ -137,13 +138,25 @@ app.get("/result/:type", (req, res) =>
 
 app.post("/api/webhook/notifications", async (req, res) => {
 
-  notificationItems = req.body.notificationItems
+  // YOUR_HMAC_KEY from the Customer Area
+  const hmacKey = process.env.HMAC_KEY;
+  const validator = new hmacValidator()
+  // Notification Request JSON
+  const notificationRequest = req.body;
+  const notificationRequestItems = notificationRequest.notificationItems
 
-  for(let notification of notificationItems) {
-    // log merchantReference and result
-    console.log(`merchantReference: ${notification['NotificationRequestItem']['merchantReference']}
-      result? ${notification['NotificationRequestItem']['success']}`)
-  }
+  // Handling multiple notificationRequests
+  notificationRequestItems.forEach(function(notificationRequestItem) {
+
+    // Handle the notification
+    if( validator.validateHMAC(notificationRequestItem.NotificationRequestItem, hmacKey) ) {
+      // Process the notification based on the eventCode
+        const eventCode = notificationRequestItem.eventCode;
+      } else {
+        // Non valid NotificationRequest
+        console.log("Non valid NotificationRequest");
+    }
+});
 
   res.send('[accepted]')
 });
