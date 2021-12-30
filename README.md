@@ -21,7 +21,7 @@ This repository includes examples of PCI-compliant UI integrations for online pa
   - SEPA Direct Debit
   - SOFORT
 
-Each demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)). See **./util/api.js** for API functions.
+Each demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
 ## Requirements
 
@@ -43,12 +43,19 @@ npm install
 
 ## Usage
 
-1. Create a `./.env` file with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name (all credentials are in string format):
+1. Create a `./.env` file with all required configuration
+   - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
+   - [Client Key](https://docs.adyen.com/user-management/client-side-authentication) 
+   - [Merchant Account](https://docs.adyen.com/account/account-structure)
+   - [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
+
+Remember to include `http://localhost:8080` in the list of Allowed Origins
 
 ```
 API_KEY="your_API_key_here"
 MERCHANT_ACCOUNT="your_merchant_account_here"
 CLIENT_KEY="your_client_key_here"
+HMAC_KEY="your_client_HMAC_key_here"
 ```
 
 2. Start the server:
@@ -57,7 +64,7 @@ CLIENT_KEY="your_client_key_here"
 npm run dev
 ```
 
-3. Visit [http://localhost:8080/](http://localhost:8080/) (**./views/index.handlebars**) to select an integration type.
+3. Visit [http://localhost:8080/](http://localhost:8080/) to select an integration type.
 
 To try out integrations with test card numbers and payment method details, see [Test card numbers](https://docs.adyen.com/development-resources/test-cards/test-card-numbers).
 
