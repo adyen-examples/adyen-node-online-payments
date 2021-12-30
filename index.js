@@ -148,10 +148,14 @@ app.post("/api/webhook/notifications", async (req, res) => {
   // Handling multiple notificationRequests
   notificationRequestItems.forEach(function(notificationRequestItem) {
 
+    const notification = notificationRequestItem.NotificationRequestItem
+
     // Handle the notification
-    if( validator.validateHMAC(notificationRequestItem.NotificationRequestItem, hmacKey) ) {
+    if( validator.validateHMAC(notification, hmacKey) ) {
       // Process the notification based on the eventCode
-        const eventCode = notificationRequestItem.eventCode;
+        const merchantReference = notification.merchantReference;
+        const eventCode = notification.eventCode;
+        console.log('merchantReference:' + merchantReference + " eventCode:" + eventCode);
       } else {
         // Non valid NotificationRequest
         console.log("Non valid NotificationRequest");
