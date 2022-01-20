@@ -26,7 +26,7 @@ dotenv.config({
 
 // Adyen Node.js API library boilerplate (configuration, etc.)
 const config = new Config();
-config.apiKey = process.env.API_KEY;
+config.apiKey = process.env.ADYEN_API_KEY;
 const client = new Client({ config });
 client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
@@ -54,7 +54,7 @@ app.post("/api/sessions", async (req, res) => {
     const response = await checkout.sessions({
       amount: { currency: "EUR", value: 1000 }, // value is 10€ in minor units
       countryCode: "NL",
-      merchantAccount: process.env.MERCHANT_ACCOUNT, // required
+      merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       reference: orderRef, // required: your Payment Reference
       returnUrl: `http://localhost:${getPort()}/api/handleShopperRedirect?orderRef=${orderRef}` // set redirect URL required for some payment methods
     });
@@ -121,7 +121,7 @@ app.get("/preview", (req, res) =>
 app.get("/checkout", (req, res) =>
   res.render("checkout", {
     type: req.query.type,
-    clientKey: process.env.CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY
   })
 );
 
@@ -139,7 +139,7 @@ app.get("/result/:type", (req, res) =>
 app.post("/api/webhook/notifications", async (req, res) => {
 
   // YOUR_HMAC_KEY from the Customer Area
-  const hmacKey = process.env.HMAC_KEY;
+  const hmacKey = process.env.ADYEN_HMAC_KEY;
   const validator = new hmacValidator()
   // Notification Request JSON
   const notificationRequest = req.body;
