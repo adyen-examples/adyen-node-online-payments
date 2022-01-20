@@ -52,10 +52,11 @@ npm install
 Remember to include `http://localhost:8080` in the list of Allowed Origins
 
 ```
-API_KEY="your_API_key_here"
-MERCHANT_ACCOUNT="your_merchant_account_here"
-CLIENT_KEY="your_client_key_here"
-HMAC_KEY="your_client_HMAC_key_here"
+PORT=8080
+ADYEN_API_KEY="your_API_key_here"
+ADYEN_MERCHANT_ACCOUNT="your_merchant_account_here"
+ADYEN_CLIENT_KEY="your_client_key_here"
+ADYEN_HMAC_KEY="your_hmac_key_here"
 ```
 
 2. Start the server:
