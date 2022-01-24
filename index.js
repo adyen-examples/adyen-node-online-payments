@@ -157,8 +157,9 @@ app.post("/api/webhook/notifications", async (req, res) => {
         const eventCode = notification.eventCode;
         console.log('merchantReference:' + merchantReference + " eventCode:" + eventCode);
       } else {
-        // Non valid NotificationRequest
-        console.log("Non valid NotificationRequest");
+        // invalid hmac: do not send [accepted] response
+        console.log("Invalid HMAC signature: " + notification);
+        throw new Error("Invalid HMAC signature")
     }
 });
 
