@@ -136,7 +136,7 @@ app.get("/result/:type", (req, res) =>
 
 /* ################# WEBHOOK ###################### */
 
-app.post("/api/webhook/notifications", async (req, res) => {
+app.post("/api/webhooks/notifications", async (req, res) => {
 
   // YOUR_HMAC_KEY from the Customer Area
   const hmacKey = process.env.ADYEN_HMAC_KEY;
@@ -159,7 +159,7 @@ app.post("/api/webhook/notifications", async (req, res) => {
       } else {
         // invalid hmac: do not send [accepted] response
         console.log("Invalid HMAC signature: " + notification);
-        throw new Error("Invalid HMAC signature")
+        res.status(401).send('Invalid HMAC signature');
     }
 });
 
@@ -178,5 +178,4 @@ function getPort() {
 /* ################# end UTILS ###################### */
 
 // Start server
-const PORT = process.env.PORT || 8080;
 app.listen(getPort(), () => console.log(`Server started -> http://localhost:${getPort()}`));
