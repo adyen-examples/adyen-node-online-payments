@@ -17,7 +17,7 @@
     "dot-prop": ">=5.1.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.2",
+    "express-handlebars": "^6.0.5",
     "minimist": ">=1.2.2",
     "morgan": "^1.10.0",
     "node-gyp": "^9.0.0",
