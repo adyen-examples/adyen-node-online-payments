@@ -4,6 +4,7 @@ const hbs = require("express-handlebars");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const { uuid } = require("uuidv4");
+
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 
@@ -33,7 +34,7 @@ const checkout = new CheckoutAPI(client);
 
 app.engine(
   "handlebars",
-  hbs({
+  hbs.engine({
     defaultLayout: "main",
     layoutsDir: __dirname + "/views/layouts",
     helpers: require("./util/helpers"),
