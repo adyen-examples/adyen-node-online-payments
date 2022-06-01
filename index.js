@@ -61,7 +61,14 @@ app.post("/api/sessions", async (req, res) => {
       countryCode: "NL",
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       reference: orderRef, // required: your Payment Reference
-      returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}` // set redirect URL required for some payment methods
+      returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}`, // set redirect URL required for some payment methods
+
+      // For recurring payments, see https://docs.adyen.com/online-payments/tokenization/create-and-use-tokens?tab=subscriptions_2
+      // and https://docs.adyen.com/api-explorer/#/CheckoutService/v69/post/sessions
+      shopperInteraction : "Ecommerce",
+      recurringProcessingModel: "Subscription",
+      storePaymentMethod: true,
+      shopperReference : uuid(), // use something sensible here, but no PII
     });
 
     res.json(response);
@@ -161,6 +168,7 @@ app.post("/api/webhooks/notifications", async (req, res) => {
         const merchantReference = notification.merchantReference;
         const eventCode = notification.eventCode;
         console.log('merchantReference:' + merchantReference + " eventCode:" + eventCode);
+        console.log(JSON.stringify(notification));
       } else {
         // invalid hmac: do not send [accepted] response
         console.log("Invalid HMAC signature: " + notification);

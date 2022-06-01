@@ -6,9 +6,9 @@ const urlParams = new URLSearchParams(window.location.search);
 const sessionId = urlParams.get('sessionId'); // Unique identifier for the payment session
 const redirectResult = urlParams.get('redirectResult');
 
-
 async function startCheckout() {
   try {
+
     // Init Sessions
     const checkoutSessionResponse = await callServer("/api/sessions?type=" + type);
 
@@ -69,6 +69,7 @@ async function createAdyenCheckout(session) {
             }
         },
         onPaymentCompleted: (result, component) => {
+            console.log(result);
             handleServerResponse(result, component);
         },
         onError: (error, component) => {
