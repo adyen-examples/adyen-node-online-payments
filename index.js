@@ -163,16 +163,45 @@ app.post("/api/webhooks/notifications", async (req, res) => {
     const notification = notificationRequestItem.NotificationRequestItem
 
     // Handle the notification
-    if( validator.validateHMAC(notification, hmacKey) ) {
-      // Process the notification based on the eventCode
-        const merchantReference = notification.merchantReference;
-        const eventCode = notification.eventCode;
-        console.log('merchantReference:' + merchantReference + " eventCode:" + eventCode);
-        console.log(JSON.stringify(notification));
-      } else {
-        // invalid hmac: do not send [accepted] response
-        console.log("Invalid HMAC signature: " + notification);
-        res.status(401).send('Invalid HMAC signature');
+    try{ 
+      if( validator.validateHMAC(notification, hmacKey) ) {
+        // Process the notification based on the eventCode
+          const merchantReference = notification.merchantReference;
+          const eventCode = notification.eventCode;
+          if(eventCode == "RECURRING_CONTRACT") {
+            console.log('Save that information for future subscription payments');
+            console.log('shopperReference:' + notification.additionalData[recurring.shopperReference]);
+            console.log('recurring.recurringDetailReference:' + notification.additionalData[recurring.recurringDetailReference]);
+
+            // Later on, you can then initiate another payment directly from your server like this :
+            // See https://docs.adyen.com/online-payments/tokenization/create-and-use-tokens?tab=codeBlockpay_shopper_in_session_yl7UI_JS_7#test-and-go-live
+
+            // checkout.payments({
+            //     amount: { currency: "USD", value: 2000 },
+            //     paymentMethod: {
+            //         type: 'scheme',
+            //         storedPaymentMethodId: notification.additionalData[recurring.recurringDetailReference],
+            //     },
+            //     reference: "YOUR_ORDER_NUMBER",
+            //     shopperReference:notification.additionalData[recurring.shopperReference],
+            //     merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT,
+            //     shopperInteraction: "ContAuth",
+            //     recurringProcessingModel: "CardOnFile",
+            //     returnUrl: "https://your-company.com/..."
+            // }).then(res => res);
+
+          }
+          else{
+            console.log('merchantReference:' + merchantReference + " eventCode:" + eventCode);
+            console.log(JSON.stringify(notification));
+          }
+        } else {
+          // invalid hmac: do not send [accepted] response
+          console.log("Invalid HMAC signature: " + notification);
+          res.status(401).send('Invalid HMAC signature');
+      }
+    } catch (err) {
+      console.log("Erro validating HMAC Signature " + err.message);
     }
 });
 

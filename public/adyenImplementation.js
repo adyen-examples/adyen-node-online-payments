@@ -47,10 +47,11 @@ async function createAdyenCheckout(session) {
         showPayButton: true,
         session: session,
         paymentMethodsConfiguration: {
-            ideal: {
+          ideal: {
                 showImage: true
             },
             card: {
+                enableStoreDetails: true,
                 hasHolderName: true,
                 holderNameRequired: true,
                 name: "Credit or debit card",
