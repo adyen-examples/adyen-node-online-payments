@@ -20,11 +20,11 @@
     "express-handlebars": "^6.0.6",
     "minimist": "^1.2.6",
     "morgan": "^1.10.0",
-    "node-gyp": "^9.0.0",
+    "node-gyp": "^9.1.0",
     "undefsafe": "~2.0.5",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
-    "nodemon": "^2.0.18"
+    "nodemon": "^2.0.19"
   }
 }
