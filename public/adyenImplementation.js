@@ -39,7 +39,7 @@ async function finalizeCheckout() {
 }
 
 async function createAdyenCheckout(session) {
-
+  
     const configuration = {
         clientKey,
         locale: "en_US",
