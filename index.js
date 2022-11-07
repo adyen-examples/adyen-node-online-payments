@@ -76,6 +76,23 @@ app.post("/api/sessions", async (req, res) => {
   }
 });
 
+// Check payment result
+app.post("/api/paymentDetails", async (req, res) => {
+  console.log("/api/paymentDetails")
+  try {
+    // Ideally the data passed here should be computed based on business logic
+    const response = await checkout.paymentsDetails({
+      details: req.body.data.details,
+      paymentData: req.body.data.paymentData,
+    });
+    res.json(response); 
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
+});
+
+
 
 /* ################# end API ENDPOINTS ###################### */
 
