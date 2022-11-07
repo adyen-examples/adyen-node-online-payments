@@ -71,6 +71,10 @@ async function createAdyenCheckout(session) {
         onPaymentCompleted: (result, component) => {
             handleServerResponse(result, component);
         },
+        onAdditionalDetails: async (response, _component) => {
+          const paymentDetailsResponse = await callServer("/api/paymentDetails", response);
+          handleServerResponse(paymentDetailsResponse, _component);
+        },
         onError: (error, component) => {
             console.error(error.name, error.message, error.stack, component);
         }
