@@ -85,7 +85,7 @@ To try out integrations with test card numbers and payment method details, see [
 
 ## Testing webhooks
 
-Webhooks deliver asynchronous notifications (like payment status) and it is important to test them during the setup of your integration. You can find more information about webhooks in [this detailed blog post](https://www.adyen.com/blog/Integrating-webhooks-notifications-with-Adyen-Checkout).
+Webhooks deliver asynchronous notifications and it is important to test them during the setup of your integration. You can find more information about webhooks in [this detailed blog post](https://www.adyen.com/blog/Integrating-webhooks-notifications-with-Adyen-Checkout).
 
 This sample application provides a simple webhook integration exposed at `/api/webhooks/notifications`. For it to work, you need to:
 
@@ -133,8 +133,9 @@ If you use a tunneling service like [ngrok](ngrok) the webhook URL will be the g
 
 * In the Customer Area go to Developers -> Webhooks and create a new 'Standard notification' webhook.
 * Enter the URL of your application/endpoint (see options [above](#making-your-server-reachable))
+* Define username and password for Basic Authentication
 * Generate the HMAC Key
-* Optionally, in Additional settings, add the data you want to receive. A good example is 'Payment Account Reference'.
+* Optionally, in Additional Settings, add the data you want to receive. A good example is 'Payment Account Reference'.
 * Make sure the webhook is **Enabled** (therefore it can receive the notifications)
 
 That's it! Every time you perform a new payment, your application will receive a notification from the Adyen platform.
