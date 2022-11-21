@@ -94,7 +94,8 @@ This sample application provides a simple webhook integration exposed at `/api/w
 
 ### Making your server reachable
 
-Your endpoint consuming the incoming webhook notifications must be accessible by Adyen (ie public access).
+Your endpoint that will consume the incoming webhook must be publicly accessible.
+
 There are typically 3 options:
 * deploy on your own cloud provider
 * deploy on Gitpod
