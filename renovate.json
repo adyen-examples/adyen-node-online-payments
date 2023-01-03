@@ -7,10 +7,10 @@
     {
       "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
     }
-  ],
-  {
-    "matchDepTypes": ["devDependencies"],
-    "automerge": true
-  }
+  ]
 }
