@@ -1,0 +1,35 @@
+<div class='main-container'>
+
+  <div class="info">
+    <h1>ADMIN PANEL</h1>
+    <div class="admin-panel-container">
+      <p>This <b>admin panel</b> shows all saved tokens that we have received through webhooks. Please follow the readme to ensure that you have setup your webhooks correctly to receive tokens asynchronously.</p>
+      <p>Note that a shopper can have multiple saved tokens per payment method.</p>
+      <p>Below you can find a list of saved tokens. Select a token to initiate a payment (or disable the token) on behalf of the shopper. To learn more, check out the documentation about <a href="https://docs.adyen.com/online-payments/tokenization"> tokenization.</a></p>
+    </div>
+  </div>
+
+  <br/>
+    
+  <div class="admin-panel-token-container"> 
+    {{#if data.length}}
+
+      {{#each data}}
+      <b>ShopperReference: {{shopperReference}}</b><br/><br/>
+      <ul class="adminList">
+        <li>
+          PaymentMethod: {{paymentMethod}}<br/>
+          RecurringDetailReference: {{recurringDetailReference}}<br/>
+          <a href="/admin/makepayment/{{recurringDetailReference}}">Make Payment</a> | 
+          <a href="/admin/disable/{{recurringDetailReference}}">Disable</a>
+        </li>
+      </ul>
+      {{/each}}
+    {{else}}
+      <p><b>No RecurringDetailReferences (tokens) are stored. You can add a token by purchasing a subscription in the <a href="/">Shopper View</a>.</b></p>
+    {{/if}}
+
+  </div>  
+
+</div>
+
