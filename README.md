@@ -16,7 +16,8 @@ The [subscription example](subscription-example) repository includes a tokenizat
 The shopper can purchase a subscription and administrators can manage the saved (tokenized) payment methods on a separate admin panel.
 The panel allows admins to make payments on behalf of the shopper using this token.
 
-![Subscription Demo](subscription-example/wwwroot/images/cardsubscription.gif)
+![Subscription Demo](subscription-example/public/images/cardsubscription.gif)
+
 
 
 ## Contributing
