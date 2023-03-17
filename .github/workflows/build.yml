@@ -6,14 +6,15 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-checkout:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: 'checkout-example'
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
-
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -22,6 +23,23 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Build checkout-example
-      run: cd checkout-example && npm install
+      run: npm install
+
+  build-subscription:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'subscription-example'
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - name: Build subscription-example
-      run: cd subscription-example && npm install
+      run: npm install
