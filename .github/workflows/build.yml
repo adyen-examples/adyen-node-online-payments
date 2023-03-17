@@ -21,4 +21,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
+    - name: Build checkout-example
+      run: cd checkout-example && npm install
+    - name: Build subscription-example
+      run: cd subscription-example && npm install
