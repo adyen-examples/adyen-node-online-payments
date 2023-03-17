@@ -22,6 +22,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: 'checkout-example'
     - name: Build checkout-example
       run: npm install
 
@@ -41,5 +42,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: 'subscription-example'
     - name: Build subscription-example
       run: npm install
