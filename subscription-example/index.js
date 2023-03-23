@@ -49,7 +49,7 @@ app.set("view engine", "handlebars");
 /* ################# API ENDPOINTS ###################### */
 
 // Invoke tokenization endpoint
-app.post("/tokenization/sessions", async (req, res) => {
+app.post("/api/tokenization/sessions", async (req, res) => {
 
   try {
     // unique ref for the transaction

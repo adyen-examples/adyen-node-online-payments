@@ -8,7 +8,7 @@ const redirectResult = urlParams.get('redirectResult');
 async function startTokenization() {
     const type = document.getElementById("type").innerHTML;
     try {
-        const response = await callServer("/tokenization/sessions");
+        const response = await callServer("/api/tokenization/sessions");
         console.log(response);
         const checkout = await createAdyenCheckout(response);
         checkout.create(type).mount(document.getElementById(type));
