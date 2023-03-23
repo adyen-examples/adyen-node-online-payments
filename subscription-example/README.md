@@ -67,7 +67,7 @@ You will need Node.js 12+ to run this application locally.
 1. Clone this repository.
 
 ```
-git clone https://github.com/adyen-examples/adyen-dotnet-online-payments.git
+git clone https://github.com/adyen-examples/adyen-node-online-payments
 ```
 
 2. Open your [Adyen Test Account](https://ca-test.adyen.com/ca/ca/overview/default.shtml) and create a set of [API keys](https://docs.adyen.com/user-management/how-to-get-the-api-key).
