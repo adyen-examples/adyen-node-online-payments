@@ -5,8 +5,20 @@
 
 version: 2
 updates:
+
   - package-ecosystem: "npm" 
-    directory: "/" 
+    directory: "/checkout-example" 
     schedule:
       interval: "daily"
     versioning-strategy: increase
+    labels:
+      - "checkout-example"
+      - "dependencies"
+  - package-ecosystem: "npm" 
+    directory: "/subscription-example" 
+    schedule:
+      interval: "daily"
+    versioning-strategy: increase
+    labels:
+      - "subscription-example"
+      - "dependencies"
