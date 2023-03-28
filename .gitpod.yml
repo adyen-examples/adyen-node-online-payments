@@ -9,7 +9,22 @@ tasks:
     path=$(gp info | awk -F'/' '/Workspace Context URL/{print $NF}' | tr -d '[:space:]')
     echo "Path '$path' is set."
 
-    npm install
+    echo "npm build in $(pwd)"
+    case "$path" in
+      "checkout-example")
+        echo "Build checkout-example application"
+        cd checkout-example && npm install
+      ;;
+      "subscription-example")
+        echo "Build subscription-example application"
+        cd subscription-example && npm install
+      ;;
+      *)
+        echo "Build default checkout-example application instead because '$path' is not defined ..."
+        cd checkout-example && npm install
+      ;;
+    esac
+    
     echo "npm install done."
 
   command: |
@@ -22,20 +37,9 @@ tasks:
     fi
 
     # Run the application based on specified $path.
-      echo "Starting application for '$path' ..."
-      case "$path" in
-        "checkout-example")
-          cd checkout-example && npm run dev
-        ;;
-        "subscription-example")
-          cd subscription-example && npm run dev
-        ;;
-        *)
-          echo "Starting the default checkout-example application instead because '$path' is not defined ..."
-          cd checkout-example && npm run dev
-        ;;
-      esac     
-
+    echo "Starting application for '$path' in $(pwd)"
+    npm run dev
+    
 # exposed ports
 ports:
 - port: 8080
