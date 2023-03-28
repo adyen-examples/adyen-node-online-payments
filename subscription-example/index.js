@@ -90,7 +90,11 @@ app.post("/api/tokenization/sessions", async (req, res) => {
 /* ################# CLIENT SIDE ENDPOINTS ###################### */
 
 // Index (select a demo)
-app.get("/", (req, res) => res.render("index"));
+app.get("/", (req, res) => 
+  res.render("index", {
+    title: "Adyen Subscription Shopper View"
+  })
+);
 
 // Cart (continue to checkout)
 app.get("/preview", (req, res) =>
@@ -110,6 +114,7 @@ app.get("/subscription", (req, res) =>
 // Admin Panel page
 app.get("/admin", (req, res) =>
   res.render("admin/index", {
+    title: "Adyen Subscription Admin View",
     data: getAll()
   })
 );
