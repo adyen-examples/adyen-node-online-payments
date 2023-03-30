@@ -1,12 +1,12 @@
 # Adyen Online Payment Integration Demos
 
+[![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build.yml)
+[![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e.yml)
+
 This repository includes a collection of PCI-compliant UI integrations that show how to integrate with Adyen using different payment methods. 
 The demos below leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Documentation](https://docs.adyen.com/development-resources/libraries)).
 
 Get started by navigating to one of the supported demos below.
-
-[![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build.yml)
-[![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e.yml)
 
 | Demos | Description | Details |
 | --: | :-- | :-- |
