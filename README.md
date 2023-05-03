@@ -12,6 +12,7 @@ Get started by navigating to one of the supported demos below.
 | --: | :-- | :-- |
 | [`Checkout Example`](checkout-example) | E-commerce checkout flow with different payment methods. | [See below](#checkout-example) | 
 | [`Subscription Example`](subscription-example) | Subscription flow using Adyen tokenization. | [See below](#subscription-example) | 
+| [`Gift Card Example`](giftcard-example) | Gift Cards checkout flow using partial orders. | [See below](#giftcard-example) | 
 
 
 ## [Checkout Example](checkout-example)
@@ -28,6 +29,10 @@ The panel allows admins to make payments on behalf of the shopper using this tok
 
 ![Subscription Demo](subscription-example/public/images/cardsubscription.gif)
 
+## [Gift Card Example](giftcard-example)
+The [gift card example](giftcard-example) repository includes a gift card flow during checkout. Within this demo app, you'll find a simplified version of an e-commerce website. The shopper can choose to use gift cards to complete their purchase or use their preferred payment method to pay the remaining amount.
+
+![Gift Card Demo](giftcard-example/public/images/cardgiftcard.gif)
 
 
 ## Contributing
