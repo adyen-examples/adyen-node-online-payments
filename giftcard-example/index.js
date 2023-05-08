@@ -164,11 +164,24 @@ app.post("/api/webhooks/notifications", async (req, res) => {
     // webhook with last partial payment authorisation
     if(notification.success) {
       console.log("Order is closed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+      
       // check Additional data
+      let loop = true;
+      let i = 1;
 
-      // for(const order of notification.additionalData) {
-      //   console.log(order)
-      // }
+      while(loop) {   
+        // looking for order-n-pspReference     
+        if (notification.additionalData.hasOwnProperty(`order-${i}-pspReference`)) {
+          let paymentPspReference = notification.additionalData[`order-${i}-pspReference`]
+          let paymentAmount = notification.additionalData[`order-${i}-paymentAmount`]
+          let paymentMethod = notification.additionalData[`order-${i}-paymentMethod`]
+          console.log(`Payment #${i} pspReference:${paymentPspReference} amount:${paymentAmount} paymentMethod:${paymentMethod}`);
+          i++;
+        } else {
+          loop = false;
+        }
+      }
+
     } else {
       console.log("Order not authorized - pspReference:" + notification.pspReference + " reason:" + notification.reason);
     }
