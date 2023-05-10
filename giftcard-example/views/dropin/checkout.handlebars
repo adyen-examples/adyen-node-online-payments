@@ -1,0 +1,24 @@
+{{!-- Hidden divs with data passed from the Express server --}}
+<div id="clientKey" class="hidden">{{ clientKey }}</div>
+<div id="type" class="hidden">{{ type }}</div>
+
+<main class="preview-page">
+    <section class="cart">
+        <div class="container">
+            <p>Select the giftcard payment method in the list to make your payment. Giftcard Test card numbers (e.g. 6036280000000000000) can be found on <a href="https://docs.adyen.com/development-resources/testing/test-card-numbers#gift-cards" target="_blank">this page</a>.</p>
+        </div>
+    </section>
+</main>
+
+<div id="payment-page">
+  <div class="container">
+    {{!-- The Checkout integration type will be rendered below. --}}
+    {{!--  Drop-in includes styling out-of-the-box, so no additional styling is needed. --}}
+    <div class="payment-container">
+      <div id={{type}} class="payment"></div>
+    </div>
+  </div>
+</div>
+
+{{!-- Adyen Component client code --}}
+<script type="text/javascript" src="/js/adyenDropinImplementation.js"></script>
