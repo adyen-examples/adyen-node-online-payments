@@ -34,7 +34,7 @@ jobs:
       - name: Run testing suite against subscription-example
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=subscription --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
-giftcard:
+  giftcard:
 
     runs-on: ubuntu-latest
     steps:
