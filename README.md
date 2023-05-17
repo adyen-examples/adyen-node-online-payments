@@ -28,7 +28,7 @@ The [gift card example](giftcard-example) repository includes a gift card flow d
 
 ![Gift Card Demo](giftcard-example/public/images/cardgiftcard.gif)
 
-## [Pay by Link Example](paybylink-example)
+## [Pay by Link Example](pay-by-link-example)
 
 The [`pay by link example`](paybylink-example) repository includes a Pay by Link flow. Within this demo app, you can create links by specifying the amount. The shopper can choose to accept the links and complete the payment.
 
