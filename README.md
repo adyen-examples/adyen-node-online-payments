@@ -12,7 +12,7 @@ Get started by navigating to one of the supported demos below.
 | --: | :-- | :-- |
 | [`Checkout Example`](checkout-example) | E-commerce checkout flow with different payment methods. | [See below](#checkout-example) | 
 | [`Gift Card Example`](giftcard-example) | Gift Cards checkout flow using partial orders. | [See below](#giftcard-example) | 
-| [`Pay by Link Example`](paybylink-example) | Pay by Link flow. | [See below](#paybylink-example) | 
+| [`Pay by Link Example`](paybylink-example) | Pay by Link flow. | [See below](#pay-by-link-example) | 
 | [`Subscription Example`](subscription-example) | Subscription flow using Adyen tokenization. | [See below](#subscription-example) | 
 
 
@@ -28,7 +28,7 @@ The [gift card example](giftcard-example) repository includes a gift card flow d
 
 ![Gift Card Demo](giftcard-example/public/images/cardgiftcard.gif)
 
-## [Pay by Link Example](pay-by-link-example)
+## [Pay by Link Example](paybylink-example)
 
 The [`pay by link example`](paybylink-example) repository includes a Pay by Link flow. Within this demo app, you can create links by specifying the amount. The shopper can choose to accept the links and complete the payment.
 
