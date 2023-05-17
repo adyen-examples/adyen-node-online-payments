@@ -5,6 +5,11 @@ Within this demo app, you can create links by specifying the amount. The shopper
 
 ![Card Pay By Link demo](wwwroot/images/cardpaybylink.gif)
 
+This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
+
+> **Note:** We've included a [blog post](https://www.adyen.com/blog/pay-by-link-for-developers) that explains Pay By Link in detail.
+
+
 ## Run this integration in seconds using [Gitpod](https://gitpod.io/)
 
 * Open your [Adyen Test Account](https://ca-test.adyen.com/ca/ca/overview/default.shtml) and create a set of [API keys](https://docs.adyen.com/user-management/how-to-get-the-api-key).
@@ -15,7 +20,6 @@ Within this demo app, you can create links by specifying the amount. The shopper
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/paybylink-example)
 
 
-This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
 ## Requirements
 
