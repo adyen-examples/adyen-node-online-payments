@@ -9,36 +9,11 @@ Within this demo app, you can create links by specifying the amount. The shopper
 
 * Open your [Adyen Test Account](https://ca-test.adyen.com/ca/ca/overview/default.shtml) and create a set of [API keys](https://docs.adyen.com/user-management/how-to-get-the-api-key).
 * Go to [gitpod account variables](https://gitpod.io/variables).
-* Set the `ADYEN_API_KEY`, `ADYEN_CLIENT_KEY`, `ADYEN_HMAC_KEY` and `ADYEN_MERCHANT_ACCOUNT variables`.
+* Set the `ADYEN_API_KEY`, `ADYEN_HMAC_KEY` and `ADYEN_MERCHANT_ACCOUNT variables`.
 * Click the button below!
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/paybylink-example)
 
-_NOTE: To allow the Adyen Drop-In and Components to load, you have to add `https://*.gitpod.io` as allowed origin for your chosen set of [API Credentials](https://ca-test.adyen.com/ca/ca/config/api_credentials_new.shtml)_
-
-## Details
-
-
-This repository includes examples of PCI-compliant UI integrations for online payments with Adyen. Within this demo app, you'll find a simplified version of an e-commerce website, complete with commented code to highlight key features and concepts of Adyen's API. Check out the underlying code to see how you can integrate Adyen to give your shoppers the option to pay with their preferred payment methods, all in a seamless checkout experience.
-
-![Card checkout demo](public/images/cardcheckout.gif)
-
-## Supported Integrations
-
-[Online payments](https://docs.adyen.com/online-payments) **Node.js + Express** demos of the following client-side integrations are currently available in this repository:
-
-- Drop-in
-- Components
-  - ACH
-  - Alipay
-  - Boleto Bancário
-  - Card (3DS2)
-  - Dotpay
-  - giropay
-  - iDEAL
-  - Klarna (Pay now, Pay later, Slice it)
-  - SEPA Direct Debit
-  - SOFORT
 
 This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
@@ -64,17 +39,14 @@ npm install
 
 1. Create a `./.env` file with all required configuration
    - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
-   - [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
    - [Merchant Account](https://docs.adyen.com/account/account-structure)
    - [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
 
-Remember to include `http://localhost:8080` in the list of Allowed Origins
 
 ```
 PORT=8080
 ADYEN_API_KEY="your_API_key_here"
 ADYEN_MERCHANT_ACCOUNT="your_merchant_account_here"
-ADYEN_CLIENT_KEY="your_client_key_here"
 ADYEN_HMAC_KEY="your_hmac_key_here"
 ```
 
@@ -141,17 +113,15 @@ If you use a tunneling service like [ngrok](ngrok) the webhook URL will be the g
 * Enter the URL of your application/endpoint (see options [above](#making-your-server-reachable))
 * Define username and password for Basic Authentication
 * Generate the HMAC Key
-* Optionally, in Additional Settings, add the data you want to receive. A good example is 'Payment Account Reference'.
 * Make sure the webhook is **Enabled** (therefore it can receive the notifications)
 
 That's it! Every time you perform a new payment, your application will receive a notification from the Adyen platform.
 
-## Contributing
+## Usage
 
-We commit all our new features directly into our GitHub repository. Feel free to request or suggest new features or code changes yourself as well!
+1. Visit the main page and create a link.
 
-Find out more in our [Contributing](https://github.com/adyen-examples/.github/blob/main/CONTRIBUTING.md) guidelines.
+2. Use the link to finalize the payment.
 
-## License
+3. Visit the Customer Area → `Pay By-Link`. 
 
-MIT license. For more information, see the **LICENSE** file in the root directory.
