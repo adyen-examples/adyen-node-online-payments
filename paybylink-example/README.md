@@ -3,7 +3,8 @@
 This repository includes an example of Pay By Link with Adyen.
 Within this demo app, you can create links by specifying the amount. The shopper can then choose to accept the links and complete the payment.
 
-![Card Pay By Link demo](wwwroot/images/cardpaybylink.gif)
+![Pay by Link Demo](paybylink-example/public/images/cardpaybylink.gif)
+
 
 This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
