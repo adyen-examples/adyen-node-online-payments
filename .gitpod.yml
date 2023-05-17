@@ -15,13 +15,17 @@ tasks:
         echo "Build checkout-example application"
         cd checkout-example && npm install
       ;;
-      "subscription-example")
-        echo "Build subscription-example application"
-        cd subscription-example && npm install
-      ;;
       "giftcard-example")
         echo "Build giftcard-example application"
         cd giftcard-example && npm install
+      ;;
+      "paybylink-example")
+        echo "Build paybylink-example application"
+        cd paybylink-example && npm install
+      ;;
+      "subscription-example")
+        echo "Build subscription-example application"
+        cd subscription-example && npm install
       ;;
       *)
         echo "Build default checkout-example application instead because '$path' is not defined ..."
