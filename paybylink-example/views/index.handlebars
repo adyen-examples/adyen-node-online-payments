@@ -37,43 +37,24 @@
   <div class="info-subsection">
     <h3>Payment links</h3>
     <div class="payment-links">
-      <div class="payment-links-header">
-        <div class="payment-link-header-element">
-          PaymentLinkId
-        </div>
-        <div class="payment-link-header-element">
-          Reference
-        </div>
-        <div class="payment-link-header-element">
-          ExpiresAt
-        </div>
-        <div class="payment-link-header-element">
-          Status
-        </div>
-        <div class="payment-link-header-element">
-          IsReusable
-        </div>
+      <div class="table">
+      <div class="row">
+        <div class="header">PaymentLinkId</div>
+        <div class="header">Reference</div>
+        <div class="header">ExpiresAt</div>
+        <div class="header">Status</div>
+        <div class="header">IsReusable</div>
       </div>
       {{#each data}}
-      <div class="payment-links-content">
-
-         <div class="payment-link-content-element">
-          <a href="{{url}}" id="{{id}}">{{id}}</a>
-          </div>
-        <div class="payment-link-content-element">
-           <div id="{{reference}}">{{reference}}</div>
-        </div>
-        <div class="payment-link-content-element">
-           <div>{{expiresAt}}</div>
-        </div>
-        <div class="payment-link-content-element">
-           <div>{{status}}</div>
-        </div>
-        <div class="payment-link-content-element">
-           <div>{{isreusable}}</div>
-        </div>
+      <div class="row">
+        <div class="cell"><a href="{{url}}" id="{{id}}">{{id}}</a></div>
+        <div class="cell">{{reference}}</div>
+        <div class="cell"> {{expiresAt}}</div>
+        <div class="cell"> {{status}}</div>
+        <div class="cell"> {{isReusable}} </div>
       </div>
       {{/each}}
+      </div>
     </div>
   </div>
 </div>

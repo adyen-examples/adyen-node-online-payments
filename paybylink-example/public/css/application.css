@@ -53,27 +53,29 @@ a:hover {
   padding: 12px;
 }
 
-.payment-link-content-element {
-  padding: 2px 12px 2px 12px;
-  flex: 1;
-}
-
-.payment-links-content {
+/* Table displaying PaymentLinks */
+.table {
   display: flex;
-  width: 100%;
+  flex-wrap: wrap;
 }
 
-.payment-links-header {
+.row {
   display: flex;
-  width: 100%;
-  border-bottom: 2px solid #000000;
+  flex-basis: 100%;
 }
 
-.payment-link-header-element {
-  font-weight: 600;
-  padding: 2px 12px 2px 12px;
-  flex: 1;
+.header {
+  flex-basis: 20%; 
+  font-weight: bold;
+  padding: 2px 4px 2px 4px;
 }
+
+.cell {
+  flex-basis: 20%; 
+  padding: 2px 4px 2px 4px;
+}
+
+
 
 .main-container {
   margin: auto;
