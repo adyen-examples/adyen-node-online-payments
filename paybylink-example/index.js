@@ -89,7 +89,9 @@ app.get("/", async (req, res) => {
     // get Payment By Link
     const paymentLink = await checkoutService.getPaymentLinks(element.id);
     // update local storage
-    update(paymentLink);
+    const pLink = { id: paymentLink.id, reference: paymentLink.reference, url:paymentLink.url, 
+      expiresAt: paymentLink.expiresAt, status: paymentLink.status, isReusable: paymentLink.reusable }
+    update(pLink);
   }
 
   res.render("index", {data: getAll()});
