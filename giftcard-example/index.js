@@ -120,7 +120,7 @@ app.get("/result/:type", (req, res) =>
 
 /* ################# WEBHOOK ###################### */
 
-// Process incoming Webhook notification: get NotificationRequestItem, validate HMAC signature,
+// Process incoming Webhook: get NotificationRequestItem, validate HMAC signature,
 // consume the event asynchronously, send response ["accepted"]
 app.post("/api/webhooks/notifications", async (req, res) => {
 

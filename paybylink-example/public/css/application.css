@@ -1,0 +1,138 @@
+/* General page body */
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  font-family: "Fakt", sans-serif, Helvetica, Arial;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-weight: 800;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+a,
+u {
+  color: #0abf53;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.create-new-link {
+  display: flex;
+  align-items: center;
+}
+
+.create-new-link-element {
+  padding: 2px 12px 2px 12px;
+}
+
+.payment-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #f8f8f8;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+/* Table displaying PaymentLinks */
+.table {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  flex-basis: 100%;
+}
+
+.header {
+  flex-basis: 20%; 
+  font-weight: bold;
+  padding: 2px 4px 2px 4px;
+}
+
+.cell {
+  flex-basis: 20%; 
+  padding: 2px 4px 2px 4px;
+}
+
+
+
+.main-container {
+  margin: auto;
+  max-width: 1048px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-mainsection {
+  margin-top: 5%;
+  margin-bottom: 2%;
+  color: #00112c;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.info-subsection {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  color: #00112c;
+}
+
+/* Buttons */
+.create-new-link-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 6px;
+  background-color: #006AF5;
+  border: none;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.create-new-link-button:hover {
+  box-shadow: 0 3px 4px rgba(0, 15, 45, 0.2);
+  border: none;
+}
+
+.create-new-link-button:active {
+   border: none;
+}
+
+.create-new-link-button:disabled {
+  border: none;  
+  box-shadow: none;
+  cursor: not-allowed;
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
+/* end of Buttons  */

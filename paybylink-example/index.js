@@ -3,10 +3,12 @@ const path = require("path");
 const hbs = require("express-handlebars");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const { uuid } = require("uuidv4");
 
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
+
+const { getAll, put, update } = require('./storage.js')
+
 
 // init app
 const app = express();
@@ -30,14 +32,13 @@ const config = new Config();
 config.apiKey = process.env.ADYEN_API_KEY;
 const client = new Client({ config });
 client.setEnvironment("TEST");  // change to LIVE for production
-const checkout = new CheckoutAPI(client);
+checkoutService = new CheckoutAPI(client);
 
 app.engine(
   "handlebars",
   hbs.engine({
     defaultLayout: "main",
-    layoutsDir: __dirname + "/views/layouts",
-    helpers: require("./util/helpers"),
+    layoutsDir: __dirname + "/views/layouts"
   })
 );
 
@@ -45,31 +46,30 @@ app.set("view engine", "handlebars");
 
 /* ################# API ENDPOINTS ###################### */
 
-// Invoke /sessions endpoint
-app.post("/api/sessions", async (req, res) => {
+app.post("/api/links", async (req, res) => {
+
+  // Allows for gitpod support
+  const localhost = req.get('host');
+  // const isHttps = req.connection.encrypted;
+  const protocol = req.socket.encrypted? 'https' : 'http';  
 
   try {
-    // unique ref for the transaction
-    const orderRef = uuid();
-    // Allows for gitpod support
-    const localhost = req.get('host');
-    // const isHttps = req.connection.encrypted;
-    const protocol = req.socket.encrypted? 'https' : 'http';
-    // Ideally the data passed here should be computed based on business logic
-    const response = await checkout.sessions({
-      amount: { currency: "EUR", value: 10000 }, // value is 100€ in minor units
-      countryCode: "NL",
-      merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
-      reference: orderRef, // required: your Payment Reference
-      returnUrl: `${protocol}://${localhost}/checkout?orderRef=${orderRef}`, // set redirect URL required for some payment methods (ie iDEAL)
-      // set lineItems required for some payment methods (ie Klarna)
-      lineItems: [
-        {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
-        {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
-      ] 
-    });
 
-    res.json(response);
+    const response = await checkoutService.paymentLinks({
+      merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
+      amount: { currency: "EUR", value: req.body.Amount }, // value is 100€ in minor units
+      reference: req.body.Reference,
+      reusable: req.body.IsReusable,
+      returnUrl: `${protocol}://${localhost}/`, // set redirect URL after payment
+  });
+
+  console.log(response);
+
+  // save payment link
+  put(response.id, response.reference, response.url, response.expiresAt, response.status, response.reusable);
+
+  res.json(response.id);
+
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
     res.status(err.statusCode).json(err.message);
@@ -82,29 +82,21 @@ app.post("/api/sessions", async (req, res) => {
 /* ################# CLIENT SIDE ENDPOINTS ###################### */
 
 // Index (select a demo)
-app.get("/", (req, res) => res.render("index"));
+app.get("/", async (req, res) => { 
+  
+  // fetch and update all links
+  for (const element of getAll()) { 
+    // get Payment By Link
+    const paymentLink = await checkoutService.getPaymentLinks(element.id);
+    // update local storage
+    const pLink = { id: paymentLink.id, reference: paymentLink.reference, url:paymentLink.url, 
+      expiresAt: paymentLink.expiresAt, status: paymentLink.status, isReusable: paymentLink.reusable }
+    update(pLink);
+  }
 
-// Cart (continue to checkout)
-app.get("/preview", (req, res) =>
-  res.render("preview", {
-    type: req.query.type,
-  })
-);
+  res.render("index", {data: getAll()});
+});
 
-// Checkout page (make a payment)
-app.get("/checkout", (req, res) =>
-  res.render("checkout", {
-    type: req.query.type,
-    clientKey: process.env.ADYEN_CLIENT_KEY
-  })
-);
-
-// Result page
-app.get("/result/:type", (req, res) =>
-  res.render("result", {
-    type: req.params.type,
-  })
-);
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
 
@@ -130,7 +122,8 @@ app.post("/api/webhooks/notifications", async (req, res) => {
     // valid hmac: process event
     const merchantReference = notification.merchantReference;
     const eventCode = notification.eventCode;
-    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode);
+    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode + 
+      " paymentLinkId:" + additionalData.paymentLinkId);
 
     // consume event asynchronously
     consumeEvent(notification);

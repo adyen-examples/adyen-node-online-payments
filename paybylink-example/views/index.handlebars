@@ -1,0 +1,62 @@
+<div class="main-container">
+  <div class="info-mainsection">
+    <h1>Pay By Link Demo</h1>
+    <p>To use this interactive example of Pay By Link, provide an <b>amount</b> in minor units (e.g. 1000 = 10 EUR) and <b>reference</b> (guid). Set <b>isReusable</b> to <i>true</i> to accept multiple payments per payment link.</p>
+    <p>
+      Make sure that the payment method you want to use in the payment links are enabled for your account.
+      Refer to <a href="https://docs.adyen.com/payment-methods#add-payment-methods-to-your-account">the documentation</a> to add missing payment methods, 
+      and <a href="https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api">how to create your payment links</a>.
+    </p>
+    <p>To learn more about payment links, read our <a href="https://www.adyen.com/blog/pay-by-link-for-developers">blog</a> or
+      check out our <a href="https://docs.adyen.com/unified-commerce/pay-by-link">documentation</a> .
+    </p>
+  </div>
+
+  <div class="info-subsection">
+    <!-- Section for creating a new payment link -->
+    <section class="create-pay-by-link">
+      <h3>Create new payment link</h3>
+      <div class="create-new-link">
+        <div class="create-new-link-element">
+        Amount: <input type="text" id="amount" placeholder="€"/>
+        </div>
+
+        <div class="create-new-link-element">
+        Reference: <input type="text" id="reference" placeholder="my-ref-0001"/> 
+        </div>
+
+        <div class="create-new-link-element">
+        IsReusable: <input type="checkbox" id="isreusable"/>
+        </div>
+        <button id="create-new-link" class="create-new-link-button" onclick="createPaymentLink()">Create!</button>
+      </div>
+    </section>
+  </div>
+
+ <!-- Section that shows all payment links -->
+  <div class="info-subsection">
+    <h3>Payment links</h3>
+    <div class="payment-links">
+      <div class="table">
+      <div class="row">
+        <div class="header">PaymentLinkId</div>
+        <div class="header">Reference</div>
+        <div class="header">ExpiresAt</div>
+        <div class="header">Status</div>
+        <div class="header">IsReusable</div>
+      </div>
+      {{#each data}}
+      <div class="row">
+        <div class="cell"><a href="{{url}}" id="{{id}}">{{id}}</a></div>
+        <div class="cell">{{reference}}</div>
+        <div class="cell"> {{expiresAt}}</div>
+        <div class="cell"> {{status}}</div>
+        <div class="cell"> {{isReusable}} </div>
+      </div>
+      {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="../adyenImplementation.js"></script>
