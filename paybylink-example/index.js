@@ -68,7 +68,7 @@ app.post("/api/links", async (req, res) => {
   // save payment link
   put(response.id, response.reference, response.url, response.expiresAt, response.status, response.reusable);
 
-  res.json("Ok");
+  res.json(response.id);
 
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
