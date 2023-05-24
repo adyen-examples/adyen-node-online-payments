@@ -7,7 +7,7 @@ async function createPaymentLink() {
       if (!amount || !reference) {
           return;
       }
-      const linksResponse = await sendPostRequest("/api/links", { Amount: amount, Reference: reference, isReusable: isreusable});
+      const linksResponse = await sendPostRequest("/api/links", { Amount: amount, Reference: reference, IsReusable: isreusable});
       console.info(linksResponse);
       window.location.reload();
   } catch (error) {
