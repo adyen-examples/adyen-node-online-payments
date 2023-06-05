@@ -34,7 +34,7 @@ async function initCheckout() {
       },
     };
 
-    const checkout = new AdyenCheckout(configuration);
+    const checkout = await new AdyenCheckout(configuration);
     checkout.create(type).mount(document.getElementById(type));
   } catch (error) {
     console.error(error);
