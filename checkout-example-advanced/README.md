@@ -13,6 +13,8 @@ _NOTE: To allow the Adyen Drop-In and Components to load, you have to add `https
 
 ## Details
 
+**This sample shows the [advanced integration flow](https://docs.adyen.com/online-payments/web-drop-in/additional-use-cases?tab=sessions_flow_advanced_flow_1), for a simpler flow using session, have a look at the `../checkout-example` folder.**
+
 
 This repository includes examples of PCI-compliant UI integrations for online payments with Adyen. Within this demo app, you'll find a simplified version of an e-commerce website, complete with commented code to highlight key features and concepts of Adyen's API. Check out the underlying code to see how you can integrate Adyen to give your shoppers the option to pay with their preferred payment methods, all in a seamless checkout experience.
 
