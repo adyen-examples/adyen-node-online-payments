@@ -25,7 +25,7 @@ dotenv.config({
 
 // Adyen Node.js API library boilerplate (configuration, etc.)
 const config = new Config();
-config.apiKey = process.env.API_KEY;
+config.apiKey = process.env.ADYEN_API_KEY;
 const client = new Client({ config });
 client.setEnvironment("TEST");
 const checkout = new CheckoutAPI(client);
@@ -48,7 +48,7 @@ app.post("/api/getPaymentMethods", async (req, res) => {
   try {
     const response = await checkout.paymentMethods({
       channel: "Web",
-      merchantAccount: process.env.MERCHANT_ACCOUNT,
+      merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT,
     });
     res.json(response);
   } catch (err) {
@@ -70,7 +70,7 @@ app.post("/api/initiatePayment", async (req, res) => {
     const response = await checkout.payments({
       amount: { currency, value: 1000 }, // value is 10€ in minor units
       reference: orderRef, // required
-      merchantAccount: process.env.MERCHANT_ACCOUNT, // required
+      merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       channel: "Web", // required
       additionalData: {
         // required for 3ds2 native flow
@@ -201,7 +201,7 @@ app.get("/preview", (req, res) =>
 app.get("/checkout", (req, res) =>
   res.render("checkout", {
     type: req.query.type,
-    clientKey: process.env.CLIENT_KEY,
+    clientKey: process.env.ADYEN_CLIENT_KEY,
   })
 );
 
@@ -213,6 +213,52 @@ app.get("/result/:type", (req, res) =>
 );
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
+
+/* ################# WEBHOOK ###################### */
+
+// Process incoming Webhook: get NotificationRequestItem, validate HMAC signature,
+// consume the event asynchronously, send response ["accepted"]
+app.post("/api/webhooks/notifications", async (req, res) => {
+
+  // YOUR_HMAC_KEY from the Customer Area
+  const hmacKey = process.env.ADYEN_HMAC_KEY;
+  const validator = new hmacValidator()
+  // Notification Request JSON
+  const notificationRequest = req.body;
+  const notificationRequestItems = notificationRequest.notificationItems
+
+  // fetch first (and only) NotificationRequestItem
+  const notification = notificationRequestItems[0].NotificationRequestItem
+  console.log(notification)
+  
+  // Handle the notification
+  if( validator.validateHMAC(notification, hmacKey) ) {
+    // valid hmac: process event
+    const merchantReference = notification.merchantReference;
+    const eventCode = notification.eventCode;
+    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode);
+
+    // consume event asynchronously
+    consumeEvent(notification);
+
+    // acknowledge event has been consumed
+    res.send('[accepted]')
+
+  } else {
+    // invalid hmac: do not send [accepted] response
+    console.log("Invalid HMAC signature: " + notification);
+    res.status(401).send('Invalid HMAC signature');
+  }
+
+});
+
+// process payload asynchronously
+function consumeEvent(notification) {
+  // add item to DB, queue or different thread
+  
+}
+
+
 
 /* ################# UTILS ###################### */
 

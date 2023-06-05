@@ -5,7 +5,7 @@ async function initCheckout() {
   try {
     const paymentMethodsResponse = await callServer("/api/getPaymentMethods");
     const configuration = {
-      paymentMethodsResponse: filterUnimplemented(paymentMethodsResponse),
+      paymentMethodsResponse: paymentMethodsResponse,
       clientKey,
       locale: "en_US",
       environment: "test",
@@ -42,25 +42,6 @@ async function initCheckout() {
   }
 }
 
-function filterUnimplemented(pm) {
-  pm.paymentMethods = pm.paymentMethods.filter((it) =>
-    [
-      "scheme",
-      "ideal",
-      "dotpay",
-      "giropay",
-      "sepadirectdebit",
-      "directEbanking",
-      "ach",
-      "alipay",
-      "klarna_paynow",
-      "klarna",
-      "klarna_account",
-      "boletobancario_santander",
-    ].includes(it.type)
-  );
-  return pm;
-}
 
 // Event handlers called when the shopper selects the pay button,
 // or when additional information is required to complete the payment
