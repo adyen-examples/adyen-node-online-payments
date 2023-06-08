@@ -35,7 +35,7 @@ Check out the underlying code to see how you can integrate Adyen to give your sh
 The [advanced checkout example](checkout-example-advanced) performs the same functionality as the [checkout example](checkout-example) but using the 3 stages of the Checkout API (Initiate, Submit, and Details) instead of the single `/sessions` endpoint.
 See the [advanced integration flow](https://docs.adyen.com/online-payments/web-drop-in/additional-use-cases?tab=sessions_flow_advanced_flow_1) for more information.
 
-![Card Checkout Demo](checkout-example/src/main/resources/static/images/cardcheckout.gif)
+![Card Checkout Demo](checkout-example-advanced/public/images/cardcheckout.gif)
 
 ## [Gift Card Example](giftcard-example)
 
