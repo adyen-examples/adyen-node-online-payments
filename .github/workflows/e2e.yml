@@ -9,7 +9,6 @@ on:
 
 jobs:
   checkout:
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -20,6 +19,19 @@ jobs:
         run: docker run --rm -d --name checkout-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-image:latest
       - name: Run testing suite against checkout-example
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+
+  checkout-advanced:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Advanced project
+        uses: actions/checkout@v3
+      - name: Build checkout-example-advanced image
+        run: docker build -t checkout-example-advanced-image:latest checkout-example-advanced
+      - name: Start checkout-example-advanced container
+        run: docker run --rm -d --name checkout-example-advanced-image -p 8080:80 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-advanced-image:latest
+      - name: Run testing suite against checkout-example-advanced-image
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+
 
   giftcard:
 
