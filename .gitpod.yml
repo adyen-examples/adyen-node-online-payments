@@ -15,6 +15,10 @@ tasks:
         echo "Build checkout-example application"
         cd checkout-example && npm install
       ;;
+      "checkout-example-advanced")
+        echo "Build checkout-example-advanced application"
+        cd checkout-example-advanced && npm install
+      ;;      
       "giftcard-example")
         echo "Build giftcard-example application"
         cd giftcard-example && npm install
