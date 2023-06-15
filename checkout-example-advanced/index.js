@@ -67,6 +67,10 @@ app.post("/api/initiatePayment", async (req, res) => {
   try {
     // unique ref for the transaction
     const orderRef = uuid();
+    // Allows for gitpod support
+    const localhost = req.get('host');
+    // const isHttps = req.connection.encrypted;
+    const protocol = req.socket.encrypted? 'https' : 'http';    
     // Ideally the data passed here should be computed based on business logic
     const response = await checkout.payments({
       amount: { currency, value: 1000 }, // value is 10€ in minor units
@@ -77,10 +81,10 @@ app.post("/api/initiatePayment", async (req, res) => {
         // required for 3ds2 native flow
         allow3DS2: true,
       },
-      origin: "http://localhost:8080", // required for 3ds2 native flow
+      origin: `${protocol}://${localhost}`, // required for 3ds2 native flow
       browserInfo: req.body.browserInfo, // required for 3ds2
       shopperIP, // required by some issuers for 3ds2
-      returnUrl: `http://localhost:8080/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
+      returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
       // special handling for boleto
       paymentMethod: req.body.paymentMethod.type.includes("boleto")
         ? {
