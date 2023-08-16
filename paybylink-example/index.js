@@ -55,7 +55,7 @@ app.post("/api/links", async (req, res) => {
 
   try {
 
-    const response = await checkoutService.paymentLinks({
+    const response = await checkoutService.PaymentLinksApi.paymentLinks({
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       amount: { currency: "EUR", value: req.body.Amount }, // value is 100€ in minor units
       reference: req.body.Reference,
@@ -87,7 +87,7 @@ app.get("/", async (req, res) => {
   // fetch and update all links
   for (const element of getAll()) { 
     // get Payment By Link
-    const paymentLink = await checkoutService.getPaymentLinks(element.id);
+    const paymentLink = await checkoutService.PaymentLinksApi.getPaymentLink(element.id);
     // update local storage
     const pLink = { id: paymentLink.id, reference: paymentLink.reference, url:paymentLink.url, 
       expiresAt: paymentLink.expiresAt, status: paymentLink.status, isReusable: paymentLink.reusable }
