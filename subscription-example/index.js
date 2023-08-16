@@ -229,8 +229,9 @@ app.post("/api/webhooks/notifications", async (req, res) => {
   // valid hmac: process event
 
   const shopperReference = notification.additionalData['recurring.shopperReference'];
-
-  if (notification.eventCode == "AUTHORISATION" && shopperReference) {
+  
+  // read about eventcode "RECURRING_CONTRACT" here: https://docs.adyen.com/online-payments/tokenization/create-and-use-tokens?tab=subscriptions_2#pending-and-refusal-result-codes-1
+  if (notification.eventCode == "RECURRING_CONTRACT" && shopperReference) {
     // webhook with recurring token
     const recurringDetailReference = notification.additionalData['recurring.recurringDetailReference'];
     const paymentMethod = notification.paymentMethod;
