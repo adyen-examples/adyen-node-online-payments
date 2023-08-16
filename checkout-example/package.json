@@ -14,10 +14,10 @@
   "dependencies": {
     "@adyen/api-library": "^13.1.3",
     "ansi-regex": "^6.0.1",
-    "dot-prop": "^8.0.0",
-    "dotenv": "^16.1.4",
+    "dot-prop": "^8.0.2",
+    "dotenv": "^16.3.1",
     "express": "^4.18.1",
-    "express-handlebars": "^7.0.7",
+    "express-handlebars": "^7.1.2",
     "minimist": "^1.2.8",
     "morgan": "^1.10.0",
     "node-gyp": "^9.1.0",
