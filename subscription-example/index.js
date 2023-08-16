@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const { uuid } = require("uuidv4");
 
 const { hmacValidator } = require('@adyen/api-library');
-const { Client, Config, CheckoutAPI, Recurring } = require("@adyen/api-library");
+const { Client, Config, CheckoutAPI, RecurringAPI } = require("@adyen/api-library");
 
 const { SHOPPER_REFERENCE, getAll, put, remove } = require('./storage.js')
 
@@ -33,7 +33,7 @@ config.apiKey = process.env.ADYEN_API_KEY;
 const client = new Client({ config });
 client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
-const recurring = new Recurring(client);
+const recurring = new RecurringAPI(client);
 
 app.engine(
   "handlebars",
@@ -59,7 +59,7 @@ app.post("/api/tokenization/sessions", async (req, res) => {
     const protocol = req.socket.encrypted ? 'https' : 'http';
 
     // perform /sessions call
-    const response = await checkout.sessions({
+    const response = await checkout.PaymentsApi.sessions({
       amount: { currency: "EUR", value: 0 }, // zero-auth transaction
       countryCode: "NL",
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
@@ -134,7 +134,7 @@ app.get("/admin/makepayment/:recurringDetailReference", async (req, res) => {
   let result = "success"
 
   try {
-    const response = await checkout.payments({
+    const response = await checkout.PaymentsApi.payments({
       amount: { currency: "EUR", value: 1199 },
       reference: uuid(),
       shopperInteraction: "ContAuth", // Continuous Authorization
