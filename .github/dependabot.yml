@@ -7,6 +7,11 @@ version: 2
 updates:
 
   - package-ecosystem: "npm" 
+    directory: "/checkout-example-advanced" 
+    schedule:
+      interval: "daily"
+    versioning-strategy: increase
+  - package-ecosystem: "npm" 
     directory: "/checkout-example" 
     schedule:
       interval: "daily"
