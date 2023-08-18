@@ -33,7 +33,7 @@ const checkout = new CheckoutAPI(client);
 
 app.engine(
   "handlebars",
-  hbs({
+  hbs.engine({
     defaultLayout: "main",
     layoutsDir: __dirname + "/views/layouts",
     helpers: require("./util/helpers"),
