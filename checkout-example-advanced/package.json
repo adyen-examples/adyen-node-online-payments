@@ -21,7 +21,7 @@
     "minimist": ">=1.2.8",
     "morgan": "^1.10.0",
     "node-gyp": "^9.4.0",
-    "uuidv4": "^6.1.1"
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
