@@ -47,7 +47,7 @@ app.set("view engine", "handlebars");
 // Get payment methods
 app.post("/api/getPaymentMethods", async (req, res) => {
   try {
-    const response = await checkout.paymentMethods({
+    const response = await checkout.PaymentsApi.paymentMethods({
       channel: "Web",
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT,
     });
@@ -72,7 +72,7 @@ app.post("/api/initiatePayment", async (req, res) => {
     // const isHttps = req.connection.encrypted;
     const protocol = req.socket.encrypted? 'https' : 'http';    
     // Ideally the data passed here should be computed based on business logic
-    const response = await checkout.payments({
+    const response = await checkout.PaymentsApi.payments({
       amount: { currency, value: 1000 }, // value is 10€ in minor units
       reference: orderRef, // required
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
@@ -98,7 +98,7 @@ app.post("/api/initiatePayment", async (req, res) => {
         typeof req.body.billingAddress === "undefined" || Object.keys(req.body.billingAddress).length === 0
           ? null
           : req.body.billingAddress,
-      deliveryDate: "2023-12-31T23:00:00.000Z",
+      deliveryDate: new Date("2017-07-17T13:42:40.428+01:00"),
       shopperStatement: "Aceitar o pagamento até 15 dias após o vencimento.Não cobrar juros. Não aceitar o pagamento com cheque",
       // Below fields are required for Klarna:
       countryCode: req.body.paymentMethod.type.includes("klarna") ? "DE" : null,
@@ -128,7 +128,7 @@ app.post("/api/submitAdditionalDetails", async (req, res) => {
   try {
     // Return the response back to client
     // (for further action handling or presenting result to shopper)
-    const response = await checkout.paymentsDetails(payload);
+    const response = await checkout.PaymentsApi.paymentsDetails(payload);
 
     res.json(response);
   } catch (err) {
@@ -149,7 +149,7 @@ app.all("/api/handleShopperRedirect", async (req, res) => {
   }
 
   try {
-    const response = await checkout.paymentsDetails({ details });
+    const response = await checkout.PaymentsApi.paymentsDetails({ details });
     // Conditionally handle different result codes for the shopper
     switch (response.resultCode) {
       case "Authorised":
