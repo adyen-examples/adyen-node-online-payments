@@ -64,7 +64,7 @@ This demo provides a simple webhook integration at `/api/webhooks/notifications`
 
 
 ## Run integration on localhost using a proxy
-You will need Node.js 12+ to run this application locally.
+You will need Node.js 18+ to run this application locally.
 
 1. Clone this repository.
 
