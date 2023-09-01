@@ -71,3 +71,16 @@ jobs:
         run: docker run --rm -d --name subscription-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} subscription-example-image:latest
       - name: Run testing suite against subscription-example
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=subscription --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+
+authorisation-adjustment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authorisation Adjustment project
+        uses: actions/checkout@v3
+      - name: Build authorisation-adjustment-example image
+        run: docker build -t authorisation-adjustment-example-image:latest authorisation-adjustment-example
+      - name: Start authorisation-adjustment-example container
+        run: docker run --rm -d --name authorisation-adjustment-example-image -p 8080:80 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} authorisation-adjustment-example-image:latest
+      - name: Run testing suite against authorisation-adjustment-example-image
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=authorisation-adjustment --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        
