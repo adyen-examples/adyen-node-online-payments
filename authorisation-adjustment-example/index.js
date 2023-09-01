@@ -212,7 +212,7 @@ app.get("/result/:type", (req, res) =>
 // Admin Panel page
 app.get("/admin", (req, res) =>
   res.render("admin/index", {
-    title: "Adyen Admin View",
+    title: "Adyen Admin Panel",
     data: getAll()
   })
 );
