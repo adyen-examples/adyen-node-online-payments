@@ -148,23 +148,28 @@ app.post("/api/pre-authorisation", async (req, res) => {
       returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
     });
 
+    console.log(response);
+
     let expiryDate = new Date();
     // add 28 days for define pre-authorisation expiry date
     // The value of '28' varies per scheme, see https://docs.adyen.com/online-payments/adjust-authorisation/#validity.
     expiryDate.setDate(expiryDate.getDate() + 28);
 
-    // save payment into storage
-    put(
-      new PaymentModel(
-        response.merchantReference, 
-        response.pspReference, 
-        response.amount.value, 
-        response.amount.currency, 
-        new Date(), // booking date
-        expiryDate,
-        response.paymentMethod.brand,
-        [] // initialise history
-    ));
+
+    if(response.resultCode == 'Authorised') {
+      // save payment into storage
+      put(
+        new PaymentModel(
+          response.merchantReference, 
+          response.pspReference, 
+          response.amount.value, 
+          response.amount.currency, 
+          new Date(), // booking date
+          expiryDate,
+          response.paymentMethod.brand,
+          [] // initialise history
+      ));
+    }
 
     res.json(response);
   } catch (err) {
