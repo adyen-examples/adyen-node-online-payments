@@ -5,7 +5,7 @@
 
 // payments saved in memory
 // contains a list of PaymentModel (pre-authorisations)
-// each PaymentModel contains a list of PaymentDetailsModel (each operation performed 
+// each PaymentModel contains a list of PaymentDetailsModel (each operation performed
 // after pre-authorisation - adjust|extend|capture|reversal)
 var payments = [];
 
@@ -37,7 +37,7 @@ class PaymentDetailsModel {
   }
 }
 
-// get all payments 
+// get all payments
 const getAll = () => {
   return payments;
 }
@@ -59,17 +59,16 @@ const addToHistory = (paymentDetailsModel) => {
   if(paymentModel == null) {
     console.log("Payment not found in storage - Reference: " + paymentDetailsModel.merchantReference);
   } else {
-
     // add to history
     paymentModel.paymentDetailsModelList.push(paymentDetailsModel);
     paymentModel.lastUpdated = new Date();
-}
+  }
 
 }
 
 // update payment given its merchantReference
 const updatePayment = (merchantReference, amount, expiryDate) => {
-  
+
   var index = payments.findIndex(x => x.merchantReference === merchantReference);
 
   if(index >= 0) {
@@ -81,9 +80,12 @@ const updatePayment = (merchantReference, amount, expiryDate) => {
 
 }
 
+const put = (paymentModel) => {
+  payments.push(paymentModel)
+}
 
-module.exports = { PaymentModel, PaymentDetailsModel, getAll, getByMerchantReference, addToHistory, updatePayment }
+module.exports = { PaymentModel, PaymentDetailsModel, getAll, getByMerchantReference, addToHistory, updatePayment, put }
 
 
 
-  
+

@@ -8,7 +8,7 @@ const { uuid } = require("uuidv4");
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 
-const { PaymentModel, PaymentDetailsModel, getAll, getByMerchantReference, addToHistory, updatePayment} = require('./storage.js')
+const { PaymentModel, PaymentDetailsModel, getAll, getByMerchantReference, addToHistory, updatePayment, put} = require('./storage.js')
 
 
 // init app
