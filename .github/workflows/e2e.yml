@@ -72,7 +72,7 @@ jobs:
       - name: Run testing suite against subscription-example
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=subscription --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
-authorisation-adjustment:
+  authorisation-adjustment:
     runs-on: ubuntu-latest
     steps:
       - name: Authorisation Adjustment project
