@@ -437,6 +437,7 @@ a:hover {
   border: 2px solid #0e0e0e;
   border-radius: 8px;
   margin-right: 12px;
+  width: 60%;
 }
 
 .adminList li {
