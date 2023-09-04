@@ -1,14 +1,15 @@
 ﻿
 // make the form visible
-function show(id) {
+function showForm(id) {
+    
     element = document.getElementById(id);
     element.removeAttribute("hidden");
 
-    hideOthers(id);
+    hideOtherForms(id);
 }
 
 // hide forms excepted form with given id
-function hideOthers(id) {
+function hideOtherForms(id) {
     let elements = document.getElementsByClassName("paymentOperationForm");
 
     for (let i = 0; i < elements.length; i++) {
