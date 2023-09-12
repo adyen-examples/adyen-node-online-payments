@@ -30,7 +30,7 @@ jobs:
       - name: Start checkout-example-advanced container
         run: docker run --rm -d --name checkout-example-advanced-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-advanced-image:latest
       - name: Run testing suite against checkout-example-advanced-image
-        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
 
   giftcard:
@@ -44,7 +44,7 @@ jobs:
       - name: Start giftcard-example container
         run: docker run --rm -d --name giftcard-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} giftcard-example-image:latest
       - name: Run testing suite against giftcard-example
-        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=giftcard --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=giftcard -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
   paybylink:
 
@@ -57,7 +57,7 @@ jobs:
       - name: Start paybylink-example container
         run: docker run --rm -d --name paybylink-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} paybylink-example-image:latest
       - name: Run testing suite against paybylink-example
-        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=paybylink --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=paybylink -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
   subscription:
 
@@ -70,7 +70,7 @@ jobs:
       - name: Start subscription-example container
         run: docker run --rm -d --name subscription-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} subscription-example-image:latest
       - name: Run testing suite against subscription-example
-        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=subscription --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=subscription -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
   authorisation-adjustment:
     runs-on: ubuntu-latest
@@ -82,5 +82,5 @@ jobs:
       - name: Start authorisation-adjustment-example container
         run: docker run --rm -d --name authorisation-adjustment-example-image -p 8080:80 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} authorisation-adjustment-example-image:latest
       - name: Run testing suite against authorisation-adjustment-example-image
-        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=authorisation-adjustment --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=authorisation-adjustment -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
         
