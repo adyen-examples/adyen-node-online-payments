@@ -87,7 +87,7 @@ jobs:
       - name: Build authorisation-adjustment-example image
         run: docker build -t authorisation-adjustment-example-image:latest authorisation-adjustment-example
       - name: Start authorisation-adjustment-example container
-        run: docker run --rm -d --name authorisation-adjustment-example-image -p 8080:80 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} authorisation-adjustment-example-image:latest
+        run: docker run --rm -d --name authorisation-adjustment-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} authorisation-adjustment-example-image:latest
       - name: Run testing suite against authorisation-adjustment-example-image
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=authorisation-adjustment -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
         
