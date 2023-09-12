@@ -4,8 +4,18 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**/readme.md'
+      - .gitignore
+      - .gitpod.yml
+      - LICENSE
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**/readme.md'
+      - .gitignore
+      - .gitpod.yml
+      - LICENSE
 
 jobs:
   checkout:
@@ -32,9 +42,7 @@ jobs:
       - name: Run testing suite against checkout-example-advanced-image
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
-
   giftcard:
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -47,7 +55,6 @@ jobs:
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=giftcard -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
   paybylink:
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
