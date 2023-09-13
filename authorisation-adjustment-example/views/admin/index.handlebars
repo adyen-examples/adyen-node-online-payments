@@ -1,0 +1,98 @@
+<div class='main-container'>
+
+  <div class="info">
+    <h1>ADMIN PANEL</h1>
+    <div class="admin-panel-container">
+      <p>The Admin Panel shows all payments of the hotel bookings. In order to perform actions on the payments, follow the readme to ensure that <b>you have set up your webhooks</b> correctly to receive payment updates asynchronously. </p>
+
+    {{#if data.length}}
+
+    </div>
+  </div>
+
+  <br/>
+    
+  <div class="admin-panel-token-container"> 
+      {{#each data}}
+      <ul class="adminList">
+        <li><b>Merchant Reference: &nbsp;</b> <a href="/admin/details/{{merchantReference}}">{{merchantReference}}</a></li>
+        <li><b>Pre-authorisation PspReference: &nbsp;</b>{{pspReference}}</li>
+        <li><b>Amount: &nbsp;</b>{{currency}} {{formatAmount amount}}</li>
+        <li><b>PaymentMethodBrand: &nbsp;</b>{{paymentMethodBrand}}</li>
+        <li><b>Expiry Date: &nbsp;</b>{{formatDate expiryDate}} ({{expiryDaysToDate expiryDate}} days until&nbsp;<a href="https://docs.adyen.com/online-payments/classic-integrations/modify-payments/adjust-authorisation#validity">expiry</a>)</li>
+
+        <li><b>Actions: &nbsp;&nbsp;&nbsp;</b>
+        <a href="#/" onclick="showForm('adjustmentForm{{@index}}')">Adjust</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#/" onclick="showForm('extendForm{{@index}}')">Extend</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#/" onclick="showForm('captureForm{{@index}}')">Capture</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#/" onclick="showForm('reversalForm{{@index}}')">Reversal</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li id="adjustmentForm{{@index}}" class="paymentOperationForm" hidden>
+          <div>
+            <form name="updatePaymentAmountForm" method="post">
+              <b>Adjust amount:</b> <input type="text" name="amount" value="{{formatAmount amount}}" class="adjustAmountText">
+              <input type="hidden" name="reference" value="{{merchantReference}}" />
+              <button type="submit" class="adjustSubmitButton">Adjust</button>
+            </form> 
+            Increases/decreases the payment amount of a pre-authorisation.
+          </div>
+        </li>
+
+        <li id="extendForm{{@index}}" class="paymentOperationForm" hidden>
+          <div>
+            <form name="extendPaymentForm" method="post">
+              <input type="hidden" name="amount" value="{{formatAmount amount}}">
+              <input type="hidden" name="reference" value="{{merchantReference}}"/>
+              <button type="submit" class="submitButton">Extend</button>
+            </form>
+            Extends expiry date of the pre-authorisation.
+          </div>
+        </li>
+
+        <li id="captureForm{{@index}}" class="paymentOperationForm" hidden>
+        <div >
+          <form name="capturePaymentForm" method="post">
+            <b>Capture amount:</b> <input type="text" name="amount" value="{{formatAmount amount}}" class="adjustAmountText" disabled>
+            <input type="hidden" name="reference" value="{{merchantReference}}"/>
+            <button type="submit" class="submitButton">Capture</button>
+          </form>
+          The reserved funds are transferred from the shopper to your account.<br/>
+          Amount cannot be modified as the demo does not support <a href="https://docs.adyen.com/point-of-sale/capturing-payments/#partial-manual-capture">partial capture</a>.
+        </div>
+        </li>
+
+        <li id="reversalForm{{@index}}" class="paymentOperationForm" hidden>
+          <div>
+            <form name="reversalPaymentForm" method="post">
+              <input type="hidden" name="reference" value="{{merchantReference}}"/>
+              <button type="submit" class="submitButton">Reversal</button>
+            </form>
+            Cancels or refunds the payment.
+          </div>
+        </li>
+
+      </ul>
+      {{/each}}
+    {{else}}
+      <p>
+          <b>
+              No payments are stored. You can make a card payment in the <a href="/">Booking View</a>.
+          </b>
+      </p>   
+    {{/if}}
+
+  </div>  
+
+</div>
+
+<!--  -->
+<script type="text/javascript" src="/adminpanel-scripts.js"></script>
+
+<!-- Binds all submit form buttons for `/update-payment-amount` endpoint -->
+<script src="/adminpanel-updatePaymentAmount-bindings.js" asp-app></script>
+
+<!-- Binds all submit form buttons for `/capture-payment` endpoint -->
+<script src="/adminpanel-capturePayment-bindings.js"></script>
+
+<!-- Binds all submit form buttons for `/reversal-payment` endpoint -->
+<script src="/adminpanel-reversalPayment-bindings.js"></script>
