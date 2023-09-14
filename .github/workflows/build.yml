@@ -4,14 +4,14 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - '**/readme.md'
+      - '**/README.md'
       - .gitignore
       - .gitpod.yml
       - LICENSE
   pull_request:
     branches: [ main ]
     paths-ignore:
-      - '**/readme.md'
+      - '**/README.md'
       - .gitignore
       - .gitpod.yml
       - LICENSE
