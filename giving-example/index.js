@@ -242,6 +242,7 @@ app.get("/result/:type", (req, res) =>
 // Process incoming Webhook: get NotificationRequestItem, validate HMAC signature,
 // consume the event asynchronously, send response ["accepted"]
 app.post("/api/webhooks/notifications", async (req, res) => {
+  console.log("/api/webhooks/notifications");
 
   // YOUR_HMAC_KEY from the Customer Area
   const hmacKey = process.env.ADYEN_HMAC_KEY;
@@ -275,9 +276,10 @@ app.post("/api/webhooks/notifications", async (req, res) => {
 
 });
 
-// Process incoming Giving Webhook: get NotificationRequestItem, validate HMAC signature,
+// Process incoming Giving Webhook: get NotificationRequestItem,
 // consume the event asynchronously, send response ["accepted"]
 app.post("/api/webhooks/giving", async (req, res) => {
+  console.log("/api/webhooks/giving");
 
   // YOUR_HMAC_KEY from the Customer Area
   const hmacKey = process.env.ADYEN_HMAC_KEY;
@@ -291,23 +293,16 @@ app.post("/api/webhooks/giving", async (req, res) => {
   console.log(notification)
   
   // Handle the notification
-  if( validator.validateHMAC(notification, hmacKey) ) {
-    // valid hmac: process event
-    const merchantReference = notification.merchantReference;
-    const eventCode = notification.eventCode;
-    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode);
+  const merchantReference = notification.merchantReference;
+  const eventCode = notification.eventCode;
+  console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode);
 
-    // consume event asynchronously
-    consumeEvent(notification);
+  // consume event asynchronously
+  consumeEvent(notification);
 
-    // acknowledge event has been consumed
-    res.send('[accepted]')
+  // acknowledge event has been consumed
+  res.send('[accepted]')
 
-  } else {
-    // invalid hmac: do not send [accepted] response
-    console.log("Invalid HMAC signature: " + notification);
-    res.status(401).send('Invalid HMAC signature');
-  }
 
 });
 
