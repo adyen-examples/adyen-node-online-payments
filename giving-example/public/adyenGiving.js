@@ -34,7 +34,6 @@ async function handleDonation(donationToken, pspReference, amount) {
 
 async function startGiving() {
 
-  const paymentMethodsResponse = await callServer("/api/getPaymentMethods");
   const checkout= await AdyenCheckout(
     {
       clientKey,
