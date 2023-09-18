@@ -122,7 +122,7 @@ If you use a tunneling service like [ngrok](ngrok) the webhook URL will be the g
 
 ### Set up a webhook
 
-* In the Customer Area go to Developers -> Webhooks and create a new 'Standard notification' webhook.
+* In the Customer Area go to Developers -> Webhooks, create a new 'Standard notification' webhook and a 'Adyen Giving merchant' webhook
 * Enter the URL of your application/endpoint (see options [above](#making-your-server-reachable))
 * Define username and password for Basic Authentication
 * Generate the HMAC Key
