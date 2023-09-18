@@ -281,9 +281,6 @@ app.post("/api/webhooks/notifications", async (req, res) => {
 app.post("/api/webhooks/giving", async (req, res) => {
   console.log("/api/webhooks/giving");
 
-  // YOUR_HMAC_KEY from the Customer Area
-  const hmacKey = process.env.ADYEN_HMAC_KEY;
-  const validator = new hmacValidator()
   // Notification Request JSON
   const notificationRequest = req.body;
   const notificationRequestItems = notificationRequest.notificationItems
@@ -303,7 +300,6 @@ app.post("/api/webhooks/giving", async (req, res) => {
   // acknowledge event has been consumed
   res.send('[accepted]')
 
-
 });
 
 // process payload asynchronously
@@ -311,7 +307,6 @@ function consumeEvent(notification) {
   // add item to DB, queue or different thread
   
 }
-
 
 
 /* ################# UTILS ###################### */
