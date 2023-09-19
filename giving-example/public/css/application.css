@@ -84,7 +84,6 @@ a:hover {
 
 .main-container {
   margin: auto;
-  max-width: 1048px;
   padding: 0 16px;
   display: flex;
   flex-direction: column;
@@ -93,7 +92,6 @@ a:hover {
 .integration-list {
   display: flex;
   margin-top: 6%;
-  max-width: 1048px;
   flex-wrap: wrap;
   justify-content: space-between;
   list-style: none;
@@ -126,6 +124,7 @@ a:hover {
   align-items: center;
   border: 3px solid black;
   margin: 32px 0px 16px 0px;
+  width: 100%;
 }
 
 .integration-list-item:hover {
