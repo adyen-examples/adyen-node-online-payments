@@ -1,4 +1,5 @@
 const express = require("express");
+var session = require('express-session')
 const path = require("path");
 const hbs = require("express-handlebars");
 const dotenv = require("dotenv");
@@ -17,6 +18,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Serve client from build folder
 app.use(express.static(path.join(__dirname, "/public")));
+
+// configure usage of HTTP session
+var sess = {
+  secret: 'my secret',
+  cookie: {}
+}
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
 
 // enables environment variables by
 // parsing the .env file and assigning it to process.env
@@ -47,10 +61,14 @@ app.set("view engine", "handlebars");
 // Perform a donation
 app.post("/api/donations", async (req, res) => {
 
-  const donationToken = req.query.donationToken;
-  const pspReference = req.query.pspReference;
-
   try {
+
+    // get donationToken & pspReference from session
+    const sessionData = getSessionData(req);
+
+    if(!sessionData.donationToken) {
+      throw new Error("donation token not found");
+    }
 
     const localhost = req.get('host');
     const protocol = req.socket.encrypted? 'https' : 'http';    
@@ -61,14 +79,13 @@ app.post("/api/donations", async (req, res) => {
       paymentMethod: {
         type: "scheme"
       },
-      donationToken: donationToken,
-      donationOriginalPspReference: pspReference,
+      donationToken: sessionData.donationToken,
+      donationOriginalPspReference: sessionData.pspReference,
       donationAccount: "MyCharity_Giving_TEST", // set here your donation account
       returnUrl: `${protocol}://${localhost}/`, 
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, 
       shopperInteraction: "ContAuth"
     })
-  
     res.json(response);
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
@@ -120,6 +137,11 @@ app.post("/api/initiatePayment", async (req, res) => {
       returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
       paymentMethod: req.body.paymentMethod,
     });
+
+    if (response.donationToken) {
+      // payment executed: save donationToken & pspReference on session
+      setSessionData(req, response.donationToken, response.pspReference);
+    }
 
     res.json(response);
   } catch (err) {
@@ -303,6 +325,16 @@ function findCurrency(type) {
     default:
       return "EUR";
   }
+}
+
+// save data (donationToken, pspReference) in HTTP session
+function getSessionData(req) {
+  return req.session.data;
+}
+
+// get data (donationToken, pspReference) from HTTP session
+function setSessionData(req, donationToken, pspReference) {
+  req.session.data = {"donationToken" : donationToken, "pspReference" : pspReference};
 }
 
 /* ################# end UTILS ###################### */
