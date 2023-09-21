@@ -12,9 +12,9 @@ async function callServer(url, data) {
   return await res.json();
 }
 
-async function handleDonation(donationToken, pspReference, amount) {
+async function handleDonation(amount) {
   try {
-    const res = await callServer(`/api/donations?donationToken=${encodeURIComponent(donationToken)}&pspReference=${pspReference}`, amount);
+    const res = await callServer(`/api/donations`, amount);
 
     switch (res.status) {
       case "completed":
@@ -61,16 +61,7 @@ async function startGiving() {
     },
     onDonate: (state, component) => {
       if(state.isValid) {
-        console.log("Initiating donation");
-        let donationToken = sessionStorage.getItem("donationToken");
-        let pspReference = sessionStorage.getItem("pspReference");
-
-        if(!donationToken || !pspReference) {
-          console.log("No token or pspReference found, can't donate");
-        }
-        else{
-          handleDonation(donationToken, pspReference, state.data.amount);
-        }
+        handleDonation(state.data.amount);
       }
 
     },

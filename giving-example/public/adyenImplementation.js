@@ -58,12 +58,6 @@ async function initCheckout() {
 async function handleSubmission(state, component, url) {
   try {
     const res = await callServer(url, state.data);
-    if(res.donationToken){
-      // Depending on how you are handling the donation, you may want to store the token and pspReference, reuse the checkout instance, or store the data in the backend session.
-      console.log("Caching donationToken and pspReference");
-      sessionStorage.setItem("donationToken", res.donationToken);
-      sessionStorage.setItem("pspReference", res.pspReference);
-    }
     handleServerResponse(res, component);
   } catch (error) {
     console.error(error);
