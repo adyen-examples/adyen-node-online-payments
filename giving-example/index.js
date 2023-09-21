@@ -86,6 +86,10 @@ app.post("/api/donations", async (req, res) => {
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, 
       shopperInteraction: "ContAuth"
     })
+
+    // donation performed: remove donationToken & pspReference from session
+    deleteSessionData(req);
+
     res.json(response);
   } catch (err) {
     console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
@@ -335,6 +339,11 @@ function getSessionData(req) {
 // get data (donationToken, pspReference) from HTTP session
 function setSessionData(req, donationToken, pspReference) {
   req.session.data = {"donationToken" : donationToken, "pspReference" : pspReference};
+}
+
+// remove data (donationToken, pspReference) from HTTP session
+function deleteSessionData(req) {
+  delete req.session.data;
 }
 
 /* ################# end UTILS ###################### */
