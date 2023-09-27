@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@adyen/api-library": "^14.0.0",
+    "@adyen/api-library": "^14.2.0",
     "ansi-regex": "^6.0.1",
     "dot-prop": "^8.0.2",
     "dotenv": "^16.3.1",
@@ -20,7 +20,7 @@
     "express-handlebars": "^7.1.2",
     "minimist": "^1.2.8",
     "morgan": "^1.10.0",
-    "node-gyp": "^9.1.0",
+    "node-gyp": "^9.4.0",
     "undefsafe": "~2.0.5",
     "uuidv4": "^6.2.13"
   },
