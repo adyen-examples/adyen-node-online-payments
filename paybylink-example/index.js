@@ -123,7 +123,7 @@ app.post("/api/webhooks/notifications", async (req, res) => {
     const merchantReference = notification.merchantReference;
     const eventCode = notification.eventCode;
     console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode + 
-      " paymentLinkId:" + additionalData.paymentLinkId);
+      " paymentLinkId:" + notification.additionalData.paymentLinkId);
 
     // consume event asynchronously
     consumeEvent(notification);
