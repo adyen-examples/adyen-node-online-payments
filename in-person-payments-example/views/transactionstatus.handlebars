@@ -1,0 +1,34 @@
+<title>{{ type }}</title>
+
+<div class="status-container">
+  <div class="status">
+     <h2>Transaction Status for {{tableName}}</h2>
+
+    <img src="/images/{{type}}.svg" class="status-image" alt="">
+
+    {{#ifeq type "success" }}
+    <p>
+      <b>ServiceId:&nbsp;</b> {{serviceId}}
+    </p>
+
+    <p>
+      <b>Payment Response Result:&nbsp;</b> {{paymentResponse.Response.Result}}
+    </p>
+    <p>
+      <b>POI Transaction ID:</b>&nbsp; {{paymentResponse.POIData.POITransactionID.TransactionID}} <br/>
+      <b>POI Transaction TimeStamp:</b>&nbsp; {{paymentResponse.POIData.POITransactionID.TimeStamp}} <br/>
+      <b>Sale Transaction ID:</b>&nbsp; {{paymentResponse.SaleData.SaleTransactionID.TransactionID}} <br/>
+      <b>Sale Transaction TimeStamp:</b>&nbsp; {{paymentResponse.SaleData.SaleTransactionID.TimeStamp}} <br/>
+      <b>Authorized amount:</b>&nbsp;  {{paymentResponse.PaymentResult.AmountsResp.Currency}} {{paymentResponse.PaymentResult.AmountsResp.AuthorizedAmount}} <br/>
+    </p>    
+    {{/ifeq}}
+    {{#ifeq type "failure" }}
+    <p>
+      {{errorMessage}}
+    </p>
+    {{/ifeq}}
+
+    <a class="button" href="/cashregister" to="#/">Return</a>
+
+  </div>
+</div>
