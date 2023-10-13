@@ -46,11 +46,6 @@ const saveTable = (pTable) => {
 
 }
 
-const put = (pLinkId, pReference, pUrl, pExpiresAt, pStatus, pIsReusable) => {
-  links.push({ id: pLinkId, reference: pReference, url:pUrl, expiresAt: formatDate(pExpiresAt), 
-    status: pStatus, isReusable: pIsReusable })
-}
-
 const update = (pLink) => {
   let indexToUpdate = links.findIndex(obj => obj.id === pLink.id);
   if(indexToUpdate > -1) {
