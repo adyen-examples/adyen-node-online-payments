@@ -39,7 +39,7 @@ git clone https://github.com/adyen-examples/adyen-node-api-library.git
 * [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
 * [Merchant Account](https://docs.adyen.com/account/account-structure)
 * [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
-* `ADYEN_POS_POI_ID`: the unique ID of your payment terminal for the NEXO Sale to POI protocol. **Format:** `[device model]-[serial number]`.
+* `ADYEN_POS_POI_ID`: the unique ID of your payment terminal for the NEXO Sale to POI protocol. **Format:** `[device model]-[serial number]`, for example `V400m-123456789`
 
 Create a `./.env` file with all required configuration
 
