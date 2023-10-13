@@ -76,18 +76,18 @@ A good practice is to set up basic authentication, copy the generated HMAC Key a
 
 Make sure the webhook is **enabled**, so it can receive notifications.
 
-### Expose an endpoint
-
-This demo provides a simple webhook implementation exposed at `/api/webhooks/notifications` that shows you how to receive, validate and consume the webhook payload.
-
-### Test your webhook
-
 The following webhooks `events` should be enabled:
 * **AUTHORISATION**
 * **CANCEL_OR_REFUND**
 * **REFUND_FAILED**
 * **REFUNDED_REVERSED**
 
+
+### Expose an endpoint
+
+This demo provides a simple webhook implementation exposed at `/api/webhooks/notifications` that shows you how to receive, validate and consume the webhook payload.
+
+### Test your webhook
 
 To make sure that the Adyen platform can reach your application, we have written a [Webhooks Testing Guide](https://github.com/adyen-examples/.github/blob/main/pages/webhooks-testing.md)
 that explores several options on how you can easily achieve this (e.g. running on localhost or cloud).
