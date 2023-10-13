@@ -7,6 +7,8 @@ global.STATUS_NOTPAID = "NotPaid";
 global.STATUS_INPROGRESS = "InProgress";
 global.STATUS_REFUNDINPROGRESS = "RefundInProgress";
 global.STATUS_REFUNDFAILED = "RefundFailed";
+global.STATUS_REFUNDREVERSED = "RefundedReversed";
+global.STATUS_REFUNDED = "Refunded";
 
 
 const getTables = () => {
@@ -38,20 +40,23 @@ const getTable = (tableName) => {
 
 }
 
+const getTableBySaleTransactionId = (saleTransactionId) => {
+  let index = tables.findIndex(obj => obj.paymentStatusDetails.saleTransactionId === saleTransactionId);
+
+  if(index == -1) {
+    throw new Error("Table with saleTransactionId " + saleTransactionId + " not found");
+  }
+
+  return tables[index];
+
+}
+
 const saveTable = (pTable) => {
   let indexToUpdate = tables.findIndex(obj => obj.tableName === pTable.tableName);
   if(indexToUpdate > -1) {
     tables[indexToUpdate] = pTable;
   }
 
-}
-
-const update = (pLink) => {
-  let indexToUpdate = links.findIndex(obj => obj.id === pLink.id);
-  if(indexToUpdate > -1) {
-    pLink.expiresAt = formatDate(pLink.expiresAt)
-    links[indexToUpdate] = pLink;
-  }
 }
 
 // format as dd-mm-yyyy hh:mi
@@ -75,7 +80,7 @@ var tables = [];
 
 init_tables();
 
-module.exports = { getTables, getTable, saveTable, update }
+module.exports = { getTables, getTable, getTableBySaleTransactionId, saveTable }
 
 
 

@@ -10,7 +10,7 @@ const ShortUniqueId = require('short-unique-id');
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, TerminalCloudAPI } = require("@adyen/api-library");
 
-const { getTables, getTable, saveTable } = require('./storage.js')
+const { getTables, getTable, getTableBySaleTransactionId, saveTable } = require('./storage.js')
 
 // Unique ID for the system where you send this request from
 const POS_SALE_ID = "SALE_ID_POS_42";
@@ -238,7 +238,7 @@ app.post("/api/create-reversal", async (req, res) => {
       case "Success":
         table.paymentStatus = global.STATUS_REFUNDINPROGRESS;
 
-        console.log("Refund success - poiTransactionId: " + table.paymentStatusDetails.poiTransactionId);
+        console.log("Refund request is sent - poiTransactionId: " + table.paymentStatusDetails.poiTransactionId);
 
         // save table data
         saveTable(table);
@@ -250,14 +250,14 @@ app.post("/api/create-reversal", async (req, res) => {
       case "Failure":
         table.paymentStatus = global.STATUS_REFUNDFAILED;
 
-        console.log("Refund failure - refusalReason: " + paymentResponse.additionalResponse);
+        console.log("Refund request has failed - error: " + paymentResponse.additionalResponse);
 
         // save table data
         saveTable(table);
 
         res.json({
           result: "failure",
-          "refusalReason": "Payment termina responded with " + paymentResponse.additionalResponse
+          "refusalReason": "Payment terminal responded with " + paymentResponse.additionalResponse
         });
 
         break;
@@ -471,8 +471,7 @@ app.post("/api/webhooks/notifications", async (req, res) => {
     // valid hmac: process event
     const merchantReference = notification.merchantReference;
     const eventCode = notification.eventCode;
-    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode +
-      " paymentLinkId:" + additionalData.paymentLinkId);
+    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode);
 
     // consume event asynchronously
     consumeEvent(notification);
@@ -491,6 +490,50 @@ app.post("/api/webhooks/notifications", async (req, res) => {
 // process payload asynchronously
 function consumeEvent(notification) {
   // add item to DB, queue or different thread
+
+  if (notification.eventCode == "AUTHORISATION") {
+
+    // webhook with payment authorisation
+    console.log("Payment authorized - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+  } else if (notification.eventCode == "CANCEL_OR_REFUND") {
+    // webhook with payment CANCEL_OR_REFUND
+    console.log("Payment cancel_or_refund - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+    const saleTransactionId = notification.MerchantReference;
+    const table = getTableBySaleTransactionId(saleTransactionId);
+
+    if (notification.success) {
+      table.paymentStatus = global.STATUS_REFUNDED;
+    } else {
+      table.paymentStatus = global.STATUS_REFUNDFAILED;
+    }
+    saveTable(table);
+
+  } else if (notification.eventCode == "REFUND_FAILED") {
+    // webhook with payment refund failure
+    console.log("Payment refund failed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+    const saleTransactionId = notification.MerchantReference;
+    const table = getTableBySaleTransactionId(saleTransactionId);
+
+    table.paymentStatus = global.STATUS_REFUNDFAILED;
+    saveTable(table);
+
+  } else if (notification.eventCode == "REFUNDED_REVERSED") {
+    // webhook with payment refund reversed
+    console.log("Payment refund reversed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+    const saleTransactionId = notification.MerchantReference;
+    const table = getTableBySaleTransactionId(saleTransactionId);
+  
+    table.paymentStatus = global.STATUS_REFUNDREVERSED;
+    saveTable(table);
+
+  } else {
+
+    console.log("Unexpected eventCode: " + notification.eventCode);
+  }
 
 }
 
