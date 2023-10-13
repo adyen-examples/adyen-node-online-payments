@@ -17,11 +17,9 @@ The following implementations are included:
 There are typically two ways to integrate in-person payments: local or cloud communications.
 To find out which solution (or hybrid) suits your needs, visit the following [documentation page](https://docs.adyen.com/point-of-sale/design-your-integration/choose-your-architecture/#choosing-between-cloud-and-local).
 
-Make sure to [enable the payment method](https://docs.adyen.com/point-of-sale/what-we-support/payment-methods/#add-payment-methods-to-your-account) in your Customer Area environment.
-
 You can find the [Terminal API documentation](https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/terminal-api-reference/) here.
 
-This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
+This demo integrates the Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
 ![In-person Payments Demo](public/images/cardinpersonpayments.gif)
 
@@ -41,7 +39,7 @@ git clone https://github.com/adyen-examples/adyen-node-api-library.git
 * [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
 * [Merchant Account](https://docs.adyen.com/account/account-structure)
 * [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
-* [ADYEN_POS_POI_ID], the unique ID of your payment terminal for the NEXO Sale to POI protocol. **Format:** `[device model]-[serial number]`.
+* `ADYEN_POS_POI_ID`: the unique ID of your payment terminal for the NEXO Sale to POI protocol. **Format:** `[device model]-[serial number]`.
 
 Create a `./.env` file with all required configuration
 
