@@ -22,7 +22,8 @@ function init_tables() {
       "tableName": "Table " + tableNumber,
       "amount": 22.22 * tableNumber,
       "currency": "EUR",
-      "paymentStatus": "NotPaid"
+      "paymentStatus": "NotPaid",
+      "paymentStatusDetails": {}
     });
   }
 
