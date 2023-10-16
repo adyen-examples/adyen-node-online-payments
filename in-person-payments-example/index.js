@@ -498,9 +498,9 @@ function consumeEvent(notification) {
 
   } else if (notification.eventCode == "CANCEL_OR_REFUND") {
     // webhook with payment CANCEL_OR_REFUND
-    console.log("Payment cancel_or_refund - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+    console.log("Payment cancel_or_refund event received - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
 
-    const saleTransactionId = notification.MerchantReference;
+    const saleTransactionId = notification.merchantReference;
     const table = getTableBySaleTransactionId(saleTransactionId);
 
     if (notification.success) {
@@ -514,7 +514,7 @@ function consumeEvent(notification) {
     // webhook with payment refund failure
     console.log("Payment refund failed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
 
-    const saleTransactionId = notification.MerchantReference;
+    const saleTransactionId = notification.merchantReference;
     const table = getTableBySaleTransactionId(saleTransactionId);
 
     table.paymentStatus = global.STATUS_REFUNDFAILED;
@@ -524,7 +524,7 @@ function consumeEvent(notification) {
     // webhook with payment refund reversed
     console.log("Payment refund reversed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
 
-    const saleTransactionId = notification.MerchantReference;
+    const saleTransactionId = notification.merchantReference;
     const table = getTableBySaleTransactionId(saleTransactionId);
   
     table.paymentStatus = global.STATUS_REFUNDREVERSED;
