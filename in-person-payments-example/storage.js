@@ -59,23 +59,6 @@ const saveTable = (pTable) => {
 
 }
 
-// format as dd-mm-yyyy hh:mi
-const formatDate = (dateString) => {
-
-  const date = new Date(dateString);
-
-  const options = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'UTC'
-  };
-  
-  return date.toLocaleString('nl-NL', options);
-}
-
 var tables = [];
 
 init_tables();
