@@ -469,9 +469,6 @@ app.post("/api/webhooks/notifications", async (req, res) => {
   // Handle the notification
   if (validator.validateHMAC(notification, hmacKey)) {
     // valid hmac: process event
-    const merchantReference = notification.merchantReference;
-    const eventCode = notification.eventCode;
-    console.log("merchantReference:" + merchantReference + " eventCode:" + eventCode);
 
     // consume event asynchronously
     consumeEvent(notification);
