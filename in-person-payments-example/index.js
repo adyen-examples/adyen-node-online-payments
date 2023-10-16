@@ -216,6 +216,12 @@ app.post("/api/create-reversal", async (req, res) => {
               },
               POIID: process.env.ADYEN_POS_POI_ID
             },
+            SaleData: {
+              SaleTransactionID: {
+                  TransactionID: table.paymentStatusDetails.saleTransactionId,
+                  TimeStamp: new Date().toISOString()
+              },
+          },
             ReversalReason: "MerchantCancel",
           }
         }
