@@ -109,7 +109,7 @@ router.post("/create-payment", async (req, res) => {
 
                 res.json({
                     result: "failure",
-                    "refusalReason": table.paymentStatusDetails.refusalReason
+                    refusalReason: table.paymentStatusDetails.refusalReason
                 });
 
                 break;
@@ -220,7 +220,7 @@ router.post("/create-reversal", async (req, res) => {
 
                 res.json({
                     result: "failure",
-                    "refusalReason": "Payment terminal responded with " + paymentResponse.ErrorCondition
+                    refusalReason: "Payment terminal responded with " + paymentResponse.ErrorCondition
                 });
 
                 break;
@@ -231,7 +231,7 @@ router.post("/create-reversal", async (req, res) => {
             default:
                 res.status(400).json({
                     result: "failure",
-                    "refusalReason": "Payment terminal responded with: " + paymentResponse.ErrorCondition
+                    refusalReason: "Payment terminal responded with: " + paymentResponse.ErrorCondition
                 });
 
                 break;
