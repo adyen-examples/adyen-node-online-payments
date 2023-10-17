@@ -122,7 +122,7 @@ router.post("/create-payment", async (req, res) => {
                 table.paymentStatusDetails.saleTransactionId = "";
                 table.paymentStatusDetails.saleTransactionTimeStamp = "";
 
-                console.log("Unexpected error");
+                console.log("Could not reach payment terminal with POI ID " + process.env.ADYEN_POS_POI_ID);
 
                 // save table data
                 saveTable(table);
