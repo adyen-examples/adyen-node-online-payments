@@ -98,11 +98,11 @@ router.get("/transaction-status/:tableName", async (req, res) => {
             throw new Error("Empty response");
         }
 
-        if (response.SaleToPOIResponse.TransactionStatusResponse == null) {
+        if (response?.SaleToPOIResponse?.TransactionStatusResponse == null) {
             throw new Error("Empty TransactionStatusResponse");
         }
 
-        const paymentResponse = response.SaleToPOIResponse.TransactionStatusResponse.RepeatedMessageResponse.RepeatedResponseMessageBody.PaymentResponse;
+        const paymentResponse = response.SaleToPOIResponse.TransactionStatusResponse?.RepeatedMessageResponse?.RepeatedResponseMessageBody?.PaymentResponse;
 
         res.render("transactionstatus", {
             title: "Adyen Terminal Transaction Status",

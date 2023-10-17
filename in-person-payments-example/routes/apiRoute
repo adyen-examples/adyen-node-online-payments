@@ -74,11 +74,11 @@ router.post("/create-payment", async (req, res) => {
             });
         }
 
-        const paymentResponse = response.SaleToPOIResponse.PaymentResponse;
-        const POIData = paymentResponse.POIData;
-        const saleData = paymentResponse.SaleData;
+        const paymentResponse = response.SaleToPOIResponse?.PaymentResponse;
+        const POIData = paymentResponse?.POIData;
+        const saleData = paymentResponse?.SaleData;
 
-        switch (paymentResponse.Response.Result) {
+        switch (paymentResponse?.Response?.Result) {
             case "Success":
 
                 table.paymentStatus = global.STATUS_PAID;
@@ -192,14 +192,14 @@ router.post("/create-reversal", async (req, res) => {
 
             res.status(400).json({
                 result: "failure",
-                "refusalReason": "Empty reversal response"
+                refusalReason: "Empty reversal response"
             });
         }
 
-        const paymentResponse = response.SaleToPOIResponse.ReversalResponse.Response;
+        const paymentResponse = response?.SaleToPOIResponse?.ReversalResponse?.Response;
         console.log(paymentResponse);
 
-        switch (paymentResponse.Result) {
+        switch (paymentResponse?.Result) {
             case "Success":
                 table.paymentStatus = global.STATUS_REFUNDINPROGRESS;
 
