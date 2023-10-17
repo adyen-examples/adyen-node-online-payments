@@ -26,6 +26,10 @@ function client_init() {
     throw new Error("ADYEN_HMAC_KEY undefined");
   }
   
+  if(process.env.ADYEN_POS_POI_ID === undefined) {
+    throw new Error("ADYEN_POS_POI_ID undefined");
+  }
+  
   const config = new Config({
     apiKey: process.env.ADYEN_API_KEY,
     environment: "TEST" // change to LIVE for production
