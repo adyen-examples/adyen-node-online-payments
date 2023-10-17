@@ -1,0 +1,96 @@
+//
+// webhook route(s)
+// handling webhook events
+//
+
+const express = require('express')
+const router = express.Router()
+
+const { hmacValidator } = require('@adyen/api-library');
+const { getTableBySaleTransactionId, saveTable } = require('../storage.js')
+
+// Process incoming Webhook: get NotificationRequestItem, validate HMAC signature,
+// consume the event asynchronously, send response ["accepted"]
+router.post("/", async (req, res) => {
+
+    // YOUR_HMAC_KEY from the Customer Area
+    const hmacKey = process.env.ADYEN_HMAC_KEY;
+    const validator = new hmacValidator()
+    // Notification Request JSON
+    const notificationRequest = req.body;
+    const notificationRequestItems = notificationRequest.notificationItems
+
+    // fetch first (and only) NotificationRequestItem
+    const notification = notificationRequestItems[0].NotificationRequestItem
+    console.log(notification)
+
+    // Handle the notification
+    if (validator.validateHMAC(notification, hmacKey)) {
+        // valid hmac: process event
+
+        // consume event asynchronously
+        consumeEvent(notification);
+
+        // acknowledge event has been consumed
+        res.send('[accepted]')
+
+    } else {
+        // invalid hmac: do not send [accepted] response
+        console.log("Invalid HMAC signature: " + notification);
+        res.status(401).send('Invalid HMAC signature');
+    }
+
+});
+
+// process payload asynchronously
+function consumeEvent(notification) {
+    // add item to DB, queue or different thread
+
+    if (notification.eventCode == "AUTHORISATION") {
+
+        // webhook with payment authorisation
+        console.log("Payment authorized - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+    } else if (notification.eventCode == "CANCEL_OR_REFUND") {
+        // webhook with payment CANCEL_OR_REFUND
+        console.log("Payment cancel_or_refund event received - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+        const saleTransactionId = notification.merchantReference;
+        const table = getTableBySaleTransactionId(saleTransactionId);
+
+        if (notification.success) {
+            table.paymentStatus = global.STATUS_REFUNDED;
+        } else {
+            table.paymentStatus = global.STATUS_REFUNDFAILED;
+        }
+        saveTable(table);
+
+    } else if (notification.eventCode == "REFUND_FAILED") {
+        // webhook with payment refund failure
+        console.log("Payment refund failed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+        const saleTransactionId = notification.merchantReference;
+        const table = getTableBySaleTransactionId(saleTransactionId);
+
+        table.paymentStatus = global.STATUS_REFUNDFAILED;
+        saveTable(table);
+
+    } else if (notification.eventCode == "REFUNDED_REVERSED") {
+        // webhook with payment refund reversed
+        console.log("Payment refund reversed - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+
+        const saleTransactionId = notification.merchantReference;
+        const table = getTableBySaleTransactionId(saleTransactionId);
+
+        table.paymentStatus = global.STATUS_REFUNDREVERSED;
+        saveTable(table);
+
+    } else {
+
+        console.log("Unexpected eventCode: " + notification.eventCode);
+    }
+
+}
+
+
+module.exports = router;
