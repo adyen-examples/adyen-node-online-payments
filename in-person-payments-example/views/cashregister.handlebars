@@ -1,0 +1,96 @@
+<div class="main-container">
+  <div class="info">
+    <h2>In-Person Payments Demo</h2>
+    <div id="loading-grid" class="loading-grid disabled">
+      <!-- Loading animation start -->
+      <div class="loading-animation">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- Loading animation end -->
+      <div class="loading-description">Waiting for terminal response ...</div>
+      <input type="button" id="cancel-operation-button" class="cancel-operation-button" value="Cancel" />
+    </div>
+
+    <div id="tables-section" class="tables-section">
+      <div class="tables-grid">
+        <ul class="tables-grid-list">
+
+          {{#each data}}
+          <li class="tables-grid-item {{getStatusClass paymentStatus}}">
+            <p class="tables-grid-item-title">{{tableName}}</p>
+            <div class="tables-grid-item-currency-amount">
+              <p class="tables-grid-item-currency">{{currency}}</p>
+              <p class="tables-grid-item-amount">{{amount}}</p>
+            </div>
+            {{#if paymentStatusDetails.saleTransactionId}}
+            <p class="tables-grid-item-other"><b>Sale Transaction ID: </b> <br />
+              {{paymentStatusDetails.saleTransactionId}}</p>
+            {{/if}}
+            {{#if paymentStatusDetails.saleTransactionTimeStamp}}
+            <p class="tables-grid-item-other"><b>Sale Transaction Timestamp: </b> <br />
+              {{paymentStatusDetails.saleTransactionTimeStamp}}</p>
+            {{/if}}
+            {{#if paymentStatusDetails.poiTransactionId}}
+            <p class="tables-grid-item-other"><b>POI Transaction ID: </b> <br />
+              {{paymentStatusDetails.poiTransactionId}}</p>
+            {{/if}}
+            {{#if paymentStatusDetails.poiTransactionTimeStamp}}
+            <p class="tables-grid-item-other"><b>POI Transaction Timestamp: </b> <br />
+              {{paymentStatusDetails.poiTransactionTimeStamp}}</p>
+            {{/if}}
+            <p class="tables-grid-item-status {{getStatusClass paymentStatus}}">{{paymentStatus}}</p>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <div class="info-grid">
+        <h2>Cash Register</h2>
+        <ul class="info-grid-list">
+          <li class="info-grid-item">
+            <p class="info-grid-item-title">
+              SALE ID:
+              <b class="info-grid-item-description">
+                {{saleId}}
+              </b>
+            </p>
+          </li>
+          <li class="info-grid-item">
+            <p class="info-grid-item-title">
+              POI ID:
+              <b class="info-grid-item-description">
+                {{poiId}}
+              </b>
+            </p>
+          </li>
+        </ul>
+        <form id="payment-request-form" method="post">
+          <input type="text" id="tableName" name="tableName" hidden>
+          <input type="text" id="amount" name="amount" hidden>
+          <input type="text" id="currency" name="currency" hidden>
+          <button type="submit" id="payment-request-button" class="payment-request-button disabled">Pay</button>
+        </form>
+
+        <form id="reversal-request-form" method="post">
+          <input type="text" id="reversalTableName" name="reversalTableName" hidden>
+          <button type="submit" id="reversal-request-button" class="reversal-request-button disabled">Reversal</button>
+        </form>
+
+        <input type="button" id="transaction-status-button" class="transaction-status-button disabled"
+          value="Transaction Status" />
+      </div>
+
+    </div>
+  </div>
+</div>
+<br/><br/>
+
+<!-- Binds all buttons for table selection and the `api/send-payment-request`/`api/send-payment-reversal-request` endpoints -->
+<script type="text/javascript" src="../cashregister-bindings.js"></script>

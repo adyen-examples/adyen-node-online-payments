@@ -1,0 +1,293 @@
+//
+// API route(s)
+// handling API requests
+//
+
+const express = require('express')
+const router = express.Router()
+
+const { saveTable, getTable } = require('../storage.js')
+const { getClient } = require('../client.js')
+
+const { uuid } = require("uuidv4");
+const ShortUniqueId = require('short-unique-id');
+
+// make a payment
+router.post("/create-payment", async (req, res) => {
+
+    const tableName = req.body.tableName;
+    const amount = req.body.amount;
+    const currency = req.body.currency;
+    const transactionId = uuid(); // unique transaction id
+
+    const uid = new ShortUniqueId({ length: 10 });
+    const serviceId = uid.rnd(); // unique 1-10 alphanumeric characters
+
+    var table = getTable(tableName);
+
+    table.paymentStatus = global.STATUS_INPROGRESS;
+    table.paymentStatusDetails = { serviceId };
+    saveTable(table);
+
+    try {
+
+        const response = await getClient().sync(
+            {
+                SaleToPOIRequest: {
+                    MessageHeader: {
+                        MessageClass: "Service",
+                        MessageCategory: "Payment",
+                        MessageType: "Request",
+                        ProtocolVersion: "3.0",
+                        ServiceID: serviceId,
+                        SaleID: global.POS_SALE_ID,
+                        POIID: process.env.ADYEN_POS_POI_ID
+                    },
+                    PaymentRequest: {
+                        SaleData: {
+                            SaleTransactionID: {
+                                TransactionID: transactionId,
+                                TimeStamp: new Date().toISOString()
+                            }
+                        },
+                        PaymentTransaction: {
+                            AmountsReq: {
+                                Currency: currency,
+                                RequestedAmount: parseFloat(amount)
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+        console.log(response);
+
+        if (response === null) {
+
+            table.paymentStatus = global.STATUS_NOTPAID;
+            saveTable(table);
+
+            res.status(400).json({
+                result: "failure",
+                refusalReason: "Empty payment response"
+            });
+        }
+
+        const paymentResponse = response.SaleToPOIResponse?.PaymentResponse;
+        const POIData = paymentResponse?.POIData;
+        const saleData = paymentResponse?.SaleData;
+
+        switch (paymentResponse?.Response?.Result) {
+            case "Success":
+
+                table.paymentStatus = global.STATUS_PAID;
+                table.paymentStatusDetails.poiTransactionId = POIData.POITransactionID.TransactionID;
+                table.paymentStatusDetails.poiTransactionTimeStamp = POIData.POITransactionID.TimeStamp;
+                table.paymentStatusDetails.saleTransactionId = saleData.SaleTransactionID.TransactionID;
+                table.paymentStatusDetails.saleTransactionTimeStamp = saleData.SaleTransactionID.TimeStamp;
+
+                console.log("Payment success - poiTransactionId: " + table.paymentStatusDetails.poiTransactionId);
+
+                saveTable(table);
+
+                res.json({ result: "success" });
+
+                break;
+
+            case "Failure":
+                table.paymentStatus = global.STATUS_NOTPAID;
+                table.paymentStatusDetails.refusalReason = "Payment terminal responded with: " + paymentResponse.Response.ErrorCondition;
+                table.paymentStatusDetails.poiTransactionId = POIData.POITransactionID.TransactionID;
+                table.paymentStatusDetails.poiTransactionTimeStamp = POIData.POITransactionID.TimeStamp;
+                table.paymentStatusDetails.saleTransactionId = saleData.SaleTransactionID.TransactionID;
+                table.paymentStatusDetails.saleTransactionTimeStamp = saleData.SaleTransactionID.TimeStamp;
+
+                console.log("Payment failure - refusalReason: " + table.paymentStatusDetails.refusalReason);
+
+                saveTable(table);
+
+                res.json({
+                    result: "failure",
+                    refusalReason: table.paymentStatusDetails.refusalReason
+                });
+
+                break;
+
+            default:
+                table.paymentStatus = global.STATUS_NOTPAID;
+                table.paymentStatusDetails.refusalReason = ""
+                table.paymentStatusDetails.poiTransactionId = "";
+                table.paymentStatusDetails.poiTransactionTimeStamp = "";
+                table.paymentStatusDetails.saleTransactionId = "";
+                table.paymentStatusDetails.saleTransactionTimeStamp = "";
+
+                console.log("Could not reach payment terminal with POI ID " + process.env.ADYEN_POS_POI_ID);
+
+                // save table data
+                saveTable(table);
+
+                res.status(400).json({
+                    result: "failure",
+                    refusalReason: "Could not reach payment terminal with POI ID " + process.env.ADYEN_POS_POI_ID
+                });
+
+        }
+
+    } catch (err) {
+        console.log(err);
+        console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+        res.status(err.statusCode).json(err.message);
+    }
+});
+
+// perform refund
+router.post("/create-reversal", async (req, res) => {
+
+    const tableName = req.body.tableName;
+
+    const uid = new ShortUniqueId({ length: 10 });
+    const serviceId = uid.rnd(); // unique 1-10 alphanumeric characters
+
+    var table = getTable(tableName);
+
+    try {
+
+        const response = await getClient().sync(
+            {
+                SaleToPOIRequest: {
+                    MessageHeader: {
+                        MessageClass: "Service",
+                        MessageCategory: "Reversal",
+                        MessageType: "Request",
+                        ProtocolVersion: "3.0",
+                        ServiceID: serviceId,
+                        SaleID: global.POS_SALE_ID,
+                        POIID: process.env.ADYEN_POS_POI_ID
+                    },
+                    ReversalRequest: {
+                        OriginalPOITransaction: {
+                            POITransactionID: {
+                                TransactionID: table.paymentStatusDetails.poiTransactionId,
+                                TimeStamp: new Date().toISOString()
+                            },
+                            POIID: process.env.ADYEN_POS_POI_ID
+                        },
+                        SaleData: {
+                            SaleTransactionID: {
+                                TransactionID: table.paymentStatusDetails.saleTransactionId,
+                                TimeStamp: new Date().toISOString()
+                            },
+                        },
+                        ReversalReason: "MerchantCancel",
+                    }
+                }
+            });
+
+        console.log(response);
+
+        if (response == null) {
+
+            res.status(400).json({
+                result: "failure",
+                refusalReason: "Empty reversal response"
+            });
+        }
+
+        const paymentResponse = response?.SaleToPOIResponse?.ReversalResponse?.Response;
+        console.log(paymentResponse);
+
+        switch (paymentResponse?.Result) {
+            case "Success":
+                table.paymentStatus = global.STATUS_REFUNDINPROGRESS;
+
+                console.log("Refund request is sent - poiTransactionId: " + table.paymentStatusDetails.poiTransactionId);
+
+                // save table data
+                saveTable(table);
+
+                res.json({ result: "success" });
+
+                break;
+
+            case "Failure":
+                table.paymentStatus = global.STATUS_REFUNDFAILED;
+
+                console.log("Refund request has failed - error: " + paymentResponse.additionalResponse);
+
+                // save table data
+                saveTable(table);
+
+                res.json({
+                    result: "failure",
+                    refusalReason: "Payment terminal responded with " + paymentResponse.ErrorCondition
+                });
+
+                break;
+
+            case "Partial":
+                throw new Error("Partial refund not implemented");
+
+            default:
+                res.status(400).json({
+                    result: "failure",
+                    refusalReason: "Payment terminal responded with: " + paymentResponse.ErrorCondition
+                });
+
+                break;
+
+        }
+
+    } catch (err) {
+        console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+        res.status(err.statusCode).json(err.message);
+    }
+});
+
+// abort transaction
+router.get("/abort/:tableName", async (req, res) => {
+
+    const tableName = req.params.tableName;
+
+    const uid = new ShortUniqueId({ length: 10 });
+    const serviceId = uid.rnd(); // unique 1-10 alphanumeric characters
+
+    var table = getTable(tableName);
+
+    try {
+
+        const response = await getClient().sync(
+            {
+                SaleToPOIRequest: {
+                    MessageHeader: {
+                        MessageClass: "Service",
+                        MessageCategory: "Abort",
+                        MessageType: "Request",
+                        ProtocolVersion: "3.0",
+                        ServiceID: serviceId,
+                        SaleID: global.POS_SALE_ID,
+                        POIID: process.env.ADYEN_POS_POI_ID
+                    },
+                    AbortRequest: {
+                        AbortReason: "MerchantAbort",
+                        MessageReference: {
+                            MessageCategory: "Payment",
+                            SaleID: POS_SALE_ID,
+                            ServiceID: table.paymentStatusDetails.serviceId  // ServiceID of the original transaction.
+                        }
+                    }
+                }
+            });
+
+        console.log(response);
+
+        res.json(response);
+
+    } catch (err) {
+        console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+        res.status(err.statusCode).json(err.message);
+    }
+});
+
+
+module.exports = router;
