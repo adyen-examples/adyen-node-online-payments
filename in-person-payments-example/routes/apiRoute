@@ -128,11 +128,9 @@ router.post("/create-payment", async (req, res) => {
                 saveTable(table);
 
                 res.status(400).json({
-                    Result: "failure",
-                    RefusalReason: "Unexpected error"
+                    result: "failure",
+                    refusalReason: "Could not reach payment terminal with POI ID " + process.env.ADYEN_POS_POI_ID
                 });
-
-                break;
 
         }
 
