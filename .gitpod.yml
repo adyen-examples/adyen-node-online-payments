@@ -35,6 +35,10 @@ tasks:
         echo "Build subscription-example application"
         cd subscription-example && npm install
       ;;
+      "in-person-payments-example")
+        echo "Build in-person-payments-example application"
+        cd in-person-payments-example && npm install
+      ;;
       *)
         echo "Build default checkout-example application instead because '$path' is not defined ..."
         cd checkout-example && npm install
