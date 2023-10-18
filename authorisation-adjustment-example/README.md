@@ -2,6 +2,8 @@
 
 This repository includes an adjust authorisation example for the following three use cases after a pre-authorised payment: incremental, decremental adjustments. Within this demo app, you'll find a simplified version of a hotel booking, where the shopper perform a booking and administrators can **[1] adjust** (increase/decrease) the payment amount, **[2] extend** the authorisation expiry date, **[3] capture** the final amount and **[4] reverse** (cancel or refund) an authorised payment.
 
+> **Note:** We've included a technical [blog post](https://www.adyen.com/knowledge-hub/pre-authorizations-and-authorization-adjustments-for-developers) that explains every step of this demo.
+
 ![Authorisation Adjustment Demo](public/images/cardauthorisationadjustment.gif)
 
 ## Run this integration in seconds using [Gitpod](https://gitpod.io/)
