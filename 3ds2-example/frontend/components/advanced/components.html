@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../../style.css">
+
+    <title>Components Integration - advanced flow</title>
+  </head>
+  <body>
+    <header>
+      <h1>Components Integration - advanced flow</h1>
+      <a href="/">Menu</a>
+    </header>
+    <main>
+      <section>
+      <p>This example is a component integration with advanced flow. For more information on how to configure this integration please refer to the <a href="https://docs.adyen.com/online-payments/build-your-integration/additional-use-cases/advanced-flow-integration/?platform=Web&integration=Components&version=5.53.2" target="_blank">documentation.</a></p>
+    </section>
+
+    <section>
+      <p>With Adyen you can do ThreeDS2 Authentication two ways; native or redirect. In a native flow, the authentication occurs in the users browser via the Web SDK. 
+        In a redirect flow, the user is redirected to an Adyen domain to complete the authentication.</p>
+      <fieldset>
+        <legend>Select which flow you would like to test:</legend>
+        <div>
+          <input type="radio" id="native" name="flow" value="native" checked />
+          <label for="native">Native</label>
+        </div>
+        <div>
+          <input type="radio" id="redirect" name="flow" value="redirect" />
+          <label for="redirect">Redirect</label>
+        </div>
+      </fieldset>
+    </section>
+     
+      <section id="component-content">
+        <!-- here is where our component in will render -->
+        <div id="component-container"></div>
+      </section>
+      <section class="auth-result">
+          <h3>Authentication Result</h3>
+          <p class="auth-result-msg">-</p>
+        <button class="reset-btn">Start Over</button>
+      </section>
+    </main>
+    <script type="module" src="./components.js"></script>
+  </body>
+</html>

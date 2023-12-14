@@ -1,0 +1,22 @@
+{
+  "name": "payments-auth-integration-examples",
+  "version": "1.0.0",
+  "description": "Fullstack demo app for Adyen Payments Authentication integrations.",
+  "main": "index.js",
+  "scripts": {
+    "fullstack": "concurrently \"npm --prefix ./backend/ run start\" \"npm --prefix ./frontend/ run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarobrien/payments-auth-integration-examples.git"
+  },
+  "author": "sarah.obrien@adyen.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sarobrien/payments-auth-integration-examples/issues"
+  },
+  "homepage": "https://github.com/sarobrien/payments-auth-integration-examples#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

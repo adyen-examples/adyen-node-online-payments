@@ -11,6 +11,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -27,3 +28,4 @@ yarn-error.log*
 
 ### Visual Studio ###
 .vs
+
