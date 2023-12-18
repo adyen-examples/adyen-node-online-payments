@@ -29,3 +29,8 @@ export const parseRedirectResultToRequestData = (url) => {
     details: { redirectResult },
   };
 };
+
+export const getFlowType = () => {
+  const flowRadioValue = document.querySelector("input[name=flow]:checked").value;
+  return flowRadioValue.toString().toLowerCase();
+};

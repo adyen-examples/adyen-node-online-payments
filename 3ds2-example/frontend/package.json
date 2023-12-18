@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "description": "Frontend of fullstack demo app for Adyen Payments Authentication integrations.",
+  "description": "Frontend of fullstack demo app that showcases Adyen's 3DS2 native and redirect flows.",
   "private": true,
   "version": "1.0.0",
   "license": "MIT",

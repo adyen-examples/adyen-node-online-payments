@@ -26,6 +26,6 @@ Once you have your .env file created and dependencies installed you can use the 
 
 `npm run dev`
 
-This will run the app on a local dev server at http://localhost:3020
+This will run the app on a local dev server at http://localhost:8080
 
 _Note:_ If you want to run on a different port you can change the port number in the vite.config.ts file.

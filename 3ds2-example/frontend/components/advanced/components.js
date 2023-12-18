@@ -1,17 +1,9 @@
 import AdyenCheckout from "@adyen/adyen-web";
 import "@adyen/adyen-web/dist/adyen.css";
 
-import {
-  getPaymentMethods,
-  postDoPayment,
-  postDoPaymentDetails,
-} from "../../shared/payments";
+import { getPaymentMethods, postDoPayment, postDoPaymentDetails } from "../../shared/payments";
 
-import {
-  renderResultTemplate,
-  attachClickHandlerForReset,
-  parseRedirectResultToRequestData,
-} from "../../shared/utils";
+import { renderResultTemplate, attachClickHandlerForReset, parseRedirectResultToRequestData, getFlowType } from "../../shared/utils";
 
 const CLIENT_KEY = import.meta.env.VITE_CLIENT_KEY;
 
@@ -48,21 +40,14 @@ const componentsInit = async () => {
     const onSubmit = async (state, component) => {
       console.log("component on submit event", state, component);
       if (state.isValid) {
-        const flowRadioValue = document.querySelector(
-          "input[name=flow]:checked"
-        ).value;
-        const flow = flowRadioValue.toString().toUpperCase();
+        const flow = getFlowType(); // native or redirect
         const paymentResponse = await postDoPayment(state.data, { url, flow });
         if (paymentResponse.resultCode === "Authorised") {
-          console.log(
-            `response is ${paymentResponse.resultCode}, unmounting component and rendering result`
-          );
+          console.log(`response is ${paymentResponse.resultCode}, unmounting component and rendering result`);
           component.unmount();
           renderResultTemplate(paymentResponse.resultCode);
         } else {
-          console.log(
-            "paymentResponse includes an action, passing action to component.handleAction function."
-          );
+          console.log("paymentResponse includes an action, passing action to component.handleAction function.");
           component.handleAction(paymentResponse.action); // pass the response action object into the dropinHandleAction function
         }
       }

@@ -1,17 +1,9 @@
 import AdyenCheckout from "@adyen/adyen-web";
 import "@adyen/adyen-web/dist/adyen.css";
 
-import {
-  getPaymentMethods,
-  postDoPayment,
-  postDoPaymentDetails,
-} from "../../shared/payments";
+import { getPaymentMethods, postDoPayment, postDoPaymentDetails } from "../../shared/payments";
 
-import {
-  renderResultTemplate,
-  attachClickHandlerForReset,
-  parseRedirectResultToRequestData,
-} from "../../shared/utils";
+import { renderResultTemplate, attachClickHandlerForReset, parseRedirectResultToRequestData, getFlowType } from "../../shared/utils";
 
 const CLIENT_KEY = import.meta.env.VITE_CLIENT_KEY;
 
@@ -49,21 +41,14 @@ const dropinInit = async () => {
     // here you should send the request to /payments API with the state.data object and handle the response
     const onSubmit = async (state, dropinComponent) => {
       if (state.isValid) {
-        const flowRadioValue = document.querySelector(
-          "input[name=flow]:checked"
-        ).value;
-        const flow = flowRadioValue.toString().toUpperCase();
+        const flow = getFlowType(); // native or redirect
         const paymentResponse = await postDoPayment(state.data, { url, flow });
         if (paymentResponse.resultCode === "Authorised") {
-          console.log(
-            `response is ${paymentResponse.resultCode}, unmounting component and rendering result`
-          );
+          console.log(`response is ${paymentResponse.resultCode}, unmounting component and rendering result`);
           dropinComponent.unmount();
           renderResultTemplate(paymentResponse.resultCode);
         } else {
-          console.log(
-            "paymentResponse includes an action, passing action to dropin.handleAction function."
-          );
+          console.log("paymentResponse includes an action, passing action to dropin.handleAction function.");
           dropinComponent.handleAction(paymentResponse.action); // pass the response action object into the dropin HandleAction function
         }
       }

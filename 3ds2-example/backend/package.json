@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend of fullstack demo app for Adyen Payments Authentication integrations.",
+  "description": "Backend of fullstack demo app that showcases Adyen's 3DS2 native and redirect flows.",
   "author": "",
   "private": true,
   "license": "MIT",
@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@adyen/api-library": "^15.0.0-beta",
+    "@adyen/api-library": "^15.1.0",
     "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",
@@ -28,7 +28,8 @@
     "@nestjs/platform-express": "^10.0.0",
     "axios": "^1.4.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

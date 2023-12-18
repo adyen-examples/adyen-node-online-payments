@@ -25,8 +25,6 @@ Then create an `.env` file at the root and add the following environment variabl
 API_KEY=YOUR_API_KEY
 MERCHANT_ACCOUNT=YOUR_MERCHANT_ACCOUNT
 CLIENT_KEY=YOUR_CLIENT_KEY
-CLIENT_ENV=test // environment to point to for adyen API
-BASE_URL=https://checkout-test.adyen.com/v70
 ```
 
 You can use the .env.example as reference.

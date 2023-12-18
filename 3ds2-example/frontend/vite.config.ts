@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [preact()],
   server: {
     host: true,
-    port: 3020,
+    port: 8080,
     proxy: {
       "/api": {
         target: "http://localhost:3000",

@@ -85,7 +85,7 @@ p{
   opacity: 1;
 }
 
-button {
+.reset-btn, .component-pay-btn {
   cursor: pointer;
   margin: 1rem;
   height: 50px;
@@ -96,11 +96,15 @@ button {
   border-radius: 3px;
 }
 
-button:hover{
+.reset-btn:hover{
   background: var(--secondary-green);
 }
 
-button.component-pay-btn{
+.component-pay-btn:hover{
+  background: var(--secondary-green);
+}
+
+.component-pay-btn{
   width: 120px; 
 }
 

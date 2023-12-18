@@ -5,9 +5,12 @@ export const getPaymentMethods = async () => {
 };
 
 export const postDoPayment = async (data, { url, flow }) => {
-  console.log(`Do /payments POST request with: ${data} for ${flow} flow.`);
-  const requestBody = { data, url, flow };
-  const response = await fetch("/api/payments", {
+  const paymentsUrl = `/api/payments/${flow}`;
+
+  console.log(`Do ${paymentsUrl} POST request with: ${data}`);
+
+  const requestBody = { data, url };
+  const response = await fetch(paymentsUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
