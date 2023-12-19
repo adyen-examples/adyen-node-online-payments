@@ -28,8 +28,8 @@ export class PaymentsService {
   paymentsAPI: PaymentsApi;
 
   constructor(private configService: ConfigService) {
-    this.API_KEY = this.configService.get<string>("API_KEY");
-    this.MERCHANT_ACCOUNT = this.configService.get<string>("MERCHANT_ACCOUNT");
+    this.API_KEY = this.configService.get<string>("ADYEN_API_KEY");
+    this.MERCHANT_ACCOUNT = this.configService.get<string>("ADYEN_MERCHANT_ACCOUNT");
 
     // initialise the client object
     const client: Client = new Client({
@@ -59,11 +59,11 @@ export class PaymentsService {
   }
 
   /**
-   * Advanced Flow: 
+   * Advanced Flow:
    * Example of /payments request for native flow
-   * 
+   *
    * For both native or redirect the more information you pass to the /payments request the higher chance for a frictionless flow (no challenge)
-   * we recommend you at least pass these fields: 
+   * we recommend you at least pass these fields:
    *  countryCode: string;
       shopperName: {
         firstName: string;
@@ -71,7 +71,7 @@ export class PaymentsService {
       },
       shopperIP: string;
       shopperEmail: string;
-      Please note: 
+      Please note:
       it is better to omit these fields than pass static values, only populate these with real data from your shopper, otherwise it could result in higher challenge rate
    *
    *
@@ -117,11 +117,11 @@ export class PaymentsService {
     return paymentResponse;
   }
   /**
-   * Advanced Flow: 
+   * Advanced Flow:
    * Example of /payments request for redirect flow (redirect flow is the default flow for 3DS2)
-   * 
+   *
    * For both native or redirect the more information you pass to the /payments request the higher chance for a frictionless flow (no challenge)
-   * we recommend you at least pass these fields: 
+   * we recommend you at least pass these fields:
    *  countryCode: string;
       shopperName: {
         firstName: string;
@@ -129,7 +129,7 @@ export class PaymentsService {
       },
       shopperIP: string;
       shopperEmail: string;
-      Please note: 
+      Please note:
       it is better to omit these fields than pass static values, only populate these with real data from your shopper, otherwise it could result in higher challenge rate
    *
    * @param {data, url}, data from the client, return url
@@ -183,9 +183,9 @@ export class PaymentsService {
   /**
    * Sessions Flow:
    * Example of /sessions request
-   * 
+   *
    * The more information you pass to the /sessions request the higher chance for a frictionless flow (no challenge)
-   * we recommend you at least pass these fields: 
+   * we recommend you at least pass these fields:
    *  countryCode: string;
       shopperName: {
         firstName: string;
@@ -193,7 +193,7 @@ export class PaymentsService {
       },
       shopperIP: string;
       shopperEmail: string;
-      Please note: 
+      Please note:
       it is better to omit these fields than pass static values, only populate these with real data from your shopper, otherwise it could result in higher challenge rate
    *
    * @param url - the return url

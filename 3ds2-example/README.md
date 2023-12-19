@@ -37,20 +37,19 @@ cd 3ds2-example/backend && npm install
 - [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
 
 ```
-VITE_ADYEN_CLIENT_KEY=YOUR_CLIENT_KEY_HERE
+ADYEN_CLIENT_KEY=YOUR_ADYEN_CLIENT_KEY
 ```
-
-The `VITE_` prefix here is a requirement of vite, you may not need this prefix for your implementation depending on the framework you use.
 
 2. Create a `./.env` file in the `/backend`-folder with all required configuration & run `npm install`.
 
 - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
 - [Merchant Account](https://docs.adyen.com/account/account-structure)
+- [Client key](https://docs.adyen.com/development-resources/client-side-authentication/#get-your-client-key)
 
 ```
 ADYEN_API_KEY=YOUR_ADYEN_API_KEY
-MERCHANT_ACCOUNT=YOUR_MERCHANT_ACCOUNT
-ADYEN_HMAC_KEY=YOUR_ADYEN_HMAC_KEY
+ADYEN_MERCHANT_ACCOUNT=YOUR_ADYEN_MERCHANT_ACCOUNT
+ADYEN_CLIENT_KEY=YOUR_ADYEN_CLIENT_KEY
 ```
 
 > Note: You can use `.env.example` as reference.

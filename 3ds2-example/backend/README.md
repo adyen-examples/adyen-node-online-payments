@@ -22,9 +22,9 @@ If you want to run the backend solution standalone you can cd into the directory
 Then create an `.env` file at the root and add the following environment variables:
 
 ```
-API_KEY=YOUR_API_KEY
-MERCHANT_ACCOUNT=YOUR_MERCHANT_ACCOUNT
-CLIENT_KEY=YOUR_CLIENT_KEY
+ADYEN_API_KEY="YOUR_ADYEN_API_KEY"
+ADYEN_MERCHANT_ACCOUNT="YOUR_ADYEN_MERCHANT_ACCOUNT"
+ADYEN_CLIENT_KEY="YOUR_ADYEN_CLIENT_KEY"
 ```
 
 You can use the .env.example as reference.

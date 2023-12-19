@@ -8,7 +8,7 @@ import {
   attachClickHandlerForReset,
 } from "../../shared/utils";
 
-const CLIENT_KEY = import.meta.env.VITE_CLIENT_KEY;
+const CLIENT_KEY = import.meta.env.ADYEN_CLIENT_KEY;
 let cardComponent = null;
 
 const componentsInit = async () => {

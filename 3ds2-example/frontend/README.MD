@@ -17,10 +17,8 @@ If you want to run the frontend solution standalone you can cd into the director
 Then create an `.env` file at the root and add the following environment variables:
 
 ```
-VITE_CLIENT_KEY=YOUR_CLIENT_KEY_HERE
+ADYEN_CLIENT_KEY=YOUR_ADYEN_CLIENT_KEY
 ```
-
-You can use the .env.example as reference. Please note the `VITE_` prefix here is a requirement of vite, you may not need this prefix for your real implementation depending on the framework you use.
 
 Once you have your .env file created and dependencies installed you can use the following commands to run the app:
 
