@@ -44,7 +44,7 @@ See the [advanced integration flow](https://docs.adyen.com/online-payments/web-d
 
 ## [3DS2 Example](3ds2-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds-example)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds2-example)
 
 The [3ds2 example](3ds2-example) shows developers how to integrate the Native and Redirect flows of 3DS2.
 See the [3D Secure 2 Authentication](https://docs.adyen.com/online-payments/3d-secure/) for more information.
