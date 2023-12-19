@@ -1,0 +1,147 @@
+:root {
+  --primary-black: #242424;
+  --primary-white: #fefefe;
+  --primary-green: #0abf53;
+  --secondary-green: #09a748;
+  --primary-grey: #E5E4E2;
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: var(--primary-black);
+  background-color: var(--primary-white);
+
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary-green);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--secondary-green);
+  text-decoration: underline;
+}
+
+body {
+  min-height: 100vh;
+  margin:0px;
+}
+
+main{
+  min-width: 320px;
+  margin: 0px auto;
+  max-width: 800px;
+  background-color: var(--primary-white);
+  display: flex;
+  flex-direction: column;
+  gap: 10%;
+}
+
+header {
+  background-color: var(--primary-green);
+  color: var(--primary-white);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+header a{
+  font-weight: 500;
+  color: var(--primary-white);
+  text-decoration: inherit;
+}
+
+header a:hover {
+  color: var(--primary-grey);
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 1.6em;
+  line-height: 1.1;
+  display: inline-block;
+  padding-left: 1rem;
+}
+
+p{
+  margin: 0.5rem;
+}
+
+.auth-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--primary-green);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+
+.show-auth-result {
+  visibility: visible;
+  opacity: 1;
+}
+
+.reset-btn, .component-pay-btn {
+  cursor: pointer;
+  margin: 1rem;
+  height: 50px;
+  width: 80px;
+  background: var(--primary-green);
+  color: var(--primary-white);
+  border: var(--primary-white);
+  border-radius: 3px;
+}
+
+.reset-btn:hover{
+  background: var(--secondary-green);
+}
+
+.component-pay-btn:hover{
+  background: var(--secondary-green);
+}
+
+.component-pay-btn{
+  width: 120px; 
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.integrations-list{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap:10px;
+}
+
+.section-box{
+  border: 1px solid var(--primary-grey);
+  border-radius: 3px;
+  width: 100%;
+}
+
+.section-box h4 {
+  text-align: center;
+  background-color: var(--primary-grey);
+  margin: 0px;
+}
+
+.list-box {
+  height: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.component-content {
+  border: 1px solid var(--primary-grey);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

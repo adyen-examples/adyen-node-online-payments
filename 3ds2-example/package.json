@@ -1,0 +1,22 @@
+{
+  "name": "adyen-node-online-payments-3ds2",
+  "version": "1.0.0",
+  "description": "Fullstack demo app that showcases Adyen's 3DS2 native and redirect flows.",
+  "main": "index.js",
+  "scripts": {
+    "fullstack": "concurrently \"npm --prefix ./backend/ run start\" \"npm --prefix ./frontend/ run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adyen-examples/adyen-node-online-payments.git"
+  },
+  "author": "devrel@adyen.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adyen-examples/adyen-node-online-payments/issues"
+  },
+  "homepage": "https://github.com/adyen-examples/adyen-node-online-payments#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
