@@ -12,6 +12,7 @@ Get started by navigating to one of the supported demos below.
 | --: | :-- | :-- |
 | [`Checkout Example`](checkout-example) | E-commerce checkout flow with different payment methods. | [See below](#checkout-example) | 
 | [`Advanced Checkout Example`](checkout-example-advanced) | E-commerce checkout flow with different payment methods, using the 3 steps flow. | [See below](#advanced-checkout-example) | 
+| [`3DS2 Example`](3ds2-example) | Explore the Native and Redirect flows of 3D Secure 2 Authentication. | [See below](#3ds2-example) | 
 | [`Authorisation Adjustment Example`](authorisation-adjustment-example) | Pre-authorise a payment, adjust the authorised amount, capture or reverse the payment. | [See below](#authorisation-adjustment-example) | 
 | [`In-person Payments Example`](in-person-payments-example) | In-person payments using a POS terminal and the terminal-api/sync endpoint. | [See below](#in-person-payments-example) | 
 | [`Gift Card Example`](giftcard-example) | Gift Cards checkout flow using partial orders. | [See below](#gift-card-example) | 
@@ -39,6 +40,15 @@ The [advanced checkout example](checkout-example-advanced) performs the same fun
 See the [advanced integration flow](https://docs.adyen.com/online-payments/web-drop-in/additional-use-cases?tab=sessions_flow_advanced_flow_1) for more information.
 
 ![Card Checkout Demo](checkout-example-advanced/public/images/cardcheckout.gif)
+
+
+## [3DS2 Example](3ds2-example)
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds-example)
+
+The [3ds2 example](3ds2-example) shows developers how to integrate the Native and Redirect flows of 3DS2.
+See the [3D Secure 2 Authentication](https://docs.adyen.com/online-payments/3d-secure/) for more information.
+
 
 ## [Authorisation Adjustment Example](authorisation-adjustment-example)
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)
