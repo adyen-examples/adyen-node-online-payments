@@ -69,6 +69,12 @@ This command will use the [concurrently](https://www.npmjs.com/package/concurren
 
 The backend server should start up at `http://localhost:3000` and the frontend server at `http://localhost:8080`.
 
+## 4. Usage
+1. Visit `http://localhost:8080`
+2. Select your integration-type and flow
+3. Select `Card` and enter a [Test Card Number](https://docs.adyen.com/development-resources/testing/test-card-numbers/#test-3d-secure-2-authentication) that triggers the 3DS2 flow.
+
+
 ## Testing webhooks
 
 Webhooks deliver asynchronous notifications and it is important to test them during the setup of your integration.
