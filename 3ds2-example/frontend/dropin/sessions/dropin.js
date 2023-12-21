@@ -3,12 +3,11 @@ import "@adyen/adyen-web/dist/adyen.css";
 
 import { postDoSessions } from "../../shared/payments";
 
-import {
-  renderResultTemplate,
-  attachClickHandlerForReset,
-} from "../../shared/utils";
+import { renderResultTemplate, attachClickHandlerForReset } from "../../shared/utils";
 
-const CLIENT_KEY = import.meta.env.ADYEN_CLIENT_KEY;
+const CLIENT_KEY = import.meta.env.VITE_ADYEN_CLIENT_KEY;
+
+console.log(CLIENT_KEY);
 
 const dropinInit = async () => {
   console.log("init of dropin sessions flow");
