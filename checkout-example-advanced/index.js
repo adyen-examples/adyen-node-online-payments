@@ -58,7 +58,7 @@ app.post("/api/getPaymentMethods", async (req, res) => {
   }
 });
 
-// Submitting a payment
+// submitting a payment
 app.post("/api/initiatePayment", async (req, res) => {
   const currency = findCurrency(req.body.paymentMethod.type);
   // find shopper IP from request
@@ -67,40 +67,42 @@ app.post("/api/initiatePayment", async (req, res) => {
   try {
     // unique ref for the transaction
     const orderRef = uuid();
-    // Allows for gitpod support
+    // allows for gitpod support
     const localhost = req.get('host');
     // const isHttps = req.connection.encrypted;
     const protocol = req.socket.encrypted? 'https' : 'http';    
-    // Ideally the data passed here should be computed based on business logic
+    // ideally the data passed here should be computed based on business logic
     const response = await checkout.PaymentsApi.payments({
       amount: { currency, value: 1000 }, // value is 10€ in minor units
       reference: orderRef, // required
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       channel: "Web", // required
-      additionalData: {
-        // required for 3ds2 native flow
-        allow3DS2: true,
-      },
       origin: `${protocol}://${localhost}`, // required for 3ds2 native flow
       browserInfo: req.body.browserInfo, // required for 3ds2
       shopperIP, // required by some issuers for 3ds2
+      authenticationData: {
+        attemptAuthentication: "always",
+        // add the following line for Native 3DS2 > see also 3ds2-example folder
+        //threeDSRequestData: {
+        //  nativeThreeDS: "preferred"
+        //}
+      },
       returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
       // special handling for boleto
       paymentMethod: req.body.paymentMethod.type.includes("boleto")
-        ? {
-            type: "boletobancario_santander",
-          }
-        : req.body.paymentMethod,
-      // Below fields are required for Boleto:
+        ? { type: "boletobancario_santander" } : req.body.paymentMethod,
+      // below fields are required for Boleto:
       socialSecurityNumber: req.body.socialSecurityNumber,
       shopperName: req.body.shopperName,
+      // we strongly recommend that you the billingAddress in your request. 
+      // card schemes require this for channel web, iOS, and Android implementations.
       billingAddress:
         typeof req.body.billingAddress === "undefined" || Object.keys(req.body.billingAddress).length === 0
           ? null
           : req.body.billingAddress,
       deliveryDate: new Date("2017-07-17T13:42:40.428+01:00"),
       shopperStatement: "Aceitar o pagamento até 15 dias após o vencimento.Não cobrar juros. Não aceitar o pagamento com cheque",
-      // Below fields are required for Klarna:
+      // below fields are required for Klarna, line items included
       countryCode: req.body.paymentMethod.type.includes("klarna") ? "DE" : null,
       shopperReference: "12345",
       shopperEmail: "youremail@email.com",
