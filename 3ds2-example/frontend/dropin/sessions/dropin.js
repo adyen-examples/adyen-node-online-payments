@@ -7,8 +7,6 @@ import { renderResultTemplate, attachClickHandlerForReset } from "../../shared/u
 
 const CLIENT_KEY = import.meta.env.VITE_ADYEN_CLIENT_KEY;
 
-console.log(CLIENT_KEY);
-
 const dropinInit = async () => {
   console.log("init of dropin sessions flow");
   const url = window.location.href;
