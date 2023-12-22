@@ -9,10 +9,12 @@
     "dev": "vite"
   },
   "devDependencies": {
+    "@types/node": "^20.10.5",
     "vite": "^5.0.0"
   },
   "dependencies": {
     "@adyen/adyen-web": "^5.55.1",
-    "@preact/preset-vite": "^2.7.0"
+    "@preact/preset-vite": "^2.7.0",
+    "dotenv": "^16.3.1"
   }
 }
