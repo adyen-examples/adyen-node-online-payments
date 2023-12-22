@@ -117,7 +117,7 @@ jobs:
     - name: Build subscription-example
       run: npm install
 
-  giving-subscription:
+  build-giving:
 
     runs-on: ubuntu-latest
     defaults:
@@ -136,7 +136,7 @@ jobs:
         cache-dependency-path: 'giving-example'
     - name: Build giving-example
       run: npm install
-      
+
   build-in-person-payments:
 
     runs-on: ubuntu-latest
@@ -155,4 +155,28 @@ jobs:
         cache: 'npm'
         cache-dependency-path: 'in-person-payments-example'
     - name: Build in-person-payments-example
-      run: npm install      
+      run: npm install
+
+  build-3ds2:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: '3ds2-example'
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '3ds2-example'
+      - name: Build 3ds2-example/frontend
+        run: cd /frontend && npm install
+      - name: Build 3ds2-example/backend
+        run: cd ../backend && npm install
+      - name: Build 3ds2-example
+        run: cd ../ && npm install
