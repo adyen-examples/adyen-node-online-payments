@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import "dotenv/config";
 import preact from "@preact/preset-vite";
 
 /**
@@ -11,7 +12,7 @@ export default defineConfig({
   define: {
     // VITE *only* automatically exposes your environment variables using "VITE_"-prefix via import.meta.env.
     // We expose the ADYEN_CLIENT_KEY environment variable manually here:
-    'import.meta.env.ADYEN_CLIENT_KEY': JSON.stringify(process.env.ADYEN_CLIENT_KEY)
+    "import.meta.env.ADYEN_CLIENT_KEY": JSON.stringify(process.env.ADYEN_CLIENT_KEY),
   },
   server: {
     host: true,
