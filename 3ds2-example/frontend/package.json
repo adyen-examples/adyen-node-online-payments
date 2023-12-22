@@ -9,7 +9,6 @@
     "dev": "vite"
   },
   "devDependencies": {
-    "@types/node": "^20.10.5",
     "vite": "^5.0.0"
   },
   "dependencies": {
