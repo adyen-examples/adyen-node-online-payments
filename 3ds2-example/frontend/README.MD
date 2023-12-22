@@ -20,10 +20,12 @@ Then create an `.env` file at the root and add the following environment variabl
 ADYEN_CLIENT_KEY=YOUR_ADYEN_CLIENT_KEY
 ```
 
+> Note: It's recommended by the [VITE documentation](https://vitejs.dev/guide/env-and-mode#env-files) to prefix your variables with `VITE_`, we chose to manually inject the `ADYEN_CLIENT_KEY` in our [`vite.config.ts`](vite.config.ts) configuration.
+
 Once you have your .env file created and dependencies installed you can use the following commands to run the app:
 
 `npm run dev`
 
 This will run the app on a local dev server at http://localhost:8080
 
-_Note:_ If you want to run on a different port you can change the port number in the vite.config.ts file.
+_Note:_ If you want to run on a different port you can change the port number in the `vite.config.ts` file.

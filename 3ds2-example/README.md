@@ -44,12 +44,10 @@ ADYEN_CLIENT_KEY=YOUR_ADYEN_CLIENT_KEY
 
 - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
 - [Merchant Account](https://docs.adyen.com/account/account-structure)
-- [Client key](https://docs.adyen.com/development-resources/client-side-authentication/#get-your-client-key)
 
 ```
 ADYEN_API_KEY=YOUR_ADYEN_API_KEY
 ADYEN_MERCHANT_ACCOUNT=YOUR_ADYEN_MERCHANT_ACCOUNT
-ADYEN_CLIENT_KEY=YOUR_ADYEN_CLIENT_KEY
 ```
 
 > Note: You can use `.env.example` as reference.

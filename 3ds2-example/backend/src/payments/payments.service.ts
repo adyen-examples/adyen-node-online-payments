@@ -69,6 +69,21 @@ export class PaymentsService {
         firstName: string;
         lastName: string;
       },
+      telephoneNumber: "0612345678",
+      billingAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Billing Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
+      deliveryAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Delivery Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
       shopperIP: string;
       shopperEmail: string;
       Please note:
@@ -101,6 +116,21 @@ export class PaymentsService {
         firstName: "Test",
         lastName: "Shopper",
       },
+      telephoneNumber: "0612345678",
+      billingAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Billing Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
+      deliveryAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Delivery Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
       shopperIP: "http://192.0.2.1/",
       shopperEmail: "test@adyen.com",
       channel: PaymentRequest.ChannelEnum.Web, // required for native
@@ -127,6 +157,21 @@ export class PaymentsService {
         firstName: string;
         lastName: string;
       },
+      telephoneNumber: "0612345678",
+      billingAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Billing Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
+      deliveryAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Delivery Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
       shopperIP: string;
       shopperEmail: string;
       Please note:
@@ -147,6 +192,21 @@ export class PaymentsService {
       shopperName: {
         firstName: "Test",
         lastName: "Shopper",
+      },
+      telephoneNumber: "0612345678",
+      billingAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Billing Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
+      deliveryAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Delivery Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
       },
       shopperIP: "http://192.0.2.1/",
       shopperEmail: "test@adyen.com",
@@ -191,6 +251,21 @@ export class PaymentsService {
         firstName: string;
         lastName: string;
       },
+      telephoneNumber: "0612345678",
+      billingAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Billing Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
+      deliveryAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Delivery Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
       shopperIP: string;
       shopperEmail: string;
       Please note:
@@ -211,6 +286,21 @@ export class PaymentsService {
       shopperName: {
         firstName: "Test",
         lastName: "Shopper",
+      },
+      telephoneNumber: "0612345678",
+      billingAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Billing Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
+      },
+      deliveryAddress: {
+        houseNumberOrName: "1",
+        street: "Shopper Delivery Street",
+        city: "Amsterdam",
+        country: "NL",
+        postalCode: "1234AB",
       },
       shopperIP: "http://192.0.2.1/",
       shopperEmail: "test@adyen.com",
