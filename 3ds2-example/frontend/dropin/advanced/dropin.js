@@ -5,7 +5,7 @@ import { getPaymentMethods, postDoPayment, postDoPaymentDetails } from "../../sh
 
 import { renderResultTemplate, attachClickHandlerForReset, parseRedirectResultToRequestData, getFlowType } from "../../shared/utils";
 
-const CLIENT_KEY = import.meta.env.VITE_ADYEN_CLIENT_KEY;
+const CLIENT_KEY = import.meta.env.ADYEN_CLIENT_KEY;
 
 const dropinInit = async () => {
   console.log("init of dropin advanced flow.");
