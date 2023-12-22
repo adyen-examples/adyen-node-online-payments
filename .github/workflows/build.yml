@@ -174,9 +174,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: '3ds2-example'
-      - name: Build frontend
-        run: cd 3ds2-example/frontend && npm install
-      - name: Build backend
-        run: cd ../backend && npm install
-      - name: Build fullstack
-        run: cd ../ && npm install
+      - name: Build 3ds2-example
+        run: npm install
