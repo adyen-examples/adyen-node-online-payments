@@ -21,7 +21,7 @@ async function sendReversalPaymentRequest(reference) {
                 window.location.href = "admin/result/received/" + reference;
                 break;
             default:
-                window.location.href = "admin/result/error" + reference;
+                window.location.href = "admin/result/error/" + reference;
                 break;
         };
     } catch (error) {
@@ -31,7 +31,7 @@ async function sendReversalPaymentRequest(reference) {
 }
 
 // Binds submit buttons to `reversal-payment`-endpoint
-function bindReversalPaymentFormButtons() { 
+function bindReversalPaymentFormButtons() {
     var elements = document.getElementsByName('reversalPaymentForm');
     for (var i = 0; i < elements.length;  i++) {
         elements[i].addEventListener('submit', async function(event) {

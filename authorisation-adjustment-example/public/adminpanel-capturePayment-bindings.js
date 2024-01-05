@@ -21,7 +21,7 @@ async function sendCapturePaymentRequest(reference) {
                 window.location.href = "admin/result/received/" + reference;
                 break;
             default:
-                window.location.href = "admin/result/error" + reference;
+                window.location.href = "admin/result/error/" + reference;
                 break;
         };
     } catch (error) {
@@ -31,7 +31,7 @@ async function sendCapturePaymentRequest(reference) {
 }
 
 // Binds submit buttons to `capture-payment`-endpoint
-function bindCapturePaymentFormButtons() { 
+function bindCapturePaymentFormButtons() {
     var elements = document.getElementsByName('capturePaymentForm');
     for (var i = 0; i < elements.length;  i++) {
         elements[i].addEventListener('submit', async function(event) {
