@@ -21,7 +21,7 @@ async function sendUpdatePaymentAmountRequest(reference, amount) {
                 window.location.href = "admin/result/received/" + reference;
                 break;
             default:
-                window.location.href = "admin/result/error" + reference;
+                window.location.href = "admin/result/error/" + reference;
                 break;
         };
     } catch (error) {
@@ -31,7 +31,7 @@ async function sendUpdatePaymentAmountRequest(reference, amount) {
 }
 
 // Binds submit buttons to `update-payment-amount`-endpoint
-function bindUpdatePaymentAmountFormButtons() { 
+function bindUpdatePaymentAmountFormButtons() {
     var elements = document.getElementsByName('updatePaymentAmountForm');
     for (var i = 0; i < elements.length;  i++) {
         elements[i].addEventListener('submit', async function(event) {
@@ -48,7 +48,7 @@ function bindUpdatePaymentAmountFormButtons() {
 
 // Binds submit buttons to `update-payment-amount`-endpoint
 // The amount cannot be specified here and follows the same logic as `bindUpdatePaymentAmountFormButtons()`
-function bindExtendPaymentFormButtons() { 
+function bindExtendPaymentFormButtons() {
     var elements = document.getElementsByName('extendPaymentForm');
     for (var i = 0; i < elements.length;  i++) {
         elements[i].addEventListener('submit', async function(event) {

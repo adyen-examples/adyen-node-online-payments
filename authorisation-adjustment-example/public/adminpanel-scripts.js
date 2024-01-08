@@ -1,8 +1,6 @@
-﻿
-// make the form visible
+﻿// make the form visible
 function showForm(id) {
-    
-    element = document.getElementById(id);
+    let element = document.getElementById(id);
     element.removeAttribute("hidden");
 
     hideOtherForms(id);
@@ -18,5 +16,3 @@ function hideOtherForms(id) {
         }
     }
 }
-
-
