@@ -5,6 +5,10 @@
 This repository shows the [Native](https://docs.adyen.com/online-payments/3d-secure/native-3ds2/) and [Redirect](https://docs.adyen.com/online-payments/3d-secure/redirect-3ds2/) flows for integrating 3DS2 payments using [Adyen.Drop-in and Components](https://github.com/Adyen/adyen-web).
 We will go over the integration with the [sessions flow](https://docs.adyen.com/online-payments/build-your-integration/#create-payment-session) and the [advanced flow](https://docs.adyen.com/online-payments/build-your-integration/additional-use-cases/advanced-flow-integration/).
 
+> **Note:** We've included a technical [blog post](https://www.adyen.com/knowledge-hub/a-guide-to-integrating-with-adyen-web-for-3d-secure-2-payments) that explains every step of this demo.
+
+For additional information, refer to our [documentation on testing 3DS2](https://docs.adyen.com/development-resources/testing/3d-secure-2-authentication/).
+
 ## Prerequisites
 
 - Node.js 18+
