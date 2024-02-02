@@ -1,74 +1,60 @@
 # Adyen [Authorisation Adjustment](https://docs.adyen.com/online-payments/classic-integrations/modify-payments/adjust-authorisation) Integration Demo
 
+## Run demo in one-click
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/dyen-node-online-payments/tree/main/authorisation-adjustment-example)  
+&nbsp;[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+
+## Description
+
 This repository includes an adjust authorisation example for the following three use cases after a pre-authorised payment: incremental, decremental adjustments. Within this demo app, you'll find a simplified version of a hotel booking, where the shopper perform a booking and administrators can **[1] adjust** (increase/decrease) the payment amount, **[2] extend** the authorisation expiry date, **[3] capture** the final amount and **[4] reverse** (cancel or refund) an authorised payment.
+
+This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
 > **Note:** We've included a technical [blog post](https://www.adyen.com/knowledge-hub/pre-authorizations-and-authorization-adjustments-for-developers) that explains every step of this demo.
 
 ![Authorisation Adjustment Demo](public/images/cardauthorisationadjustment.gif)
 
-## Run this integration in seconds using [Gitpod](https://gitpod.io/)
-
-* Open your [Adyen Test Account](https://ca-test.adyen.com/ca/ca/overview/default.shtml) and create a set of [API keys](https://docs.adyen.com/user-management/how-to-get-the-api-key).
-* Go to [gitpod account variables](https://gitpod.io/variables).
-* Set the `ADYEN_API_KEY`, `ADYEN_CLIENT_KEY`, `ADYEN_HMAC_KEY` and `ADYEN_MERCHANT_ACCOUNT` variables.
-* Click the button below!
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)
-
-_NOTE: To allow the Adyen Drop-In and Components to load, you have to add `https://*.gitpod.io` as allowed origin for your chosen set of [API Credentials](https://ca-test.adyen.com/ca/ca/config/api_credentials_new.shtml)_
-
-
-This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
-
 ## Requirements
 
-Node.js 18+
+- [Adyen API Credentials](https://docs.adyen.com/development-resources/api-credentials/)
+- Node.js 18+
 
 ## Installation
-
-1. Clone this repo:
 
 ```
 git clone https://github.com/adyen-examples/adyen-node-online-payments.git
 ```
 
-2. Navigate to the `authorisation-adjustment-example` directory and install the dependencies:
+## 2. Set the environment variables
+* [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
+* [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
+* [Merchant Account](https://docs.adyen.com/account/account-structure)
+* [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
+
+## 3. Configure allowed origins (CORS)
+
+It is required to specify the domain or URL of the web applications that will make requests to Adyen.
+
+In the Customer Area add `http://localhost:8080` in the list of Allowed Origins associated with the Client Key.
+
+## 4. Run the application
 
 ```
+cd authorisation-adjustment-example
+    
 npm install
-```
-
-## Usage
-
-1. Create a `./.env` file with all required configuration
-   - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
-   - [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
-   - [Merchant Account](https://docs.adyen.com/account/account-structure)
-   - [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
-
-Remember to include `http://localhost:8080` in the list of Allowed Origins
-
-```
-PORT=8080
-ADYEN_API_KEY="your_API_key_here"
-ADYEN_MERCHANT_ACCOUNT="your_merchant_account_here"
-ADYEN_CLIENT_KEY="your_client_key_here"
-ADYEN_HMAC_KEY="your_hmac_key_here"
-```
-
-2. Start the server:
-
-```
 npm run dev
 ```
 
-3. Visit [http://localhost:8080/](http://localhost:8080/).
+Visit [http://localhost:8080/](http://localhost:8080/).
 
-To try out this application with test card numbers, visit [Test card numbers](https://docs.adyen.com/development-resources/test-cards/test-card-numbers). We recommend saving multiple test cards in your browser so you can test your integration faster in the future.
+Try out the different payment methods with our [test card numbers](https://docs.adyen.com/development-resources/test-cards/test-card-numbers) and other payment method details.
+
+## 5. Usage
 
 1. Make a booking in the `Booking View` 
 2. Visit the `Admin Panel` to see the incoming webhooks and perform operations on the initial preauthorisation.
-
 
 A success scenario for a payment followed by two adjustments, a capture and a reversal looks like: 
 
@@ -80,70 +66,35 @@ The `EXTEND` operation in this sample is used to extend the expiry date manually
 When CAPTURE is executed, it will perform the operation on the latest amount. You'll have to wait for the `AUTHORISATION_ADJUSTMENT` response, before making the capture once it's final.
 
 
-## Testing webhooks
+# Webhooks
 
-Webhooks deliver asynchronous notifications and it is important to test them during the setup of your integration. You can find more information about webhooks in [this detailed blog post](https://www.adyen.com/blog/Integrating-webhooks-notifications-with-Adyen-Checkout).
+Webhooks deliver asynchronous notifications about the payment status and other events that are important to receive and process. 
+You can find more information about webhooks in [this blog post](https://www.adyen.com/knowledge-hub/consuming-webhooks).
 
-This sample application provides a simple webhook integration exposed at `/api/webhooks/notifications`. For it to work, you need to:
+### Webhook setup
 
-1. Provide a way for the Adyen platform to reach your running application
-2. Add a Standard webhook in your Customer Area
+In the Customer Area under the `Developers → Webhooks` section, [create](https://docs.adyen.com/development-resources/webhooks/#set-up-webhooks-in-your-customer-area) a new `Standard webhook`.
 
-### Making your server reachable
+A good practice is to set up basic authentication, copy the generated HMAC Key and set it as an environment variable. The application will use this to verify the [HMAC signatures](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures/).
 
-Your endpoint that will consume the incoming webhook must be publicly accessible.
+Make sure the webhook is **enabled**, so it can receive notifications.
 
-There are typically 3 options:
-* deploy on your own cloud provider
-* deploy on Gitpod
-* expose your localhost with tunneling software (i.e. ngrok)
+### Expose an endpoint
 
-#### Option 1: cloud deployment
-If you deploy on your cloud provider (or your own public server) the webhook URL will be the URL of the server 
-```
-  https://{cloud-provider}/api/webhooks/notifications
-```
+This demo provides a simple webhook implementation exposed at `/api/webhooks/notifications` that shows you how to receive, validate and consume the webhook payload.
 
-#### Option 2: Gitpod
-If you use Gitpod the webhook URL will be the host assigned by Gitpod
-```
-  https://myorg-myrepo-y8ad7pso0w5.ws-eu75.gitpod.io/api/webhooks/notifications
-```
-**Note:** when starting a new Gitpod workspace the host changes, make sure to **update the Webhook URL** in the Customer Area
+### Test your webhook
 
-#### Option 3: localhost via tunneling software
-If you use a tunneling service like [ngrok](ngrok) the webhook URL will be the generated URL (ie `https://c991-80-113-16-28.ngrok.io`)
+The following webhooks `events` should be enabled:
+* **AUTHORISATION**
+* **AUTHORISATION_ADJUSTMENT**
+* **CAPTURE**
+* **CAPTURE_FAILED**
+* **CANCEL_OR_REFUND**
+* **REFUND_FAILED**
+* **REFUND_REVERSED**
 
-```bash
-  $ ngrok http 8080
-  
-  Session Status                online                                                                                           
-  Account                       ############                                                                      
-  Version                       #########                                                                                          
-  Region                        United States (us)                                                                                 
-  Forwarding                    http://c991-80-113-16-28.ngrok.io -> http://localhost:8080                                       
-  Forwarding                    https://c991-80-113-16-28.ngrok.io -> http://localhost:8080           
-```
 
-**Note:** when restarting ngrok a new URL is generated, make sure to **update the Webhook URL** in the Customer Area
+To make sure that the Adyen platform can reach your application, we have written a [Webhooks Testing Guide](https://github.com/adyen-examples/.github/blob/main/pages/webhooks-testing.md)
+that explores several options on how you can easily achieve this (e.g. running on localhost or cloud).
 
-### Set up a webhook
-
-* In the Customer Area go to Developers -> Webhooks and create a new 'Standard notification' webhook.
-* Enter the URL of your application/endpoint (see options [above](#making-your-server-reachable))
-* Define username and password for Basic Authentication
-* Generate the HMAC Key
-* Optionally, in Additional Settings, add the data you want to receive. A good example is 'Payment Account Reference'.
-* Make sure the webhook is **Enabled** (therefore it can receive the notifications)
-
-That's it! Every time you perform a new payment, your application will receive a notification from the Adyen platform.
-
-## Contributing
-
-We commit all our new features directly into our GitHub repository. Feel free to request or suggest new features or code changes yourself as well!
-
-Find out more in our [Contributing](https://github.com/adyen-examples/.github/blob/main/CONTRIBUTING.md) guidelines.
-
-## License
-
-MIT license. For more information, see the **LICENSE** file in the root directory.
