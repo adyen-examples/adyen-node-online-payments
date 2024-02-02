@@ -32,6 +32,14 @@ git clone https://github.com/adyen-examples/adyen-node-online-payments.git
 * [Merchant Account](https://docs.adyen.com/account/account-structure)
 * [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
 
+Create a `./.env` file with the environment variables. 
+```shell
+export ADYEN_API_KEY=yourAdyenApiKey
+export ADYEN_MERCHANT_ACCOUNT=yourAdyenMerchantAccount
+export ADYEN_CLIENT_KEY=yourAdyenClientKey
+export ADYEN_HMAC_KEY=yourHmacKey
+```
+
 ## 3. Configure allowed origins (CORS)
 
 It is required to specify the domain or URL of the web applications that will make requests to Adyen.
