@@ -73,7 +73,7 @@ app.post("/api/donations", async (req, res) => {
     const localhost = req.get('host');
     const protocol = req.socket.encrypted? 'https' : 'http';    
   
-    const response = await checkout.PaymentsApi.donations({
+    const response = await checkout.DonationsApi.donations({
       amount: { currency: req.body.currency, value: req.body.value },
       reference: uuid(), 
       paymentMethod: {
