@@ -10,7 +10,7 @@
 This repository showcases a PCI-compliant integration of the **Advanced Flow**. Explore this simplified e-commerce demo to discover the code, libraries and configuration you need to enable various payment options in your checkout experience.
 
 It includes a **NodeJS + Express** application that supports [Adyen Drop-in and Components](https://docs.adyen.com/online-payments/build-your-integration) 
-(ACH, Alipay, Cards, Dotpay, iDEAL, Klarna, PayPal, etc..) using the Adyen's API Library for Java ([GitHub](https://github.com/Adyen/adyen-node-api-library)).   
+(ACH, Alipay, Cards, Dotpay, iDEAL, Klarna, PayPal, etc..) using the Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library)).   
 
 > **Note:**
 For a simpler flow using `/sessions`, check out the demo in the [`checkout-example`](../checkout-example) folder.
