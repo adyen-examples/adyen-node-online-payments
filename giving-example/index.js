@@ -243,7 +243,7 @@ app.get("/result/:type", (req, res) =>
 /* ################# WEBHOOK ###################### */
 
 // Process incoming Webhook: get NotificationRequestItem, validate HMAC signature,
-// consume the event asynchronously, send response ["accepted"]
+// consume the event asynchronously, send response status code 202
 app.post("/api/webhooks/notifications", async (req, res) => {
   console.log("/api/webhooks/notifications");
 
@@ -269,10 +269,10 @@ app.post("/api/webhooks/notifications", async (req, res) => {
     consumeEvent(notification);
 
     // acknowledge event has been consumed
-    res.send('[accepted]')
+    res.status(202).send(); // Send a 202 response with an empty body
 
   } else {
-    // invalid hmac: do not send [accepted] response
+    // invalid hmac
     console.log("Invalid HMAC signature: " + notification);
     res.status(401).send('Invalid HMAC signature');
   }
@@ -280,7 +280,7 @@ app.post("/api/webhooks/notifications", async (req, res) => {
 });
 
 // Process incoming Giving Webhook: get NotificationRequestItem,
-// consume the event asynchronously, send response ["accepted"]
+// consume the event asynchronously, send response status code 202
 app.post("/api/webhooks/giving", async (req, res) => {
   console.log("/api/webhooks/giving");
 
@@ -301,7 +301,7 @@ app.post("/api/webhooks/giving", async (req, res) => {
   consumeEvent(notification);
 
   // acknowledge event has been consumed
-  res.send('[accepted]')
+  res.status(202).send(); // Send a 202 response with an empty body
 
 });
 

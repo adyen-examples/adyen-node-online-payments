@@ -203,7 +203,7 @@ app.get("/admin/disable/:recurringDetailReference", async (req, res) => {
 /* ################# WEBHOOK ###################### */
 
 // Process incoming Webhook: get NotificationRequestItem, validate HMAC signature,
-// consume the event asynchronously, send response ["accepted"]
+// consume the event asynchronously, send response status code 202
 app.post("/api/webhooks/notifications", async (req, res) => {
 
   // YOUR_HMAC_KEY from the Customer Area
@@ -248,9 +248,9 @@ app.post("/api/webhooks/notifications", async (req, res) => {
   } else {
     console.log("Unexpected eventCode: " + notification.eventCode);
   }
-
+  
   // acknowledge event has been consumed
-  res.send('[accepted]')
+  res.status(202).send(); // Send a 202 response with an empty body
 
 });
 
