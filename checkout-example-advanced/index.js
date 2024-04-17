@@ -1,9 +1,11 @@
 const express = require("express");
+var session = require('express-session')
 const path = require("path");
 const hbs = require("express-handlebars");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const { uuid } = require("uuidv4");
+const axios = require('axios');
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 
@@ -17,6 +19,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Serve client from build folder
 app.use(express.static(path.join(__dirname, "/public")));
+
+// configure usage of HTTP session
+var sess = {
+  secret: 'my secret',
+  cookie: {}
+}
+
+app.use(session(sess))
 
 // enables environment variables by
 // parsing the .env file and assigning it to process.env
@@ -61,6 +71,9 @@ app.post("/api/getPaymentMethods", async (req, res) => {
 // submitting a payment
 app.post("/api/initiatePayment", async (req, res) => {
   const currency = findCurrency(req.body.paymentMethod.type);
+
+  console.log(req.body.paymentMethod.type);
+
   // find shopper IP from request
   const shopperIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
@@ -112,6 +125,15 @@ app.post("/api/initiatePayment", async (req, res) => {
         {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
       ],
     });
+
+    if (response.donationToken) {
+      // save pspReference and donationToken
+      const paymentData = {
+        pspReference: response.pspReference,
+        donationToken: response.donationToken
+      };
+      storePaymentData(req, paymentData);
+    }    
 
     res.json(response);
   } catch (err) {
@@ -174,6 +196,86 @@ app.all("/api/handleShopperRedirect", async (req, res) => {
   }
 });
 
+// Get my active campaign
+app.post("/api/getActiveDonationCampaign", async (req, res) => {
+
+  const data = {
+    merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT,
+    currency: 'EUR'
+  };
+
+  try {
+    const response = await axios.post('https://checkout-test.adyen.com/v71/donationCampaigns', data, {
+      headers: {
+        'X-API-Key': process.env.ADYEN_API_KEY,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    var activeCampaign = null
+
+    if(response.data.donationCampaigns && response.data.donationCampaigns.length > 0) {
+      // get first active campaign
+      activeCampaign = response.data.donationCampaigns[0]
+
+      // save campaignId in session
+      const paymentData = getPaymentData(req);
+      if(!paymentData) {
+        throw new Error("paymentData not available");
+      }
+
+      paymentData['campaignId'] = activeCampaign.id
+      storePaymentData(req, paymentData);
+    }
+
+    res.json(activeCampaign);
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
+});
+
+// Make donation
+app.post("/api/donations", async (req, res) => {
+
+  const amount = req.body;
+
+  const paymentData = getPaymentData(req);
+  if(!paymentData) {
+    throw new Error("paymentData not available");
+  }
+
+  const data = {
+    amount: amount.amount,
+    donationCampaignId: paymentData.campaignId,
+    paymentMethod: {
+      type: "scheme"
+    },
+    donationOriginalPspReference: paymentData.pspReference,
+    donationToken: paymentData.donationToken,
+    reference: uuid(),
+    merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT,
+  };
+
+  try {
+    const response = await axios.post('https://checkout-test.adyen.com/v71/donations', data, {
+      headers: {
+        'X-API-Key': process.env.ADYEN_API_KEY,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // remove from session
+    deletePaymentData(req);
+
+    res.json(response.data);
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.status(err.statusCode).json(err.message);
+  }
+});
+
+
 /* ################# end API ENDPOINTS ###################### */
 
 /* ################# CLIENT SIDE ENDPOINTS ###################### */
@@ -197,11 +299,14 @@ app.get("/checkout", (req, res) =>
 );
 
 // Result page
-app.get("/result/:type", (req, res) =>
-  res.render("result", {
-    type: req.params.type,
-  })
+app.get("/result/:type", (req, res) => {
+    res.render("result", {
+      type: req.params.type,
+      clientKey: process.env.ADYEN_CLIENT_KEY,
+    })
+  }
 );
+
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
 
@@ -268,6 +373,21 @@ function findCurrency(type) {
     default:
       return "EUR";
   }
+}
+
+// Function to store PaymentData object in session
+function storePaymentData(req, paymentData) {
+  req.session.paymentData = paymentData;
+}
+
+// Function to get PaymentData object from session
+function getPaymentData(req) {
+  return req.session.paymentData;
+}
+
+// Function to delete PaymentData object from session
+function deletePaymentData(req) {
+  delete req.session.paymentData;
 }
 
 /* ################# end UTILS ###################### */
