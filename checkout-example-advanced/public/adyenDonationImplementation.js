@@ -5,19 +5,29 @@ async function initGivingComponent() {
   try {
 
     // get active campaign
-    const donationCampaign = await callServer("/api/getActiveDonationCampaign");
+    const { id, ...donationCampaign } = await callServer("/api/getActiveDonationCampaign");
 
+    // "id" of the campaign should not be returned to the frontend, but should be preserved in the session in order to make donation afterwards
+    
     if(donationCampaign) {
-      // remove id (to re-use object during configuration of the component)
-      delete donationCampaign.id;
 
       // Create the configuration object
       const donationConfig = {
-        ...donationCampaign,
+        amounts: donationCampaign.amounts,
+        backgroundUrl: donationCampaign.bannerUrl,
+        description: donationCampaign.nonprofitDescription,
+        logoUrl: donationCampaign.logoUrl,
+        name: donationCampaign.causeName,
+        url: donationCampaign.nonprofitUrl,
+        disclaimerMessage: {
+             message: "By donating you agree to the %{linkText}",
+             linkText: "terms and conditions",
+             link: donationCampaign.termsAndConditionsUrl,
+        },
         showCancelButton: true,
         onDonate: handleOnDonate,
         onCancel: handleOnCancel
-      };
+   };
 
       const checkout = await new AdyenCheckout(
         {
