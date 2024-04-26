@@ -55,7 +55,11 @@ async function handleOnDonate(state, component) {
 
     switch (donation.status) {
       case "completed":
-        window.location.href = "/result/donated";
+        // option redirect to Success screen
+        //window.location.href = "/result/donated";
+
+        // option show "success" message in the component
+        component.setElementStatus('success');
         break;
       default:
         window.location.href = "/result/error";
