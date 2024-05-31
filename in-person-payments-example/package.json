@@ -23,7 +23,8 @@
     "node-gyp": "^10.0.1",
     "undefsafe": "~2.0.5",
     "uuidv4": "^6.2.13",
-    "short-unique-id": "^5.0.3"    
+    "short-unique-id": "^5.0.3",
+    "tar": "6.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
