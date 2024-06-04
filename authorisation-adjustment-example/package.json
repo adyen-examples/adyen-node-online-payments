@@ -26,6 +26,6 @@
     "tar": "6.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.3"
   }
 }
