@@ -1,0 +1,25 @@
+name: E2E Checkout 
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'checkout-example/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'checkout-example/**'
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout checkout-example
+        uses: actions/checkout@v3
+      - name: Build checkout-example image
+        run: docker build -t checkout-example-image:latest checkout-example
+      - name: Start checkout-example container
+        run: docker run --rm -d --name checkout-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-image:latest
+      - name: Run testing suite against checkout-example
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
