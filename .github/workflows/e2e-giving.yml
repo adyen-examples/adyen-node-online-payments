@@ -1,0 +1,25 @@
+name: E2E Giving 
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'giving-example/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'giving-example/**'
+
+jobs:
+  giving:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout giving-example
+        uses: actions/checkout@v3
+      - name: Build giving-example image
+        run: docker build -t giving-example-image:latest giving-example
+      - name: Start giving-example container
+        run: docker run --rm -d --name giving-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} giving-example-image:latest
+      - name: Run testing suite against giving-example-image
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=giving -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
