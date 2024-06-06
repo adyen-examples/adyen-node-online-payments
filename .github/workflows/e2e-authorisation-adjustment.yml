@@ -5,11 +5,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'checkout-example/**'
+      - 'authorisation-adjustment-example/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'checkout-example/**'
+      - 'authorisation-adjustment-example/**'
 
 jobs:
   authorisation-adjustment:
