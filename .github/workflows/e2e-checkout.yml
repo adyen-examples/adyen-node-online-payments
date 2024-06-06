@@ -15,7 +15,7 @@ jobs:
   checkout:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
+      - name: Checkout checkout-example
         uses: actions/checkout@v3
       - name: Build checkout-example image
         run: docker build -t checkout-example-image:latest checkout-example
