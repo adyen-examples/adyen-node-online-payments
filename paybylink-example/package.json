@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@adyen/api-library": "^17.1.0",
+    "@adyen/api-library": "^17.2.0",
     "ansi-regex": "^6.0.1",
     "dotenv": "^16.4.5",
     "dot-prop": "^9.0.0",
