@@ -22,7 +22,7 @@
     "morgan": "^1.10.0",
     "node-gyp": "^10.1.0",
     "uuidv4": "^6.2.13",
-    "tar": "6.2.1"
+    "tar": "7.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
