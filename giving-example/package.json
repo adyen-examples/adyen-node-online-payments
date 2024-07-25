@@ -24,7 +24,7 @@
     "node-gyp": "^10.1.0",
     "undefsafe": "~2.0.5",
     "uuidv4": "^6.2.13",
-    "tar": "7.2.0"
+    "tar": "7.4.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
