@@ -20,7 +20,7 @@
     "express-handlebars": "^7.1.2",
     "minimist": ">=1.2.8",
     "morgan": "^1.10.0",
-    "node-gyp": "^10.1.0",
+    "node-gyp": "^10.2.0",
     "uuidv4": "^6.2.13",
     "tar": "6.2.1"
   },
