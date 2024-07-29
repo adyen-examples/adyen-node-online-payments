@@ -21,7 +21,7 @@
     "express-session": "^1.18.0",
     "minimist": "^1.2.8",
     "morgan": "^1.10.0",
-    "node-gyp": "^10.1.0",
+    "node-gyp": "^10.2.0",
     "undefsafe": "~2.0.5",
     "uuidv4": "^6.2.13",
     "tar": "7.2.0"
