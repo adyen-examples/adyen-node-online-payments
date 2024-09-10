@@ -1,0 +1,40 @@
+name: Build 3DS2
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '3ds2-example/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '3ds2-example/**'
+
+jobs:
+  build-3ds2:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: '3ds2-example'
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '3ds2-example'
+      - name: Build 3ds-example/frontend
+        run: npm install
+        working-directory: 3ds2-example/frontend
+      - name: Build 3ds2-example/backend
+        run: npm install
+        working-directory: 3ds2-example/backend
+      - name: Build 3ds2-example
+        run: npm install
+        working-directory: 3ds2-example

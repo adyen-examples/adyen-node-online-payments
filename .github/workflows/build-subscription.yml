@@ -1,0 +1,33 @@
+name: Build Subscription
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'subscription-example/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'subscription-example/**'
+
+jobs:
+  build-paybylink:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'subscription-example'
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'subscription-example'
+    - name: Build subscription-example
+      run: npm install

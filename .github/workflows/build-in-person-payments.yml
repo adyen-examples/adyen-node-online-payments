@@ -1,0 +1,33 @@
+name: Build In-Person Payments
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'in-person-payments-example/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'in-person-payments-example/**'
+
+jobs:
+  build-in-person-payments:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'in-person-payments-example'
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'in-person-payments-example'
+    - name: Build in-person-payments-example
+      run: npm install

@@ -1,0 +1,33 @@
+name: Build Checkout Advanced
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'checkout-example-advanced/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'checkout-example-advanced/**'
+
+jobs:
+  build-checkout-advanced:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'checkout-example-advanced'
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'checkout-example-advanced'
+    - name: Build checkout-example-advanced
+      run: npm install
