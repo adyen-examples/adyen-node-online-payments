@@ -1,0 +1,33 @@
+name: Build Authorisation Adjustment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'authorisation-adjustment-example/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'authorisation-adjustment-example/**'
+
+jobs:
+  build-authorisation-adjustment:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'authorisation-adjustment-example'
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'authorisation-adjustment-example'
+    - name: Build authorisation-adjustment-example
+      run: npm install
