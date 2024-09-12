@@ -1,5 +1,7 @@
 # Adyen [In-person Payment Demo](https://docs.adyen.com/point-of-sale/) Integration Demo
 
+[![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-in-person-payments.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-in-person-payments.yml)
+
 ## Run demo in one-click
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/in-person-payments-example)  
