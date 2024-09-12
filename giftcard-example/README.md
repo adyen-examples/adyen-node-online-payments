@@ -1,5 +1,8 @@
 # Adyen [Gift Cards](https://docs.adyen.com/payment-methods/gift-cards) Integration Demo
 
+[![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-giftcard.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-giftcard.yml)
+[![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-giftcard.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-giftcard.yml)
+
 This repository includes examples of PCI-compliant UI integrations for online payments with Adyen. 
 Within this demo app, you'll find a simplified version of an e-commerce website, complete with commented code to highlight key features and concepts of Adyen's API. 
 Check out the underlying code to see how you can integrate Adyen to give your shoppers the option to pay with their preferred payment methods, all in a seamless checkout experience.
