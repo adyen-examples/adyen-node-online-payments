@@ -1,5 +1,8 @@
 # Adyen [Online Payments](https://docs.adyen.com/online-payments) Integration Demo - Sessions Flow
 
+[![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout.yml)
+[![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout.yml)
+
 ## Run demo in one-click
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)  
