@@ -28,7 +28,7 @@ This demo integrates the Adyen's API Library for Node.js ([GitHub](https://githu
 ## Prerequisites
 - A [terminal device](https://docs.adyen.com/point-of-sale/user-manuals/) and a [test card](https://docs.adyen.com/point-of-sale/testing-pos-payments/) from Adyen
 - [Adyen API Credentials](https://docs.adyen.com/development-resources/api-credentials/)
-- Node.js 18+
+- Node.js 20+
 
 ## 1. Installation
 

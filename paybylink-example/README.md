@@ -19,7 +19,7 @@ This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com
 ## Requirements
 
 - [Adyen API Credentials](https://docs.adyen.com/development-resources/api-credentials/)
-- Node.js 18+
+- Node.js 20+
 
 ## 1. Installation
 

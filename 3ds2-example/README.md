@@ -11,7 +11,7 @@ For additional information, refer to our [documentation on testing 3DS2](https:/
 
 ## Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 
 This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
