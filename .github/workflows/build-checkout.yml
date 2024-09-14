@@ -20,7 +20,7 @@ jobs:
         working-directory: 'checkout-example'
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
