@@ -23,7 +23,7 @@ For a simpler flow using `/sessions`, check out the demo in the [`checkout-examp
 ## Requirements
 
 - [Adyen API Credentials](https://docs.adyen.com/development-resources/api-credentials/)
-- Node.js 18+
+- Node.js 20+
 
 ## 1. Installation
 
