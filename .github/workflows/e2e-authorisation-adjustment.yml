@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout authorisation-adjustment-example
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build authorisation-adjustment-example image
         run: docker build -t authorisation-adjustment-example-image:latest authorisation-adjustment-example
       - name: Start authorisation-adjustment-example container
