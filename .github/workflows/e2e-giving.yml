@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout giving-example
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build giving-example image
         run: docker build -t giving-example-image:latest giving-example
       - name: Start giving-example container

@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout giftcard-example
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build giftcard-example image
         run: docker build -t giftcard-example-image:latest giftcard-example
       - name: Start giftcard-example container
