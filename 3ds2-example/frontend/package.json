@@ -9,7 +9,7 @@
     "dev": "vite"
   },
   "devDependencies": {
-    "vite": "^5.0.13"
+    "vite": "^5.4.8"
   },
   "dependencies": {
     "@adyen/adyen-web": "^5.55.1",
