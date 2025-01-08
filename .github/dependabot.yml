@@ -1,56 +1,183 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
 
   - package-ecosystem: "npm" 
     directory: "/checkout-example-advanced" 
     schedule:
-      interval: "daily"
-    versioning-strategy: increase
+      interval: "weekly"
     rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
+  - package-ecosystem: "npm" 
+    directory: "/checkout-example-advanced" 
+    schedule:
+      interval: "daily"
+    rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+      
+  - package-ecosystem: "npm" 
+    directory: "/checkout-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/checkout-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+      
+  - package-ecosystem: "npm" 
+    directory: "/giftcard-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/giftcard-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+      
+  - package-ecosystem: "npm" 
+    directory: "/paybylink-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/paybylink-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+
+  - package-ecosystem: "npm" 
+    directory: "/subscription-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/subscription-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+
+  - package-ecosystem: "npm" 
+    directory: "/authorisation-adjustment-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/authorisation-adjustment-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+
+  - package-ecosystem: "npm" 
+    directory: "/giving-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/giving-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+
+  - package-ecosystem: "npm" 
+    directory: "/in-person-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
+  - package-ecosystem: "npm" 
+    directory: "/in-person-example" 
+    schedule:
+      interval: "daily"
+    rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+
+  - package-ecosystem: "npm" 
+    directory: "/3ds2-example" 
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+    ignore-paths:
+      - "_archive/**"
   - package-ecosystem: "npm" 
     directory: "/3ds2-example" 
     schedule:
       interval: "daily"
-    versioning-strategy: increase
     rebase-strategy: "disabled"
+    allow:
+      - dependency-name: "@adyen/api-library"
+    ignore-paths:
+      - "_archive/**"
+
