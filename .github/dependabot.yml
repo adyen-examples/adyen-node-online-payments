@@ -5,6 +5,7 @@ updates:
     directory: "/checkout-example-advanced" 
     schedule:
       interval: "daily"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -17,6 +18,7 @@ updates:
     directory: "/checkout-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -29,6 +31,7 @@ updates:
     directory: "/giftcard-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -41,6 +44,7 @@ updates:
     directory: "/paybylink-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -53,6 +57,7 @@ updates:
     directory: "/subscription-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -65,6 +70,7 @@ updates:
     directory: "/authorisation-adjustment-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -77,6 +83,7 @@ updates:
     directory: "/giving-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -89,6 +96,7 @@ updates:
     directory: "/in-person-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -101,6 +109,7 @@ updates:
     directory: "/3ds2-example" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
@@ -108,4 +117,3 @@ updates:
         update-types: []
     ignore-paths:
       - "_archive/**"
-
