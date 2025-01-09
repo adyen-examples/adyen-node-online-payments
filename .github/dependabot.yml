@@ -4,20 +4,13 @@ updates:
   - package-ecosystem: "npm" 
     directory: "/checkout-example-advanced" 
     schedule:
-      interval: "weekly"
+      interval: "daily"
     rebase-strategy: "disabled"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/checkout-example-advanced" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
       
@@ -29,15 +22,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/checkout-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
       
@@ -49,15 +35,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/giftcard-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
       
@@ -69,15 +48,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/paybylink-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -89,15 +61,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/subscription-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -109,15 +74,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/authorisation-adjustment-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -129,15 +87,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/giving-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -149,15 +100,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/in-person-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -169,15 +113,8 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-    ignore-paths:
-      - "_archive/**"
-  - package-ecosystem: "npm" 
-    directory: "/3ds2-example" 
-    schedule:
-      interval: "daily"
-    rebase-strategy: "disabled"
-    allow:
       - dependency-name: "@adyen/api-library"
+        update-types: []
     ignore-paths:
       - "_archive/**"
 
