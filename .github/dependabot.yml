@@ -6,11 +6,6 @@ updates:
     schedule:
       interval: "daily"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
       
@@ -19,11 +14,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
       
@@ -32,11 +22,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
       
@@ -45,11 +30,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -58,11 +38,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -71,11 +46,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -84,11 +54,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -97,11 +62,6 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
 
@@ -110,10 +70,5 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
-      - dependency-name: "@adyen/api-library"
-        update-types: []
     ignore-paths:
       - "_archive/**"
