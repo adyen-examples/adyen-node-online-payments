@@ -1,14 +1,8 @@
-# Adyen [Online Payments](https://docs.adyen.com/online-payments) Integration Demo - Advanced Flow
+# Sample app with Adyen Adyen Web 5.68.0.
 
-Checkout sample application using `Adyen.Web Drop-in/Components v6.x.x`,  (see [folder /_archive/v5](./_archive/v5) to access the previous version using `Adyen.Web Drop-in/Components v5.x.x`).
+This folder contains the **previous version** of the sample application that uses **Adyen Web 5.68.x**.
 
-[![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout-advanced.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout-advanced.yml)
-[![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout-advanced.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout-advanced.yml)
-
-## Run demo in one-click
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example-advanced)  
-&nbsp;[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+**Check the root folder of the repository to use the latest version of Adyen Web/Components 6.x.x**
 
 # Description
 
