@@ -1,5 +1,7 @@
 # Adyen [Online Payments](https://docs.adyen.com/online-payments) Integration Demo - Sessions Flow
 
+Checkout sample application using `Adyen.Web Drop-in/Components v6.x.x`,  (see [folder /_archive/v5](./_archive/v5) to access the previous version using `Adyen.Web Drop-in/Components v5.x.x`).
+
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout.yml)
 [![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout.yml)
 
