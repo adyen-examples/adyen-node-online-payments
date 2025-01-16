@@ -18,11 +18,11 @@ jobs:
     steps:
       - name: Checkout checkout-example
         uses: actions/checkout@v4
-      - name: Build checkout-example image
-        run: docker build -t checkout-example-image:latest checkout-example
-      - name: Start checkout-example container
-        run: docker run --rm -d --name checkout-example-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-image:latest
-      - name: Run testing suite against checkout-example
+      - name: Build checkout-example-v5 image
+        run: docker build -t checkout-example-v5:latest -f ./checkout-example/_archive/v5/Dockerfile ./checkout-example/_archive/v5
+      - name: Start checkout-example-v5 container
+        run: docker run --rm -d --name checkout-example-v5 -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-v5:latest
+      - name: Run testing suite against checkout-example-v5
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout/v5 -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
   # e2e testing with Adyen.Web Drop-in/Components v6
