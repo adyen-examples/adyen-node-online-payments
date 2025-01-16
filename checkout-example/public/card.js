@@ -105,21 +105,4 @@ async function startCheckout() {
   }
 }
 
-// Function to finalize checkout
-async function finalizeCheckout() {
-  try {
-    const checkout = await createAdyenCheckout({ id: sessionId.value });
-    checkout.submitDetails({ details: redirectResult.value });
-  } catch (error) {
-    console.error(error);
-    alert("Error occurred. Look at console for details");
-  }
-}
-
-if (!sessionId) {
-  startCheckout();
-}
-else {
-  // existing session: complete Checkout
-  finalizeCheckout();
-}
+startCheckout();

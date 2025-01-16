@@ -115,10 +115,4 @@ async function finalizeCheckout() {
   }
 }
 
-if (!sessionId) {
-  startCheckout();
-}
-else {
-  // existing session: complete Checkout
-  finalizeCheckout();
-}
+startCheckout();
