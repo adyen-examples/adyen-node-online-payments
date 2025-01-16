@@ -45,7 +45,7 @@ app.set("view engine", "handlebars");
 /* ################# API ENDPOINTS ###################### */
 
 // Get payment methods
-app.post("/api/getPaymentMethods", async (req, res) => {
+app.post("/api/paymentMethods", async (req, res) => {
   try {
     const response = await checkout.PaymentsApi.paymentMethods({
       channel: "Web",
@@ -59,7 +59,7 @@ app.post("/api/getPaymentMethods", async (req, res) => {
 });
 
 // submitting a payment
-app.post("/api/initiatePayment", async (req, res) => {
+app.post("/api/payments", async (req, res) => {
   const currency = findCurrency(req.body.paymentMethod.type);
   // find shopper IP from request
   const shopperIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
@@ -87,7 +87,7 @@ app.post("/api/initiatePayment", async (req, res) => {
         //  nativeThreeDS: "preferred"
         //}
       },
-      returnUrl: `${protocol}://${localhost}/api/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
+      returnUrl: `${protocol}://${localhost}/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
       // special handling for boleto
       paymentMethod: req.body.paymentMethod.type.includes("boleto")
         ? { type: "boletobancario_santander" } : req.body.paymentMethod,
@@ -120,7 +120,7 @@ app.post("/api/initiatePayment", async (req, res) => {
   }
 });
 
-app.post("/api/submitAdditionalDetails", async (req, res) => {
+app.post("/api/payments/details", async (req, res) => {
   // Create the payload for submitting payment details
   const payload = {
     details: req.body.details,
@@ -140,7 +140,7 @@ app.post("/api/submitAdditionalDetails", async (req, res) => {
 });
 
 // Handle all redirects from payment type
-app.all("/api/handleShopperRedirect", async (req, res) => {
+app.all("/handleShopperRedirect", async (req, res) => {
   // Create the payload for submitting payment details
   const redirect = req.method === "GET" ? req.query : req.body;
   const details = {};
@@ -188,13 +188,43 @@ app.get("/preview", (req, res) =>
   })
 );
 
-// Checkout page (make a payment)
-app.get("/checkout", (req, res) =>
-  res.render("checkout", {
-    type: req.query.type,
-    clientKey: process.env.ADYEN_CLIENT_KEY,
+app.get("/checkout/dropin", (req, res) =>
+  res.render("dropin", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
   })
 );
+
+app.get("/checkout/card", (req, res) =>
+  res.render("card", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/googlepay", (req, res) =>
+  res.render("googlepay", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/ideal", (req, res) =>
+  res.render("ideal", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/klarna", (req, res) =>
+  res.render("klarna", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/sepa", (req, res) =>
+  res.render("sepa", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+
 
 // Result page
 app.get("/result/:type", (req, res) =>
