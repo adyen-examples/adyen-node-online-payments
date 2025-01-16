@@ -1,11 +1,6 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const { AdyenCheckout, Card } = window.AdyenWeb;
 
-// Used to finalize a checkout call in case of redirect
-const urlParams = new URLSearchParams(window.location.search);
-const sessionId = urlParams.get('sessionId'); // Unique identifier for the payment session
-const redirectResult = urlParams.get('redirectResult');
-
 // Function to create AdyenCheckout instance
 async function createAdyenCheckout(session) {
   return AdyenCheckout(

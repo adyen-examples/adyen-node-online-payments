@@ -1,11 +1,6 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const { AdyenCheckout, Dropin } = window.AdyenWeb;
 
-// Used to finalize a checkout call in case of redirect
-const urlParams = new URLSearchParams(window.location.search);
-const sessionId = urlParams.get('sessionId'); // Unique identifier for the payment session
-const redirectResult = urlParams.get('redirectResult');
-
 async function startCheckout() {
   try {
 
@@ -103,16 +98,5 @@ function handleOnPaymentFailed(resultCode) {
   }
 }
 
-
-// Function to finalize checkout
-async function finalizeCheckout() {
-  try {
-    const checkout = await createAdyenCheckout({ id: sessionId.value });
-    checkout.submitDetails({ details: redirectResult.value });
-  } catch (error) {
-    console.error(error);
-    alert("Error occurred. Look at console for details");
-  }
-}
 
 startCheckout();

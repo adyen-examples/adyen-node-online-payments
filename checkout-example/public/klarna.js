@@ -1,11 +1,6 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const { AdyenCheckout, Klarna } = window.AdyenWeb;
 
-// Used to finalize a checkout call in case of redirect
-const urlParams = new URLSearchParams(window.location.search);
-const sessionId = urlParams.get('sessionId'); // Unique identifier for the payment session
-const redirectResult = urlParams.get('redirectResult');
-
 // Function to create AdyenCheckout instance
 async function createAdyenCheckout(session) {
   return AdyenCheckout(
@@ -85,17 +80,6 @@ async function startCheckout() {
     })
     .mount('#component-container');
 
-  } catch (error) {
-    console.error(error);
-    alert("Error occurred. Look at console for details");
-  }
-}
-
-// Function to finalize checkout
-async function finalizeCheckout() {
-  try {
-    const checkout = await createAdyenCheckout({ id: sessionId.value });
-    checkout.submitDetails({ details: redirectResult.value });
   } catch (error) {
     console.error(error);
     alert("Error occurred. Look at console for details");
