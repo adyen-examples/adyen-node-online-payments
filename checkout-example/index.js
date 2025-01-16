@@ -61,7 +61,7 @@ app.post("/api/sessions", async (req, res) => {
       countryCode: "NL",
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       reference: orderRef, // required: your Payment Reference
-      returnUrl: `${protocol}://${localhost}/checkout?orderRef=${orderRef}`, // set redirect URL required for some payment methods (ie iDEAL)
+      returnUrl: `${protocol}://${localhost}/handleShopperRedirect?orderRef=${orderRef}`, // set redirect URL required for some payment methods (ie iDEAL)
       // set lineItems required for some payment methods (ie Klarna)
       lineItems: [
         {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
@@ -91,13 +91,42 @@ app.get("/preview", (req, res) =>
   })
 );
 
-// Checkout page (make a payment)
-app.get("/checkout", (req, res) =>
-  res.render("checkout", {
-    type: req.query.type,
+app.get("/checkout/dropin", (req, res) =>
+  res.render("dropin", {
     clientKey: process.env.ADYEN_CLIENT_KEY
   })
 );
+
+app.get("/checkout/card", (req, res) =>
+  res.render("card", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/googlepay", (req, res) =>
+  res.render("googlepay", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/ideal", (req, res) =>
+  res.render("ideal", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/klarna", (req, res) =>
+  res.render("klarna", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/sepa", (req, res) =>
+  res.render("sepa", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
 
 // Result page
 app.get("/result/:type", (req, res) =>
@@ -105,6 +134,41 @@ app.get("/result/:type", (req, res) =>
     type: req.params.type,
   })
 );
+
+// Handle redirect during payment. This gets called during the redirect flow
+app.all("/handleShopperRedirect", async (req, res) => {
+  // Create the payload for submitting payment details
+  const redirect = req.method === "GET" ? req.query : req.body;
+  const details = {};
+  if (redirect.redirectResult) {
+    details.redirectResult = redirect.redirectResult;
+  } else if (redirect.payload) {
+    details.payload = redirect.payload;
+  }
+
+  try {
+    const response = await checkout.PaymentsApi.paymentsDetails({ details });
+    // Conditionally handle different result codes for the shopper
+    switch (response.resultCode) {
+      case "Authorised":
+        res.redirect("/result/success");
+        break;
+      case "Pending":
+      case "Received":
+        res.redirect("/result/pending");
+        break;
+      case "Refused":
+        res.redirect("/result/failed");
+        break;
+      default:
+        res.redirect("/result/error");
+        break;
+    }
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.redirect("/result/error");
+  }
+});
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
 
