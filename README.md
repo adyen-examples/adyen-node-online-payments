@@ -20,7 +20,8 @@ Get started by navigating to one of the supported demos below.
 
 ## [Checkout Example](checkout-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)  
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)   [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)
+
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
 The [checkout example](checkout-example) repository includes examples of PCI-compliant UI integrations for online payments with Adyen.
@@ -31,7 +32,7 @@ Check out the underlying code to see how you can integrate Adyen to give your sh
 
 ## [Advanced Checkout Example](checkout-example-advanced)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example-advanced)  
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example-advanced)    [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example-advanced)
 
 The [advanced checkout example](checkout-example-advanced) performs the same functionality as the [checkout example](checkout-example) but using the 3 stages of the Checkout API (Initiate, Submit, and Details) instead of the single `/sessions` endpoint.
 See the [advanced integration flow](https://docs.adyen.com/online-payments/web-drop-in/additional-use-cases?tab=sessions_flow_advanced_flow_1) for more information.
@@ -41,14 +42,14 @@ See the [advanced integration flow](https://docs.adyen.com/online-payments/web-d
 
 ## [3DS2 Example](3ds2-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds2-example)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds2-example)  [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds2-example)
 
 The [3ds2 example](3ds2-example) shows developers how to integrate the Native and Redirect flows of 3DS2.
 See the [3D Secure 2 Authentication](https://docs.adyen.com/online-payments/3d-secure/) for more information.
 
 
 ## [Authorisation Adjustment Example](authorisation-adjustment-example)
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)  [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)
 
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
@@ -57,7 +58,7 @@ The [`authorisation adjustment example`](authorisation-adjustment-example) repos
 ![Authorisation Adjustment Card Demo](authorisation-adjustment-example/public/images/cardauthorisationadjustment.gif)
 
 ## [In-person Payments Example](in-person-payments-example)
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/in-person-payments-example)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/in-person-payments-example)  [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/in-person-payments-example)
 
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
@@ -67,7 +68,8 @@ The [in-person payments example](in-person-payments-example) features an in-pers
 
 ## [Gift Card Example](giftcard-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/giftcard-example)  
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/giftcard-example)  [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/giftcard-example)
+
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
 The [gift card example](giftcard-example) repository includes a gift card flow during checkout. Within this demo app, you'll find a simplified version of an e-commerce website. The shopper can choose to use gift cards to complete their purchase or use their preferred payment method to pay the remaining amount.
@@ -76,7 +78,8 @@ The [gift card example](giftcard-example) repository includes a gift card flow d
 
 ## [Pay by Link Example](paybylink-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/paybylink-example)  
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/paybylink-example)  [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/paybylink-example)
+
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
 
@@ -86,7 +89,8 @@ The [`pay by link example`](paybylink-example) repository includes a Pay by Link
 
 ## [Subscription Example](subscription-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/subscription-example)  
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/subscription-example)  [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-node-online-payments)
+
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
 The [subscription example](subscription-example) repository includes a tokenization example for subscriptions. Within this demo app, you'll find a simplified version of a website that offers a music subscription service.
@@ -97,7 +101,8 @@ The panel allows admins to make payments on behalf of the shopper using this tok
 
 ## [Giving Example](giving-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-java-spring-online-payments/tree/main/giving-example)  
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-java-spring-online-payments/tree/main/giving-example) [![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/adyen-examples/adyen-java-spring-online-payments/tree/main/giving-example)
+
 [First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
 
 The [giving example](giving-example) repository includes a sample designed to demonstrate the Adyen Giving donations workflow.
