@@ -3,26 +3,25 @@ const { AdyenCheckout, Dropin } = window.AdyenWeb;
 
 async function startCheckout() {
   try {
-
     // Create a new session
     const session = await fetch("/api/sessions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }
-    }).then(response => response.json());
+      },
+    }).then((response) => response.json());
 
     const configuration = {
       session: session,
       clientKey,
       environment: "test",
       locale: "en_US",
-      countryCode: 'NL',
+      countryCode: "NL",
       showPayButton: true,
       translations: {
-        'en-US': {
-        'creditCard.securityCode.label': 'CVV/CVC'
-        }
+        "en-US": {
+          "creditCard.securityCode.label": "CVV/CVC",
+        },
       },
       onPaymentCompleted: (result, component) => {
         console.info("onPaymentCompleted", result, component);
@@ -48,24 +47,23 @@ async function startCheckout() {
           currency: "EUR",
         },
         placeholders: {
-          cardNumber: '1234 5678 9012 3456',
-          expiryDate: 'MM/YY',
-          securityCodeThreeDigits: '123',
-          securityCodeFourDigits: '1234',
-          holderName: 'J. Smith'
-        }
-      }
+          cardNumber: "1234 5678 9012 3456",
+          expiryDate: "MM/YY",
+          securityCodeThreeDigits: "123",
+          securityCodeFourDigits: "1234",
+          holderName: "J. Smith",
+        },
+      },
     };
 
     // Start the AdyenCheckout and mount the element onto the 'payment' div.
     const adyenCheckout = await AdyenCheckout(configuration);
     const dropin = new Dropin(adyenCheckout, {
-      paymentMethodsConfiguration: paymentMethodsConfiguration
-    }).mount('#dropin-container');
-
+      paymentMethodsConfiguration: paymentMethodsConfiguration,
+    }).mount("#dropin-container");
   } catch (error) {
-      console.error(error);
-      alert("Error occurred. Look at console for details.");
+    console.error(error);
+    alert("Error occurred. Look at console for details.");
   }
 }
 
@@ -97,6 +95,5 @@ function handleOnPaymentFailed(resultCode) {
       break;
   }
 }
-
 
 startCheckout();

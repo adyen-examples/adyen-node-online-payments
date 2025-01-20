@@ -8,7 +8,6 @@ const redirectResult = urlParams.get('redirectResult');
 
 async function startCheckout() {
   try {
-
     const paymentMethodsResponse = await fetch('/api/paymentMethods', {
       method: 'POST',
       headers: {
@@ -30,45 +29,45 @@ async function startCheckout() {
       // override Security Code label
       translations: {
         'en-US': {
-            'creditCard.securityCode.label': 'CVV/CVC'
+          'creditCard.securityCode.label': 'CVV/CVC'
         }
       },
       onSubmit: async (state, component, actions) => {
         console.info("onSubmit", state, component, actions);
         try {
-            if (state.isValid) {
-                const { action, order, resultCode } = await fetch("/api/payments", {
-                    method: "POST",
-                    body: state.data ? JSON.stringify(state.data) : "",
-                    headers: {
-                        "Content-Type": "application/json",
-                    }
-                }).then(response => response.json());
+          if (state.isValid) {
+            const { action, order, resultCode } = await fetch("/api/payments", {
+              method: "POST",
+              body: state.data ? JSON.stringify(state.data) : "",
+              headers: {
+                "Content-Type": "application/json",
+              }
+            }).then(response => response.json());
 
-                if (!resultCode) {
-                    console.warn("reject");
-                    actions.reject();
-                }
-
-                actions.resolve({
-                    resultCode,
-                    action,
-                    order
-                });
+            if (!resultCode) {
+              console.warn("reject");
+              actions.reject();
             }
+
+            actions.resolve({
+              resultCode,
+              action,
+              order
+            });
+          }
         } catch (error) {
-            console.error(error);
-            actions.reject();
+          console.error(error);
+          actions.reject();
         }
-      },      
+      },
       onPaymentCompleted: (result, component) => {
         console.info("onPaymentCompleted", result, component);
         handleOnPaymentCompleted(result.resultCode);
       },
       onPaymentFailed: (result, component) => {
         console.info("onPaymentFailed", result, component);
-      handleOnPaymentFailed(result.resultCode);
-    },
+        handleOnPaymentFailed(result.resultCode);
+      },
       onError: (error, component) => {
         console.error("onError", error.name, error.message, error.stack, component);
         window.location.href = "/result/error";
@@ -77,25 +76,25 @@ async function startCheckout() {
       onAdditionalDetails: async (state, component, actions) => {
         console.info("onAdditionalDetails", state, component);
         try {
-            const { resultCode } = await fetch("/api/payments/details", {
-                method: "POST",
-                body: state.data ? JSON.stringify(state.data) : "",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }).then(response => response.json());
-
-            if (!resultCode) {
-                console.warn("reject");
-                actions.reject();
+          const { resultCode } = await fetch("/api/payments/details", {
+            method: "POST",
+            body: state.data ? JSON.stringify(state.data) : "",
+            headers: {
+              "Content-Type": "application/json",
             }
+          }).then(response => response.json());
 
-            actions.resolve({ resultCode });
-        } catch (error) {
-            console.error(error);
+          if (!resultCode) {
+            console.warn("reject");
             actions.reject();
+          }
+
+          actions.resolve({ resultCode });
+        } catch (error) {
+          console.error(error);
+          actions.reject();
         }
-      }      
+      }
     };
 
     const paymentMethodsConfiguration = {
@@ -125,8 +124,8 @@ async function startCheckout() {
     }).mount('#dropin-container');
 
   } catch (error) {
-      console.error(error);
-      alert("Error occurred. Look at console for details.");
+    console.error(error);
+    alert("Error occurred. Look at console for details.");
   }
 }
 

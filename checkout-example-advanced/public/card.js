@@ -3,89 +3,87 @@ const { AdyenCheckout, Card } = window.AdyenWeb;
 
 // Function to create AdyenCheckout instance
 async function createAdyenCheckout(paymentMethodsResponse) {
-  return AdyenCheckout(
-    {
-      paymentMethodsResponse: paymentMethodsResponse,
-      clientKey,
-      environment: "test",
-      amount: {
-        value: 10000,
-        currency: 'EUR'
-      },
-      locale: "en_US",
-      countryCode: 'NL',
-      showPayButton: true,
-      // override Security Code label
-      translations: {
-        'en-US': {
-            'creditCard.securityCode.label': 'CVV/CVC'
-        }
-      },
-      onSubmit: async (state, component, actions) => {
-        console.info("onSubmit", state, component, actions);
-        try {
-            if (state.isValid) {
-                const { action, order, resultCode } = await fetch("/api/payments", {
-                    method: "POST",
-                    body: state.data ? JSON.stringify(state.data) : "",
-                    headers: {
-                        "Content-Type": "application/json",
-                    }
-                }).then(response => response.json());
-
-                if (!resultCode) {
-                    console.warn("reject");
-                    actions.reject();
-                }
-
-                actions.resolve({
-                    resultCode,
-                    action,
-                    order
-                });
+  return AdyenCheckout({
+    paymentMethodsResponse: paymentMethodsResponse,
+    clientKey,
+    environment: "test",
+    amount: {
+      value: 10000,
+      currency: 'EUR'
+    },
+    locale: "en_US",
+    countryCode: 'NL',
+    showPayButton: true,
+    // override Security Code label
+    translations: {
+      'en-US': {
+        'creditCard.securityCode.label': 'CVV/CVC'
+      }
+    },
+    onSubmit: async (state, component, actions) => {
+      console.info("onSubmit", state, component, actions);
+      try {
+        if (state.isValid) {
+          const { action, order, resultCode } = await fetch("/api/payments", {
+            method: "POST",
+            body: state.data ? JSON.stringify(state.data) : "",
+            headers: {
+              "Content-Type": "application/json",
             }
-        } catch (error) {
-            console.error(error);
+          }).then(response => response.json());
+
+          if (!resultCode) {
+            console.warn("reject");
             actions.reject();
+          }
+
+          actions.resolve({
+            resultCode,
+            action,
+            order
+          });
         }
-      },      
-      onPaymentCompleted: (result, component) => {
-        console.info("onPaymentCompleted", result, component);
-        handleOnPaymentCompleted(result.resultCode);
-      },
-      onPaymentFailed: (result, component) => {
-        console.info("onPaymentFailed", result, component);
+      } catch (error) {
+        console.error(error);
+        actions.reject();
+      }
+    },
+    onPaymentCompleted: (result, component) => {
+      console.info("onPaymentCompleted", result, component);
+      handleOnPaymentCompleted(result.resultCode);
+    },
+    onPaymentFailed: (result, component) => {
+      console.info("onPaymentFailed", result, component);
       handleOnPaymentFailed(result.resultCode);
     },
-      onError: (error, component) => {
-        console.error("onError", error.name, error.message, error.stack, component);
-        window.location.href = "/result/error";
-      },
-      // Used for the Native 3DS2 Authentication flow, see: https://docs.adyen.com/online-payments/3d-secure/native-3ds2/
-      onAdditionalDetails: async (state, component, actions) => {
-        console.info("onAdditionalDetails", state, component);
-        try {
-            const { resultCode } = await fetch("/api/payments/details", {
-                method: "POST",
-                body: state.data ? JSON.stringify(state.data) : "",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }).then(response => response.json());
+    onError: (error, component) => {
+      console.error("onError", error.name, error.message, error.stack, component);
+      window.location.href = "/result/error";
+    },
+    // Used for the Native 3DS2 Authentication flow, see: https://docs.adyen.com/online-payments/3d-secure/native-3ds2/
+    onAdditionalDetails: async (state, component, actions) => {
+      console.info("onAdditionalDetails", state, component);
+      try {
+        const { resultCode } = await fetch("/api/payments/details", {
+          method: "POST",
+          body: state.data ? JSON.stringify(state.data) : "",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then(response => response.json());
 
-            if (!resultCode) {
-                console.warn("reject");
-                actions.reject();
-            }
-
-            actions.resolve({ resultCode });
-        } catch (error) {
-            console.error(error);
-            actions.reject();
+        if (!resultCode) {
+          console.warn("reject");
+          actions.reject();
         }
-      }      
+
+        actions.resolve({ resultCode });
+      } catch (error) {
+        console.error(error);
+        actions.reject();
+      }
     }
-  );
+  });
 }
 
 // Function to handle payment completion redirects
@@ -119,7 +117,6 @@ function handleOnPaymentFailed(resultCode) {
 
 // Function to start checkout
 async function startCheckout() {
-
   try {
     const paymentMethodsResponse = await fetch('/api/paymentMethods', {
       method: 'POST',
@@ -136,10 +133,10 @@ async function startCheckout() {
       hasHolderName: true, // show holder name
       holderNameRequired: true, // make holder name mandatory
       // configure placeholders
-      placeholders: { 
+      placeholders: {
         cardNumber: '1234 5678 9012 3456',
-        expiryDate: 'MM/YY', 
-        securityCodeThreeDigits: '123', 
+        expiryDate: 'MM/YY',
+        securityCodeThreeDigits: '123',
         securityCodeFourDigits: '1234',
         holderName: 'J. Smith'
       }
