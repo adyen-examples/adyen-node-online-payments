@@ -139,40 +139,6 @@ app.post("/api/payments/details", async (req, res) => {
   }
 });
 
-// Handle all redirects from payment type
-app.all("/handleShopperRedirect", async (req, res) => {
-  // Create the payload for submitting payment details
-  const redirect = req.method === "GET" ? req.query : req.body;
-  const details = {};
-  if (redirect.redirectResult) {
-    details.redirectResult = redirect.redirectResult;
-  } else if (redirect.payload) {
-    details.payload = redirect.payload;
-  }
-
-  try {
-    const response = await checkout.PaymentsApi.paymentsDetails({ details });
-    // Conditionally handle different result codes for the shopper
-    switch (response.resultCode) {
-      case "Authorised":
-        res.redirect("/result/success");
-        break;
-      case "Pending":
-      case "Received":
-        res.redirect("/result/pending");
-        break;
-      case "Refused":
-        res.redirect("/result/failed");
-        break;
-      default:
-        res.redirect("/result/error");
-        break;
-    }
-  } catch (err) {
-    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
-    res.redirect("/result/error");
-  }
-});
 
 /* ################# end API ENDPOINTS ###################### */
 
@@ -224,14 +190,48 @@ app.get("/checkout/sepa", (req, res) =>
   })
 );
 
-
-
 // Result page
 app.get("/result/:type", (req, res) =>
   res.render("result", {
     type: req.params.type,
   })
 );
+
+// Handle all redirects from payment type
+app.all("/handleShopperRedirect", async (req, res) => {
+  // Create the payload for submitting payment details
+  const redirect = req.method === "GET" ? req.query : req.body;
+  const details = {};
+  if (redirect.redirectResult) {
+    details.redirectResult = redirect.redirectResult;
+  } else if (redirect.payload) {
+    details.payload = redirect.payload;
+  }
+
+  try {
+    const response = await checkout.PaymentsApi.paymentsDetails({ details });
+    // Conditionally handle different result codes for the shopper
+    switch (response.resultCode) {
+      case "Authorised":
+        res.redirect("/result/success");
+        break;
+      case "Pending":
+      case "Received":
+        res.redirect("/result/pending");
+        break;
+      case "Refused":
+        res.redirect("/result/failed");
+        break;
+      default:
+        res.redirect("/result/error");
+        break;
+    }
+  } catch (err) {
+    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
+    res.redirect("/result/error");
+  }
+});
+
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
 
