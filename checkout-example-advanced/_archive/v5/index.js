@@ -73,7 +73,7 @@ app.post("/api/initiatePayment", async (req, res) => {
     const protocol = req.socket.encrypted? 'https' : 'http';    
     // ideally the data passed here should be computed based on business logic
     const response = await checkout.PaymentsApi.payments({
-      amount: { currency, value: 1000 }, // value is 10€ in minor units
+      amount: { currency, value: 10000 }, // value is 100€ in minor units
       reference: orderRef, // required
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       channel: "Web", // required
