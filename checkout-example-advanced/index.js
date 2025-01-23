@@ -88,12 +88,7 @@ app.post("/api/payments", async (req, res) => {
         //}
       },
       returnUrl: `${protocol}://${localhost}/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
-      // special handling for boleto
-      paymentMethod: req.body.paymentMethod.type.includes("boleto")
-        ? { type: "boletobancario_santander" } : req.body.paymentMethod,
-      // below fields are required for Boleto:
-      socialSecurityNumber: req.body.socialSecurityNumber,
-      shopperName: req.body.shopperName,
+      paymentMethod : req.body.paymentMethod,
       // we strongly recommend that you the billingAddress in your request. 
       // card schemes require this for channel web, iOS, and Android implementations.
       billingAddress:
