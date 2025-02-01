@@ -15,7 +15,7 @@
     "@adyen/api-library": "^20.0.0",
     "ansi-regex": "^6.1.0",
     "dot-prop": "^9.0.0",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "express-handlebars": "^8.0.1",
     "minimist": "^1.2.8",
