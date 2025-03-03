@@ -12,7 +12,19 @@ on:
       - 'checkout-example-advanced/**'
 
 jobs:
-  checkout-advanced:
+  checkout-advanced-v5:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout checkout-example-advanced
+        uses: actions/checkout@v4
+      - name: Build checkout-example-advanced-v5 image
+        run: docker build -t checkout-example-advanced-v5:latest -f ./checkout-example-advanced/_archive/v5/Dockerfile ./checkout-example-advanced/_archive/v5
+      - name: Start checkout-example-advanced-v5 container
+        run: docker run --rm -d --name checkout-example-advanced-v5 -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-advanced-v5:latest
+      - name: Run testing suite against checkout-example-advanced-v5
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout/v5 -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+
+  checkout-advanced-v6:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout checkout-example-advanced
@@ -22,4 +34,4 @@ jobs:
       - name: Start checkout-example-advanced container
         run: docker run --rm -d --name checkout-example-advanced-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} checkout-example-advanced-image:latest
       - name: Run testing suite against checkout-example-advanced-image
-        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=advanced-checkout/v6 -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
