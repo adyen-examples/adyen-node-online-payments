@@ -49,7 +49,7 @@ app.set("view engine", "handlebars");
 /* ################# API ENDPOINTS ###################### */
 
 // Get payment methods
-app.post("/api/getPaymentMethods", async (req, res) => {
+app.post("/api/paymentMethods", async (req, res) => {
   try {
     const response = await checkout.PaymentsApi.paymentMethods({
       channel: "Web",
@@ -63,7 +63,7 @@ app.post("/api/getPaymentMethods", async (req, res) => {
 });
 
 // submit additional payment details to complete the payment
-app.post("/api/submitAdditionalDetails", async (req, res) => {
+app.post("/api/payments/details", async (req, res) => {
   // Create the payload for submitting payment details
   const payload = {
     details: req.body.details,
