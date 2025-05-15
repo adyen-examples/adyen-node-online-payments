@@ -25,11 +25,11 @@ async function startCheckout() {
       },
       onPaymentCompleted: (result, component) => {
         console.info("onPaymentCompleted", result, component);
-        handleOnPaymentCompleted(result, component);
+        handleOnPaymentCompleted(result.resultCode);
       },
       onPaymentFailed: (result, component) => {
         console.info("onPaymentFailed", result, component);
-        handleOnPaymentFailed(result, component);
+        handleOnPaymentFailed(result.resultCode);
       },
       onError: (error, component) => {
         console.error("onError", error.name, error.message, error.stack, component);
