@@ -14,7 +14,7 @@ This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com
 ## Run demo in one-click
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fgiftcard-example%2Fdevcontainer.json)  
-[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
+[First time with Codespaces?](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md)
 
 For detailed setup instructions, see the [GitHub Codespaces Instructions](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md).
 

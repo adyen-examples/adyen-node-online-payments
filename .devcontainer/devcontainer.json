@@ -1,5 +1,5 @@
 {
-  "name": "Adyen Node.js Online Payments",
+  "name": "Online Payments - Default",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
