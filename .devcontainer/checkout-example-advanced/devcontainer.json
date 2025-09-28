@@ -1,0 +1,38 @@
+{
+  "name": "Advanced Checkout Example",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-json",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "chmod +x .devcontainer/run_example.sh && cd checkout-example-advanced && npm install",
+  "postAttachCommand": ".devcontainer/run_example.sh checkout-example-advanced",
+  "remoteUser": "node",
+  "workspaceFolder": "/workspaces/adyen-node-online-payments/checkout-example-advanced"
+}

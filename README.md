@@ -5,6 +5,45 @@ The demos below leverages Adyen's API Library for Node.js ([GitHub](https://gith
 
 Get started by navigating to one of the supported demos below.
 
+## 🚀 Quick Start with GitHub Codespaces
+
+This repository is configured to work seamlessly with [GitHub Codespaces](https://github.com/features/codespaces). Each example can be opened in its own Codespace with all dependencies pre-installed.
+
+For detailed setup instructions, see the [GitHub Codespaces Instructions](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md).
+
+### Prerequisites
+
+Before running any example, you'll need to set up the following environment variables in your Codespace:
+
+- `ADYEN_API_KEY` - Your Adyen API key
+- `ADYEN_CLIENT_KEY` - Your Adyen client key  
+- `ADYEN_MERCHANT_ACCOUNT` - Your Adyen merchant account
+- `ADYEN_HMAC_KEY` - Your Adyen HMAC key for webhook validation
+
+### Setting Environment Variables
+
+1. Open your Codespace
+2. Go to the "Codespaces" tab in VS Code
+3. Click on "Manage secrets and variables"
+4. Add the required environment variables
+5. Restart your Codespace
+
+Alternatively, you can set them in the terminal:
+```bash
+export ADYEN_API_KEY="your_api_key"
+export ADYEN_CLIENT_KEY="your_client_key"
+export ADYEN_MERCHANT_ACCOUNT="your_merchant_account"
+export ADYEN_HMAC_KEY="your_hmac_key"
+```
+
+### Running an Example
+
+1. Click on any "Open in GitHub Codespaces" button below
+2. Wait for the Codespace to initialize (dependencies will be installed automatically)
+3. Navigate to your desired example directory
+4. Run `npm run dev` to start the development server
+5. Open the forwarded port in your browser
+
 | Demos | Description | Details |
 | --: | :-- | :-- |
 | [`Checkout Example`](checkout-example) | E-commerce checkout flow with different payment methods. | [See below](#checkout-example) | 
@@ -20,8 +59,8 @@ Get started by navigating to one of the supported demos below.
 
 ## [Checkout Example](checkout-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)  
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fcheckout-example%2Fdevcontainer.json)  
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 The [checkout example](checkout-example) repository includes examples of PCI-compliant UI integrations for online payments with Adyen.
 Within this demo app, you'll find a simplified version of an e-commerce website, complete with commented code to highlight key features and concepts of Adyen's API.
@@ -31,7 +70,7 @@ Check out the underlying code to see how you can integrate Adyen to give your sh
 
 ## [Advanced Checkout Example](checkout-example-advanced)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example-advanced)  
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fcheckout-example-advanced%2Fdevcontainer.json)  
 
 The [advanced checkout example](checkout-example-advanced) performs the same functionality as the [checkout example](checkout-example) but using the 3 stages of the Checkout API (Initiate, Submit, and Details) instead of the single `/sessions` endpoint.
 See the [advanced integration flow](https://docs.adyen.com/online-payments/web-drop-in/additional-use-cases?tab=sessions_flow_advanced_flow_1) for more information.
@@ -41,25 +80,25 @@ See the [advanced integration flow](https://docs.adyen.com/online-payments/web-d
 
 ## [3DS2 Example](3ds2-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/3ds2-example)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2F3ds2-example%2Fdevcontainer.json)
 
 The [3ds2 example](3ds2-example) shows developers how to integrate the Native and Redirect flows of 3DS2.
 See the [3D Secure 2 Authentication](https://docs.adyen.com/online-payments/3d-secure/) for more information.
 
 
 ## [Authorisation Adjustment Example](authorisation-adjustment-example)
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fauthorisation-adjustment-example%2Fdevcontainer.json)
 
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 The [`authorisation adjustment example`](authorisation-adjustment-example) repository includes adjust authorisation example for the following three use cases after a pre-authorised payment: incremental, decremental adjustments. Within this demo app, you'll find a simplified version of a hotel booking, where the shopper perform a booking and administrators can **[1] adjust** (increase/decrease) the payment amount, **[2] extend** the authorisation expiry date, **[3] capture** the final amount and/or **[4] reverse** (cancel or refund) an authorised payment
 
 ![Authorisation Adjustment Card Demo](authorisation-adjustment-example/public/images/cardauthorisationadjustment.gif)
 
 ## [In-person Payments Example](in-person-payments-example)
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/in-person-payments-example)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fin-person-payments-example%2Fdevcontainer.json)
 
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 The [in-person payments example](in-person-payments-example) features an in-person payment [cloud terminal API](https://docs.adyen.com/point-of-sale/design-your-integration/choose-your-architecture/cloud/) integration. Within this demo app, you can make in-person payments using a terminal, initiate reversals (refunds) and check transaction statuses.
 
@@ -67,8 +106,8 @@ The [in-person payments example](in-person-payments-example) features an in-pers
 
 ## [Gift Card Example](giftcard-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/giftcard-example)  
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fgiftcard-example%2Fdevcontainer.json)  
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 The [gift card example](giftcard-example) repository includes a gift card flow during checkout. Within this demo app, you'll find a simplified version of an e-commerce website. The shopper can choose to use gift cards to complete their purchase or use their preferred payment method to pay the remaining amount.
 
@@ -76,8 +115,8 @@ The [gift card example](giftcard-example) repository includes a gift card flow d
 
 ## [Pay by Link Example](paybylink-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/paybylink-example)  
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fpaybylink-example%2Fdevcontainer.json)  
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 
 The [`pay by link example`](paybylink-example) repository includes a Pay by Link flow. Within this demo app, you can create links by specifying the amount. The shopper can choose to accept the links and complete the payment.
@@ -86,8 +125,8 @@ The [`pay by link example`](paybylink-example) repository includes a Pay by Link
 
 ## [Subscription Example](subscription-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/subscription-example)  
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fsubscription-example%2Fdevcontainer.json)  
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 The [subscription example](subscription-example) repository includes a tokenization example for subscriptions. Within this demo app, you'll find a simplified version of a website that offers a music subscription service.
 The shopper can purchase a subscription and administrators can manage the saved (tokenized) payment methods on a separate admin panel.
@@ -97,8 +136,8 @@ The panel allows admins to make payments on behalf of the shopper using this tok
 
 ## [Giving Example](giving-example)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-java-spring-online-payments/tree/main/giving-example)  
-[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fgiving-example%2Fdevcontainer.json)  
+[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
 
 The [giving example](giving-example) repository includes a sample designed to demonstrate the Adyen Giving donations workflow.
 First make a test payment using one of our test card numbers, so you can see the donation screen appear.
