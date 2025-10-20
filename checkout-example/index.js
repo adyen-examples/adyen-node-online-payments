@@ -55,18 +55,37 @@ app.post("/api/sessions", async (req, res) => {
     const localhost = req.get('host');
     // const isHttps = req.connection.encrypted;
     const protocol = req.socket.encrypted? 'https' : 'http';
+    
+    // Get payment method type from query parameter or default to EUR/NL
+    const paymentMethod = req.query.type || 'default';
+    
+    // Configure currency and country based on payment method
+    let currency = "EUR";
+    let countryCode = "NL";
+    let lineItems = [
+      {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
+      {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
+    ];
+    
+    // Vipps-specific configuration
+    if (paymentMethod === 'vipps') {
+      currency = "NOK";
+      countryCode = "NO";
+      lineItems = [
+        {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
+        {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
+      ];
+    }
+    
     // Ideally the data passed here should be computed based on business logic
     const response = await checkout.PaymentsApi.sessions({
-      amount: { currency: "EUR", value: 10000 }, // value is 100€ in minor units
-      countryCode: "NL",
+      amount: { currency: currency, value: 10000 }, // value is 100€/1000 NOK in minor units
+      countryCode: countryCode,
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       reference: orderRef, // required: your Payment Reference
       returnUrl: `${protocol}://${localhost}/handleShopperRedirect?orderRef=${orderRef}`, // set redirect URL required for some payment methods (ie iDEAL)
       // set lineItems required for some payment methods (ie Klarna)
-      lineItems: [
-        {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
-        {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
-      ] 
+      lineItems: lineItems
     });
 
     res.json(response);
@@ -123,6 +142,12 @@ app.get("/checkout/klarna", (req, res) =>
 
 app.get("/checkout/sepa", (req, res) =>
   res.render("sepa", {
+    clientKey: process.env.ADYEN_CLIENT_KEY
+  })
+);
+
+app.get("/checkout/vipps", (req, res) =>
+  res.render("vipps", {
     clientKey: process.env.ADYEN_CLIENT_KEY
   })
 );
