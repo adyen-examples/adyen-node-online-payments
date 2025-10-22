@@ -2,13 +2,59 @@
 <div id="clientKey" class="hidden">{{ clientKey }}</div>
 
 <div id="payment-page">
-  <div class="container">
-    {{!-- The Checkout integration type will be rendered below. --}}
-    <div class="payment-container">
+  <div class="checkout-container">
+    {{!-- Payment Method Selection --}}
+    <div class="payment-section">
+      <h2 class="section-title">SELECT YOUR PAYMENT METHOD</h2>
+      <div class="payment-method-header">
+        <div class="payment-method-logo" id="googlepay-payment-logo"></div>
+        <h3 class="payment-method-title">Google Pay</h3>
+      </div>
+      <div class="payment-container">
         <div id="component-container" class="payment"></div>
+      </div>
+    </div>
+    
+    {{!-- Order Summary --}}
+    <div class="order-summary-section">
+      <h2 class="section-title">ORDER SUMMARY</h2>
+      <div class="order-summary-box">
+        <div class="order-item">
+          <div class="item-icon">
+            <img src="/images/sunglasses.png" alt="Sunglasses" class="item-image">
+          </div>
+          <div class="item-details">
+            <span class="item-name">Sunglasses</span>
+            <span class="item-price">€50.00</span>
+          </div>
+        </div>
+        
+        <div class="order-item">
+          <div class="item-icon">
+            <img src="/images/headphones.png" alt="Headphones" class="item-image">
+          </div>
+          <div class="item-details">
+            <span class="item-name">Headphones</span>
+            <span class="item-price">€50.00</span>
+          </div>
+        </div>
+        
+        <div class="order-divider"></div>
+        
+        <div class="order-total">
+          <span class="total-label">Total:</span>
+          <span class="total-amount">€100.00</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 {{!-- Adyen Component client code --}}
 <script type="text/javascript" src="../googlepay.js"></script>
+<script src="/js/payment-logos.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    PaymentLogos.loadLogo('googlepay', document.getElementById('googlepay-payment-logo'));
+  });
+</script>

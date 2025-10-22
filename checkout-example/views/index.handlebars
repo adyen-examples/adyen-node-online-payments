@@ -1,65 +1,22 @@
 <div class='main-container'>
   <div class="info">
-    <h1>Select a demo</h1>
-    <p>Click to view an interactive example of a PCI-compliant UI integration for online payments.</p>
-    <p>
-      Make sure the payment method you want to use are enabled for your account.
-      Refer <a href="https://docs.adyen.com/payment-methods#add-payment-methods-to-your-account">the documentation</a>
-      to add missing
-      payment methods.
-    </p>
-    <p>To learn more about client-side integration solutions, check out <a href="https://docs.adyen.com/checkout">Online
-        payments.</a></p>
+    <h1>Select an integration type</h1>
+    <p>Choose a demo to get started.</p>
   </div>
-  <ul class="integration-list">
-      <li class="integration-list-item">
-        <a href="/preview?type=dropin" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">Drop-in</p>
-          </div>
-        </a>
-      </li>
-      <li class="integration-list-item">
-        <a href="/preview?type=card" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">Card</p>
-          </div>
-        </a>
-      </li>
-      <li class="integration-list-item">
-        <a href="/preview?type=ideal" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">iDEAL</p>
-          </div>
-        </a>
-      </li>
-      <li class="integration-list-item">
-        <a href="/preview?type=googlepay" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">Google Pay</p>
-          </div>
-        </a>
-      </li>
-      <li class="integration-list-item">
-        <a href="/preview?type=sepa" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">SEPA Direct Debit</p>
-          </div>
-        </a>
-      </li>
-      <li class="integration-list-item">
-        <a href="/preview?type=klarna" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">Klarna - Pay now</p>
-          </div>
-        </a>
-      </li>
-      <li class="integration-list-item">
-        <a href="/preview?type=vipps" class="integration-list-item-link">
-          <div class="title-container">
-            <p class="integration-list-item-title">Vipps</p>
-          </div>
-        </a>
-      </li>
-  </ul>
+  
+  <div class="integration-cards homepage-cards">
+    <a href="/preview?type=dropin" class="integration-card">
+      <div class="card-content">
+        <h2 class="card-title">Drop-in</h2>
+        <p class="card-description">Pre-built payment UI with all methods in one component. Fastest integration with built-in 3D Secure 2 support.</p>
+      </div>
+    </a>
+    
+    <a href="/components" class="integration-card">
+      <div class="card-content">
+        <h2 class="card-title">Components</h2>
+        <p class="card-description">Individual payment method components with full customization. Flexible integration with 3D Secure 2 support.</p>
+      </div>
+    </a>
+  </div>
 </div>

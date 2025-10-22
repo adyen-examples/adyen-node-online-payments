@@ -21,18 +21,52 @@
           crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="/css/application.css">
+  
+  <!-- Countries data -->
+  <script src="/js/countries.js"></script>
+  <!-- Country picker functionality -->
+  <script src="/js/country-picker.js"></script>
 
   <title>Checkout Demo</title>
 </head>
 
 <body>
-  <header id="header">
-    <a href="/">
-      <img src="/images/mystore-logo.svg" alt="">
-    </a>
-  </header>
-  <div class="container">
-    {{{body}}}
+  <div class="page-wrapper">
+    <header id="header">
+      <a href="/">
+        <img src="/images/mystore-logo.svg" alt="">
+      </a>
+    </header>
+    <main class="main-content">
+      <div class="main-container">
+        {{{body}}}
+      </div>
+    </main>
+    
+    {{!-- Footer with conditional country picker --}}
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-content">
+          <div class="footer-left">
+            <span class="copyright">© {{currentYear}} Adyen Devs</span>
+          </div>
+          {{#unless hideFooter}}
+          <div class="footer-right">
+            <div class="country-picker" id="countryPicker">
+              <img src="https://ca-test.adyen.com/ca/adl/img/flags/nl.svg" alt="Netherlands" class="country-flag" id="countryFlag">
+              <span class="country-name" id="countryName">Netherlands</span>
+              <svg class="dropdown-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="country-dropdown" id="countryDropdown">
+                <!-- Countries will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+          {{/unless}}
+        </div>
+      </div>
+    </footer>
   </div>
 </body>
 

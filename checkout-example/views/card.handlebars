@@ -2,13 +2,85 @@
 <div id="clientKey" class="hidden">{{ clientKey }}</div>
 
 <div id="payment-page">
-  <div class="container">
-    {{!-- The Checkout integration type will be rendered below. --}}
-    <div class="payment-container">
+  <div class="checkout-container">
+    {{!-- Payment Method Selection --}}
+    <div class="payment-section">
+      <h2 class="section-title">SELECT YOUR PAYMENT METHOD</h2>
+      <div class="payment-method-header">
+        <div class="payment-method-logo" id="card-payment-logo"></div>
+        <h3 class="payment-method-title">Card Payment</h3>
+      </div>
+      <div class="payment-container">
         <div id="component-container" class="payment"></div>
+      </div>
+    </div>
+    
+    {{!-- Order Summary --}}
+    <div class="order-summary-section">
+      <h2 class="section-title">ORDER SUMMARY</h2>
+      <div class="order-summary-box">
+        <div class="order-item">
+          <div class="item-icon">
+            <img src="/images/sunglasses.png" alt="Sunglasses" class="item-image">
+          </div>
+          <div class="item-details">
+            <span class="item-name">Sunglasses</span>
+            <span class="item-price" id="sunglasses-price">€50.00</span>
+          </div>
+        </div>
+        
+        <div class="order-item">
+          <div class="item-icon">
+            <img src="/images/headphones.png" alt="Headphones" class="item-image">
+          </div>
+          <div class="item-details">
+            <span class="item-name">Headphones</span>
+            <span class="item-price" id="headphones-price">€50.00</span>
+          </div>
+        </div>
+        
+        <div class="order-divider"></div>
+        
+        <div class="order-total">
+          <span class="total-label">Total:</span>
+          <span class="total-amount" id="total-amount">€100.00</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 {{!-- Adyen Component client code --}}
+<script type="text/javascript" src="/js/locales.js"></script>
+<script type="text/javascript" src="/js/currency.js"></script>
 <script type="text/javascript" src="../card.js"></script>
+<script src="/js/payment-logos.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    PaymentLogos.loadLogo('card', document.getElementById('card-payment-logo'));
+  });
+  
+  // Update order summary currency based on selected country
+  function updateOrderSummaryCurrency(countryId) {
+    const currency = getCurrencyForCountry(countryId);
+    const sunglassesPrice = document.getElementById('sunglasses-price');
+    const headphonesPrice = document.getElementById('headphones-price');
+    const totalAmount = document.getElementById('total-amount');
+    
+    if (sunglassesPrice) sunglassesPrice.textContent = formatPrice(5000, currency);
+    if (headphonesPrice) headphonesPrice.textContent = formatPrice(5000, currency);
+    if (totalAmount) totalAmount.textContent = formatPrice(10000, currency);
+  }
+  
+  // Listen for country changes
+  window.addEventListener('countryChanged', (event) => {
+    updateOrderSummaryCurrency(event.detail.countryId);
+  });
+  
+  // Update on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    const storedCountry = localStorage.getItem('selectedCountry');
+    const countryId = storedCountry ? JSON.parse(storedCountry).id || storedCountry : 'NL';
+    updateOrderSummaryCurrency(countryId);
+  });
+</script>

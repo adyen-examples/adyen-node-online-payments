@@ -1,22 +1,29 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const { AdyenCheckout, Dropin } = window.AdyenWeb;
 
-async function startCheckout() {
+// Global variables to store checkout instance
+let adyenCheckoutInstance = null;
+let dropinInstance = null;
+
+async function startCheckout(countryCode = 'NL') {
   try {
-    // Create a new session
-    const session = await fetch("/api/sessions", {
+    // Create a new session with country parameter
+    const session = await fetch(`/api/sessions?country=${encodeURIComponent(countryCode)}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
 
+    // Get locale for the country
+    const locale = getLocaleForCountry(countryCode);
+    
     const configuration = {
       session: session,
       clientKey,
       environment: "test",
-      locale: "en_US",
-      countryCode: "NL",
+      locale: locale,
+      countryCode: countryCode,
       showPayButton: true,
       translations: {
         "en-US": {
@@ -44,7 +51,7 @@ async function startCheckout() {
         holderNameRequired: true,
         amount: {
           value: 10000,
-          currency: "EUR",
+          currency: session.amount.currency,
         },
         placeholders: {
           cardNumber: "1234 5678 9012 3456",
@@ -56,16 +63,40 @@ async function startCheckout() {
       },
     };
 
+    // Destroy existing instances if they exist
+    console.log('Cleaning up existing instances...');
+    if (dropinInstance) {
+      console.log('Unmounting existing dropin instance');
+      dropinInstance.unmount();
+      dropinInstance = null;
+    }
+    if (adyenCheckoutInstance) {
+      console.log('Clearing existing checkout instance');
+      adyenCheckoutInstance = null;
+    }
+
+    // Clear the container
+    const container = document.getElementById('dropin-container');
+    if (container) {
+      console.log('Clearing dropin container');
+      container.innerHTML = '';
+    }
+
     // Start the AdyenCheckout and mount the element onto the 'payment' div.
-    const adyenCheckout = await AdyenCheckout(configuration);
-    const dropin = new Dropin(adyenCheckout, {
+    adyenCheckoutInstance = await AdyenCheckout(configuration);
+    dropinInstance = new Dropin(adyenCheckoutInstance, {
       paymentMethodsConfiguration: paymentMethodsConfiguration,
     }).mount("#dropin-container");
+    
+    // Store globally for country picker access
+    window.adyenCheckoutInstance = adyenCheckoutInstance;
+    
   } catch (error) {
     console.error(error);
     alert("Error occurred. Look at console for details.");
   }
 }
+
 
 // Function to handle payment completion redirects
 function handleOnPaymentCompleted(resultCode) {
@@ -96,4 +127,35 @@ function handleOnPaymentFailed(resultCode) {
   }
 }
 
-startCheckout();
+// Initialize with stored country or default to Netherlands
+const storedCountry = localStorage.getItem('selectedCountry') || 'NL';
+console.log('Dropin initializing with country:', storedCountry);
+
+// Ensure we have just the country ID, not an object
+let cleanCountryId = 'NL';
+try {
+    const parsed = JSON.parse(storedCountry);
+    cleanCountryId = parsed.id || parsed;
+} catch (e) {
+    cleanCountryId = storedCountry;
+}
+
+console.log('Clean country ID for dropin:', cleanCountryId);
+startCheckout(cleanCountryId);
+
+// Listen for country changes from the country picker
+window.addEventListener('countryChanged', (event) => {
+    console.log('Country changed event received in dropin:', event.detail);
+    const newCountryId = event.detail.countryId;
+    console.log('Current country:', cleanCountryId, 'New country:', newCountryId);
+    
+    if (newCountryId && newCountryId !== cleanCountryId) {
+        console.log('Reloading dropin with new country:', newCountryId);
+        cleanCountryId = newCountryId; // Update the current country
+        startCheckout(newCountryId);
+    } else {
+        console.log('No country change needed or invalid country ID');
+    }
+});
+
+console.log('Dropin event listener registered for country changes');

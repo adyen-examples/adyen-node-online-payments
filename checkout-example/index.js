@@ -43,6 +43,12 @@ app.engine(
 
 app.set("view engine", "handlebars");
 
+// Middleware to add current year to all responses
+app.use((req, res, next) => {
+  res.locals.currentYear = new Date().getFullYear();
+  next();
+});
+
 /* ################# API ENDPOINTS ###################### */
 
 // Invoke /sessions endpoint
@@ -56,25 +62,78 @@ app.post("/api/sessions", async (req, res) => {
     // const isHttps = req.connection.encrypted;
     const protocol = req.socket.encrypted? 'https' : 'http';
     
-    // Get payment method type from query parameter or default to EUR/NL
+    // Get payment method type and country from query parameters
     const paymentMethod = req.query.type || 'default';
+    let selectedCountry = req.query.country || 'NL';
     
-    // Configure currency and country based on payment method
+    console.log('Received country parameter:', req.query.country);
+    console.log('Type of country parameter:', typeof req.query.country);
+    
+    // Ensure we have just the country code, not an object
+    if (typeof selectedCountry === 'string' && selectedCountry.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(selectedCountry);
+        selectedCountry = parsed.id || parsed;
+        console.log('Parsed country object, extracted ID:', selectedCountry);
+      } catch (e) {
+        console.log('Failed to parse country as JSON, using as-is:', selectedCountry);
+      }
+    }
+    
+    console.log('Final selected country:', selectedCountry);
+    
+    // Configure currency and country based on payment method and selected country
     let currency = "EUR";
-    let countryCode = "NL";
+    let countryCode = selectedCountry;
     let lineItems = [
       {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
       {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
     ];
     
-    // Vipps-specific configuration
-    if (paymentMethod === 'vipps') {
+    // Vipps-specific configuration (only for Norway)
+    if (paymentMethod === 'vipps' || selectedCountry === 'NO') {
       currency = "NOK";
       countryCode = "NO";
       lineItems = [
         {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
         {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
       ];
+    }
+    
+    // Currency mapping for different countries
+    const currencyMap = {
+      'US': 'USD',
+      'GB': 'GBP',
+      'NO': 'NOK',
+      'SE': 'SEK',
+      'DK': 'DKK',
+      'CH': 'CHF',
+      'JP': 'JPY',
+      'CN': 'CNY',
+      'KR': 'KRW',
+      'BR': 'BRL',
+      'MX': 'MXN',
+      'AU': 'AUD',
+      'CA': 'CAD',
+      'IN': 'INR',
+      'SG': 'SGD',
+      'HK': 'HKD',
+      'MY': 'MYR',
+      'TH': 'THB',
+      'ID': 'IDR',
+      'PH': 'PHP',
+      'VN': 'VND',
+      'RU': 'RUB',
+      'PL': 'PLN',
+      'CZ': 'CZK',
+      'AE': 'AED',
+      'KE': 'KES',
+      'NZ': 'NZD'
+    };
+    
+    // Set currency based on country if not already set by payment method
+    if (currencyMap[selectedCountry] && paymentMethod !== 'vipps') {
+      currency = currencyMap[selectedCountry];
     }
     
     // Ideally the data passed here should be computed based on business logic
@@ -103,10 +162,14 @@ app.post("/api/sessions", async (req, res) => {
 // Index (select a demo)
 app.get("/", (req, res) => res.render("index"));
 
+// Components page (show available payment method components)
+app.get("/components", (req, res) => res.render("components", { hideFooter: true }));
+
 // Cart (continue to checkout)
 app.get("/preview", (req, res) =>
   res.render("preview", {
     type: req.query.type,
+    hideFooter: req.query.type !== 'dropin'
   })
 );
 
@@ -118,37 +181,43 @@ app.get("/checkout/dropin", (req, res) =>
 
 app.get("/checkout/card", (req, res) =>
   res.render("card", {
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    hideFooter: true
   })
 );
 
 app.get("/checkout/googlepay", (req, res) =>
   res.render("googlepay", {
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    hideFooter: true
   })
 );
 
 app.get("/checkout/ideal", (req, res) =>
   res.render("ideal", {
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    hideFooter: true
   })
 );
 
 app.get("/checkout/klarna", (req, res) =>
   res.render("klarna", {
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    hideFooter: true
   })
 );
 
 app.get("/checkout/sepa", (req, res) =>
   res.render("sepa", {
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    hideFooter: true
   })
 );
 
 app.get("/checkout/vipps", (req, res) =>
   res.render("vipps", {
-    clientKey: process.env.ADYEN_CLIENT_KEY
+    clientKey: process.env.ADYEN_CLIENT_KEY,
+    hideFooter: true
   })
 );
 

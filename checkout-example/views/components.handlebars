@@ -1,0 +1,61 @@
+<div class='main-container'>
+  <div class="info">
+    <h1>Payment Method Components</h1>
+    <p>Choose a payment method component to try the demo.</p>
+  </div>
+  
+  <div class="integration-cards components-cards">
+    <a href="/preview?type=card" class="integration-card">
+      <div class="card-content">
+        <div class="card-logo" id="card-logo"></div>
+        <h2 class="card-title">Card</h2>
+      </div>
+    </a>
+    
+    <a href="/preview?type=ideal" class="integration-card">
+      <div class="card-content">
+        <div class="card-logo" id="ideal-logo"></div>
+        <h2 class="card-title">iDEAL</h2>
+      </div>
+    </a>
+    
+    <a href="/preview?type=googlepay" class="integration-card">
+      <div class="card-content">
+        <div class="card-logo" id="googlepay-logo"></div>
+        <h2 class="card-title">Google Pay</h2>
+      </div>
+    </a>
+    
+    <a href="/preview?type=sepa" class="integration-card">
+      <div class="card-content">
+        <div class="card-logo" id="sepa-logo"></div>
+        <h2 class="card-title">SEPA Direct Debit</h2>
+      </div>
+    </a>
+    
+    <a href="/preview?type=klarna" class="integration-card">
+      <div class="card-content">
+        <div class="card-logo" id="klarna-logo"></div>
+        <h2 class="card-title">Klarna</h2>
+      </div>
+    </a>
+    
+    <a href="/preview?type=vipps" class="integration-card">
+      <div class="card-content">
+        <div class="card-logo" id="vipps-logo"></div>
+        <h2 class="card-title">Vipps</h2>
+      </div>
+    </a>
+  </div>
+  
+  <div class="back-link">
+    <a href="/" class="back-button">← Back to Integration Types</a>
+  </div>
+</div>
+
+<script src="/js/payment-logos.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    PaymentLogos.loadLogosForComponents();
+  });
+</script>
