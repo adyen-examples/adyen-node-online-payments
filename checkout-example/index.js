@@ -168,13 +168,6 @@ app.get("/", (req, res) => res.render("index"));
 // Components page (show available payment method components)
 app.get("/components", (req, res) => res.render("components", { hideFooter: true }));
 
-// Cart (continue to checkout)
-app.get("/preview", (req, res) =>
-  res.render("preview", {
-    type: req.query.type,
-    hideFooter: req.query.type !== 'dropin'
-  })
-);
 
 app.get("/checkout/dropin", (req, res) =>
   res.render("dropin", {
