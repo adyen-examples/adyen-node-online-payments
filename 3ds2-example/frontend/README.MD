@@ -1,4 +1,4 @@
-## Frontend for Payment Authentication Intergration Examples
+## Frontend for Payment Authentication Integration Examples
 
 ### Please note these apps are not intended to be production-ready, these apps are for demonstrative purposes to show how to integrate with Adyen payments for 3DS2 Authentication fullstack solution.
 
