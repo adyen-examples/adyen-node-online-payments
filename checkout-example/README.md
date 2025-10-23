@@ -22,6 +22,30 @@ For a three-steps [advanced use case](https://docs.adyen.com/online-payments/bui
 - [Adyen API Credentials](https://docs.adyen.com/development-resources/api-credentials/)
 - Node.js 20+
 
+## Cloud Environment Support
+
+This demo works seamlessly across all cloud environments:
+
+### Automatic Detection
+The app automatically detects the correct URL based on the request host:
+- **Local Development**: `http://localhost:8080`
+- **GitHub Codespaces**: `https://your-codespace-name-8080.app.github.dev`
+- **Gitpod**: `https://8080-your-workspace-name.gitpod.io`
+- **Railway**: `https://your-app-name.railway.app`
+- **Heroku**: `https://your-app-name.herokuapp.com`
+- **Any other platform**: Uses the actual request host
+
+### Custom Base URL (Optional)
+For specific requirements, set the `BASE_URL` environment variable:
+```bash
+export BASE_URL="https://your-custom-domain.com"
+```
+
+### Adyen Configuration
+Update your Adyen Customer Area with your environment's URL:
+1. Go to **Developers** → **Web** → **API credentials**
+2. Add redirect URL: `https://your-environment-url/handleShopperRedirect`
+
 ## 1. Installation
 
 ```

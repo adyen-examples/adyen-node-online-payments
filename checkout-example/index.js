@@ -57,13 +57,28 @@ app.post("/api/sessions", async (req, res) => {
   try {
     // unique ref for the transaction
     const orderRef = uuid();
-    // Dynamic URL detection for any environment (local, Codespaces, Gitpod, Railway, etc.)
+    // Environment-agnostic URL detection
     const host = req.get('host');
     const protocol = req.socket.encrypted? 'https' : 'http';
     
-    // Check if we're in a cloud environment with a custom base URL
+    // Check for custom base URL override
     const customBaseUrl = process.env.BASE_URL;
-    const baseUrl = customBaseUrl || `${protocol}://${host}`;
+    
+    let baseUrl;
+    if (customBaseUrl) {
+      // Use custom base URL if provided
+      baseUrl = customBaseUrl;
+    } else {
+      // Use the actual request host and protocol
+      baseUrl = `${protocol}://${host}`;
+    }
+    
+    console.log('URL detection:', {
+      host,
+      protocol,
+      customBaseUrl,
+      finalBaseUrl: baseUrl
+    });
     
     // Get payment method type and country from query parameters
     const paymentMethod = req.query.type || 'default';
