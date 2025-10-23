@@ -5,11 +5,6 @@ Checkout sample application using `Adyen.Web Drop-in/Components v6.x.x`,  (see [
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout.yml)
 [![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout.yml)
 
-## Run demo in one-click
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/checkout-example)  
-&nbsp;[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
-
 # Description
 
 This repository showcases a PCI-compliant integration of the **Sessions Flow**, the default integration that we recommend for merchants. Explore this simplified e-commerce demo to discover the code, libraries and configuration you need to enable various payment options in your checkout experience.  
