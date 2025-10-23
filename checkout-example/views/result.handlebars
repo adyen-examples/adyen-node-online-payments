@@ -24,12 +24,23 @@
     <div class="status-details">
       <div class="detail-item">
         <span class="detail-label">Status:</span>
-        <span class="detail-value pending-badge">Processing</span>
+        <span class="detail-value pending-badge" id="payment-status">Processing</span>
       </div>
       <div class="detail-item">
-        <span class="detail-label">Next Steps:</span>
-        <span class="detail-value">Check your email for updates</span>
+        <span class="detail-label">Order Reference:</span>
+        <span class="detail-value" id="order-reference">{{orderRef}}</span>
       </div>
+      <div class="detail-item">
+        <span class="detail-label">Last Checked:</span>
+        <span class="detail-value" id="last-checked">Never</span>
+      </div>
+    </div>
+    <div class="status-check-section">
+      <button class="button check-status-btn" id="check-status-btn" onclick="checkPaymentStatus()">
+        <span class="btn-text">Check Payment Status</span>
+        <span class="btn-spinner" style="display: none;">Checking...</span>
+      </button>
+      <p class="status-check-message" id="status-check-message"></p>
     </div>
     {{/ifeq}}
     
@@ -64,3 +75,108 @@
     </div>
   </div>
 </div>
+
+<script>
+// Check payment status function
+async function checkPaymentStatus() {
+  const btn = document.getElementById('check-status-btn');
+  const btnText = btn.querySelector('.btn-text');
+  const btnSpinner = btn.querySelector('.btn-spinner');
+  const statusElement = document.getElementById('payment-status');
+  const lastCheckedElement = document.getElementById('last-checked');
+  const messageElement = document.getElementById('status-check-message');
+  
+  // Show loading state
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  btnSpinner.style.display = 'inline';
+  messageElement.textContent = '';
+  
+  try {
+    // Get order reference from URL or element
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderRef = urlParams.get('orderRef') || document.getElementById('order-reference').textContent;
+    
+    if (!orderRef) {
+      throw new Error('Order reference not found');
+    }
+    
+    // Call the status check endpoint
+    const response = await fetch(`/api/payment-status?orderRef=${encodeURIComponent(orderRef)}`);
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to check payment status');
+    }
+    
+    // Update status display
+    updatePaymentStatus(data.resultCode, data.status);
+    
+    // Update last checked time
+    lastCheckedElement.textContent = new Date().toLocaleTimeString();
+    
+    // Show success message
+    messageElement.textContent = 'Status updated successfully';
+    messageElement.className = 'status-check-message success';
+    
+    // If payment is completed, redirect after a delay
+    if (data.resultCode === 'Authorised') {
+      messageElement.textContent = 'Payment successful! Redirecting...';
+      setTimeout(() => {
+        window.location.href = '/result/success';
+      }, 2000);
+    } else if (data.resultCode === 'Refused') {
+      messageElement.textContent = 'Payment was refused. Redirecting...';
+      messageElement.className = 'status-check-message error';
+      setTimeout(() => {
+        window.location.href = '/result/failed';
+      }, 2000);
+    }
+    
+  } catch (error) {
+    console.error('Error checking payment status:', error);
+    messageElement.textContent = `Error: ${error.message}`;
+    messageElement.className = 'status-check-message error';
+  } finally {
+    // Reset button state
+    btn.disabled = false;
+    btnText.style.display = 'inline';
+    btnSpinner.style.display = 'none';
+  }
+}
+
+// Update payment status display
+function updatePaymentStatus(resultCode, status) {
+  const statusElement = document.getElementById('payment-status');
+  
+  switch (resultCode) {
+    case 'Authorised':
+      statusElement.textContent = 'Completed';
+      statusElement.className = 'detail-value success-badge';
+      break;
+    case 'Pending':
+    case 'Received':
+      statusElement.textContent = 'Processing';
+      statusElement.className = 'detail-value pending-badge';
+      break;
+    case 'Refused':
+      statusElement.textContent = 'Failed';
+      statusElement.className = 'detail-value failed-badge';
+      break;
+    default:
+      statusElement.textContent = status || 'Unknown';
+      statusElement.className = 'detail-value pending-badge';
+      break;
+  }
+}
+
+// Auto-check status every 30 seconds if still pending
+document.addEventListener('DOMContentLoaded', function() {
+  const statusElement = document.getElementById('payment-status');
+  if (statusElement && statusElement.textContent === 'Processing') {
+    setInterval(() => {
+      checkPaymentStatus();
+    }, 30000); // Check every 30 seconds
+  }
+});
+</script>
