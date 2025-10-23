@@ -4,7 +4,7 @@ html,
 body {
   width: 100%;
   margin: 0;
-  font-family: "Fakt", sans-serif, Helvetica, Arial;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,7 @@ body {
 :after,
 :before {
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 a,
@@ -698,38 +699,274 @@ a:hover {
 /* Status page */
 
 .status-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #ffffff;
+  padding: 40px 20px;
 }
 
 .status {
-  margin: 100px 0 126px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 48px 40px;
   text-align: center;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-.status .status-image {
+.status::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0abf53, #089f47);
+}
+
+.status-icon {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.status-icon.success::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.status-icon.pending::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 50%;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.status-icon.failed::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-radius: 50%;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.status-icon.error::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  border-radius: 50%;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.status-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
   display: block;
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
   height: 100px;
-  margin: 16px auto 0;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #f59e0b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.status .status-image-thank-you {
-  height: 66px;
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.status .status-message {
-  margin: 8px 0 24px;
+.status-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
 }
 
-.status .button {
-  max-width: 236px;
+.status-message {
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 32px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media (min-width: 768px) {
-  .status .button {
-    max-width: 200px;
+.status-details {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0 32px 0;
+  text-align: left;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.pending-badge {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button.primary {
+  background: #0abf53;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.button.primary:hover {
+  background: #089f47;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(10, 191, 83, 0.3);
+  text-decoration: none;
+  color: white;
+}
+
+.button.secondary {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.button.secondary:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: #374151;
+}
+
+@media (max-width: 768px) {
+  .status {
+    padding: 32px 24px;
+    margin: 20px;
+  }
+  
+  .status-title {
+    font-size: 24px;
+  }
+  
+  .status-message {
+    font-size: 15px;
+  }
+  
+  .status-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button.primary,
+  .button.secondary {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-container {
+    padding: 20px 16px;
+  }
+  
+  .status {
+    padding: 24px 20px;
+  }
+  
+  .status-image {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .loading-spinner {
+    width: 80px;
+    height: 80px;
   }
 }
 

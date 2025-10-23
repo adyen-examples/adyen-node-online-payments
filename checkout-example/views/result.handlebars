@@ -2,29 +2,65 @@
 
 <div class="status-container">
   <div class="status">
-    <img src="/images/{{type}}.svg" class="status-image" alt="">
-
     {{#ifeq type "success" }}
-    <img src="/images/thank-you.svg" class="status-image" alt="">
+    <div class="status-icon success">
+      <img src="/images/success.svg" class="status-image" alt="Success">
+    </div>
+    <h1 class="status-title">Payment Successful!</h1>
+    <p class="status-message">
+      Your order has been successfully placed and payment confirmed.
+    </p>
     {{/ifeq}}
+    
     {{#ifeq type "pending" }}
-    <img src="/images/thank-you.svg" class="status-image" alt="">
+    <div class="status-icon pending">
+      <img src="/images/pending.svg" class="status-image" alt="Pending">
+      <div class="loading-spinner"></div>
+    </div>
+    <h1 class="status-title">Payment Pending</h1>
+    <p class="status-message">
+      Your order has been received! We're processing your payment and will notify you once it's confirmed.
+    </p>
+    <div class="status-details">
+      <div class="detail-item">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value pending-badge">Processing</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Next Steps:</span>
+        <span class="detail-value">Check your email for updates</span>
+      </div>
+    </div>
+    {{/ifeq}}
+    
+    {{#ifeq type "failed" }}
+    <div class="status-icon failed">
+      <img src="/images/failed.svg" class="status-image" alt="Failed">
+    </div>
+    <h1 class="status-title">Payment Failed</h1>
+    <p class="status-message">
+      The payment was refused. Please try a different payment method or card.
+    </p>
+    {{/ifeq}}
+    
+    {{#ifeq type "error" }}
+    <div class="status-icon error">
+      <img src="/images/error.svg" class="status-image" alt="Error">
+    </div>
+    <h1 class="status-title">Payment Error</h1>
+    <p class="status-message">
+      An error occurred during payment processing. Please review response in console and refer to <a href="https://docs.adyen.com/development-resources/response-handling" target="_blank">Response handling.</a>
+    </p>
     {{/ifeq}}
 
-    <p class="status-message">
-      {{#ifeq type "success" }}
-      Your order has been successfully placed.
-      {{/ifeq}}
+    <div class="status-actions">
+      <a class="button primary" href="/">Return Home</a>
       {{#ifeq type "pending" }}
-      Your order has been received! Payment completion pending.
+      <a class="button secondary" href="/checkout/dropin">Try Again</a>
       {{/ifeq}}
       {{#ifeq type "failed" }}
-      The payment was refused. Please try a different payment method or card.
+      <a class="button secondary" href="/checkout/dropin">Try Different Payment</a>
       {{/ifeq}}
-      {{#ifeq type "error" }}
-      Error! Please review response in console and refer to <a href="https://docs.adyen.com/development-resources/response-handling">Response handling.</a>
-      {{/ifeq}}
-    </p>
-    <a class="button" href="/" to="#/">Return Home</a>
+    </div>
   </div>
 </div>
