@@ -3,17 +3,6 @@
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-giving.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-giving.yml)
 [![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-giving.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-giving.yml)
 
-## Run this integration in seconds using [Gitpod](https://gitpod.io/)
-
-* Open your [Adyen Test Account](https://ca-test.adyen.com/ca/ca/overview/default.shtml) and create a set of [API keys](https://docs.adyen.com/user-management/how-to-get-the-api-key).
-* Go to [gitpod account variables](https://gitpod.io/variables).
-* Set the `ADYEN_API_KEY`, `ADYEN_CLIENT_KEY`, `ADYEN_HMAC_KEY` and `ADYEN_MERCHANT_ACCOUNT variables`.
-* Click the button below!
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/giving-example)
-
-_NOTE: To allow the Adyen Drop-In and Components to load, you have to add `https://*.gitpod.io` as allowed origin for your chosen set of [API Credentials](https://ca-test.adyen.com/ca/ca/config/api_credentials_new.shtml)_
-
 ## Details
 
 This is a sample designed to demonstrate the Adyen Giving donations workflow.
@@ -87,9 +76,8 @@ This sample application provides two webhook integrations exposed at `/api/webho
 
 Your endpoint that will consume the incoming webhook must be publicly accessible.
 
-There are typically 3 options:
+There are typically 2 options:
 * deploy on your own cloud provider
-* deploy on Gitpod
 * expose your localhost with tunneling software (i.e. ngrok)
 
 #### Option 1: cloud deployment
@@ -99,15 +87,7 @@ If you deploy on your cloud provider (or your own public server) the webhook URL
   https://{cloud-provider}/api/webhooks/giving
 ```
 
-#### Option 2: Gitpod
-If you use Gitpod the webhook URL will be the host assigned by Gitpod
-```
-  https://myorg-myrepo-y8ad7pso0w5.ws-eu75.gitpod.io/api/webhooks/notifications
-  https://myorg-myrepo-y8ad7pso0w5.ws-eu75.gitpod.io/api/webhooks/giving
-```
-**Note:** when starting a new Gitpod workspace the host changes, make sure to **update the Webhook URL** in the Customer Area
-
-#### Option 3: localhost via tunneling software
+#### Option 2: localhost via tunneling software
 If you use a tunneling service like [ngrok](ngrok) the webhook URL will be the generated URL (ie `https://c991-80-113-16-28.ngrok.io`)
 
 ```bash

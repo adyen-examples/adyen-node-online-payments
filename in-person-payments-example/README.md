@@ -2,11 +2,6 @@
 
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-in-person-payments.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-in-person-payments.yml)
 
-## Run demo in one-click
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/in-person-payments-example)  
-&nbsp;[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
-
 ## Description
 This demo shows developers how to use the Adyen [Cloud Terminal API](https://docs.adyen.com/point-of-sale/design-your-integration/choose-your-architecture/cloud/) `/terminal-api/sync` to make requests to your connected terminal.
 
