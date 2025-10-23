@@ -57,10 +57,13 @@ app.post("/api/sessions", async (req, res) => {
   try {
     // unique ref for the transaction
     const orderRef = uuid();
-    // Allows for gitpod support
-    const localhost = req.get('host');
-    // const isHttps = req.connection.encrypted;
+    // Dynamic URL detection for any environment (local, Codespaces, Gitpod, Railway, etc.)
+    const host = req.get('host');
     const protocol = req.socket.encrypted? 'https' : 'http';
+    
+    // Check if we're in a cloud environment with a custom base URL
+    const customBaseUrl = process.env.BASE_URL;
+    const baseUrl = customBaseUrl || `${protocol}://${host}`;
     
     // Get payment method type and country from query parameters
     const paymentMethod = req.query.type || 'default';
@@ -142,7 +145,7 @@ app.post("/api/sessions", async (req, res) => {
       countryCode: countryCode,
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       reference: orderRef, // required: your Payment Reference
-      returnUrl: `${protocol}://${localhost}/handleShopperRedirect?orderRef=${orderRef}`, // set redirect URL required for some payment methods (ie iDEAL)
+      returnUrl: `${baseUrl}/handleShopperRedirect?orderRef=${orderRef}`, // set redirect URL required for some payment methods (ie iDEAL)
       // set lineItems required for some payment methods (ie Klarna)
       lineItems: lineItems
     });
