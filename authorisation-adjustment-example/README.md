@@ -3,11 +3,6 @@
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-authorisation-adjustment.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-authorisation-adjustment.yml)
 [![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-authorisation-adjustment.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-authorisation-adjustment.yml)
 
-## Run demo in one-click
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-node-online-payments/tree/main/authorisation-adjustment-example)  
-&nbsp;[First time with Gitpod?](https://github.com/adyen-examples/.github/blob/main/pages/gitpod-get-started.md)
-
 ## Description
 
 This repository includes an adjust authorisation example for the following three use cases after a pre-authorised payment: incremental, decremental adjustments. Within this demo app, you'll find a simplified version of a hotel booking, where the shopper perform a booking and administrators can **[1] adjust** (increase/decrease) the payment amount, **[2] extend** the authorisation expiry date, **[3] capture** the final amount and **[4] reverse** (cancel or refund) an authorised payment.
