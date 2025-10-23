@@ -266,9 +266,6 @@ app.all("/handleShopperRedirect", async (req, res) => {
     // Conditionally handle different result codes for the shopper
     const orderRef = redirect.orderRef || 'unknown';
     
-    // Store the payment status for later retrieval
-    storePaymentStatus(orderRef, response.resultCode, response.resultCode);
-    
     switch (response.resultCode) {
       case "Authorised":
         res.redirect(`/result/success?orderRef=${orderRef}`);
@@ -290,97 +287,7 @@ app.all("/handleShopperRedirect", async (req, res) => {
   }
 });
 
-// Check payment status endpoint
-app.get("/api/payment-status", async (req, res) => {
-  try {
-    const orderRef = req.query.orderRef;
-    
-    if (!orderRef) {
-      return res.status(400).json({ message: 'Order reference is required' });
-    }
-    
-    // In a real implementation, you would:
-    // 1. Query your database for the payment record
-    // 2. Check if the payment has been updated via webhook
-    // 3. Return the current status from your database
-    
-    // For this demo, we'll check if we have a stored payment status
-    // and if not, we'll call Adyen's API to get the current status
-    
-    // Check if we have a stored status (in production, this would be from your database)
-    const storedStatus = getStoredPaymentStatus(orderRef);
-    
-    if (storedStatus) {
-      // Return the stored status with additional info
-      res.json({
-        resultCode: storedStatus.resultCode,
-        status: storedStatus.status,
-        orderRef: orderRef,
-        timestamp: new Date().toISOString(),
-        lastUpdated: storedStatus.timestamp,
-        source: 'stored'
-      });
-    } else {
-      // If no stored status, assume it's still pending
-      // In production, you might want to call Adyen's API here
-      res.json({
-        resultCode: 'Pending',
-        status: 'Processing',
-        orderRef: orderRef,
-        timestamp: new Date().toISOString(),
-        source: 'default'
-      });
-    }
-    
-  } catch (err) {
-    console.error(`Error checking payment status: ${err.message}`);
-    res.status(500).json({ message: 'Failed to check payment status' });
-  }
-});
 
-// Simple in-memory storage for demo purposes
-// In production, this would be a database
-const paymentStatuses = new Map();
-
-function getStoredPaymentStatus(orderRef) {
-  return paymentStatuses.get(orderRef);
-}
-
-function storePaymentStatus(orderRef, resultCode, status) {
-  paymentStatuses.set(orderRef, { resultCode, status, timestamp: new Date().toISOString() });
-  console.log(`Stored payment status: ${orderRef} -> ${resultCode} (${status})`);
-}
-
-// Debug endpoint to see all stored payment statuses
-app.get("/api/debug/payment-statuses", (req, res) => {
-  const statuses = Object.fromEntries(paymentStatuses);
-  res.json(statuses);
-});
-
-// Manual status update endpoint (for testing)
-app.post("/api/manual-status-update", (req, res) => {
-  try {
-    const { orderRef, resultCode, status } = req.body;
-    
-    if (!orderRef || !resultCode) {
-      return res.status(400).json({ message: 'orderRef and resultCode are required' });
-    }
-    
-    storePaymentStatus(orderRef, resultCode, status || resultCode);
-    
-    res.json({
-      message: 'Status updated successfully',
-      orderRef,
-      resultCode,
-      status: status || resultCode,
-      timestamp: new Date().toISOString()
-    });
-    
-  } catch (err) {
-    console.error(`Error updating status: ${err.message}`);
-    res.status(500).json({ message: 'Failed to update status' });
-  }
-});
 
 /* ################# end CLIENT SIDE ENDPOINTS ###################### */
 
@@ -432,43 +339,8 @@ function consumeEvent(notification) {
   
   console.log(`Processing webhook: ${eventCode} for ${merchantReference}, success: ${success}`);
   
-  // Store payment status updates
-  if (merchantReference) {
-    let resultCode = 'Pending';
-    let status = 'Processing';
-    
-    // Map event codes to result codes
-    switch (eventCode) {
-      case 'AUTHORISATION':
-        resultCode = success ? 'Authorised' : 'Refused';
-        status = success ? 'Completed' : 'Failed';
-        break;
-      case 'CAPTURE':
-        resultCode = success ? 'Authorised' : 'Refused';
-        status = success ? 'Completed' : 'Failed';
-        break;
-      case 'REFUND':
-        resultCode = 'Refunded';
-        status = 'Refunded';
-        break;
-      case 'CANCELLATION':
-        resultCode = 'Cancelled';
-        status = 'Cancelled';
-        break;
-      default:
-        // For other events, keep current status or set to pending
-        const currentStatus = getStoredPaymentStatus(merchantReference);
-        if (currentStatus) {
-          resultCode = currentStatus.resultCode;
-          status = currentStatus.status;
-        }
-        break;
-    }
-    
-    // Store the updated status
-    storePaymentStatus(merchantReference, resultCode, status);
-    console.log(`Updated payment status for ${merchantReference}: ${resultCode} (${status})`);
-  }
+  // In a real implementation, you would update your database here
+  // based on the webhook event received from Adyen
 }
 
 
