@@ -124,11 +124,20 @@ a:hover {
   margin-bottom: 24px;
   padding: 14px 26px;
   position: fixed;
-  text-align: left;
   top: 0;
   width: 100%;
   z-index: 2;
   box-sizing: border-box;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logo-link {
   display: flex;
   align-items: center;
 }
@@ -137,6 +146,33 @@ a:hover {
   height: 24px;
   width: auto;
   max-width: 200px;
+}
+
+.docs-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #f8f9fa;
+  border: 1px solid #e6e9eb;
+  border-radius: 6px;
+  color: #495057;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.docs-button:hover {
+  background: #e9ecef;
+  border-color: #dee2e6;
+  color: #212529;
+  text-decoration: none;
+}
+
+.docs-button svg {
+  flex-shrink: 0;
 }
 
 /* Buttons */
@@ -344,7 +380,7 @@ a:hover {
 }
 
 .info {
-  margin-top: 10%;
+  margin-top: 4%;
   color: #00112c;
 }
 
@@ -355,6 +391,57 @@ a:hover {
   max-width: 1048px;
   margin: 40px auto 0;
   width: 100%;
+}
+
+/* Integration Intro */
+.integration-intro {
+  margin: 16px 0 0 0;
+  padding: 0;
+  list-style: none;
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.integration-intro li {
+  margin-bottom: 8px;
+  padding-left: 0;
+}
+
+.integration-intro strong a {
+  color: #212529;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.integration-intro strong a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.integration-intro strong a svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.integration-intro strong a:hover svg {
+  opacity: 1;
+}
+
+/* Demo Intro */
+.demo-intro {
+  margin: 32px 0 24px 0;
+}
+
+.demo-intro p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #495057;
 }
 
 /* Homepage specific - 2 cards with enhanced styling */
@@ -601,6 +688,33 @@ a:hover {
   
   .card-title {
     font-size: var(--font-size-base);
+  }
+
+  .docs-button {
+    padding: 4px 10px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .docs-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .integration-intro {
+    font-size: 14px;
+  }
+
+  .integration-intro li {
+    margin-bottom: 6px;
+  }
+
+  .demo-intro {
+    margin: 24px 0 20px 0;
+  }
+
+  .demo-intro p {
+    font-size: 16px;
   }
 }
 
