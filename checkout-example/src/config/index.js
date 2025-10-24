@@ -75,6 +75,10 @@ const config = {
     vipps: [
       { quantity: 1, amountIncludingTax: 5000, description: "Sunglasses" },
       { quantity: 1, amountIncludingTax: 5000, description: "Headphones" }
+    ],
+    mobilepay: [
+      { quantity: 1, amountIncludingTax: 5000, description: "Sunglasses" },
+      { quantity: 1, amountIncludingTax: 5000, description: "Headphones" }
     ]
   }
 };

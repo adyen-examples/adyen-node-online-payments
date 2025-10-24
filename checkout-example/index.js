@@ -70,7 +70,7 @@ app.post("/api/webhooks/notifications", webhooksController.processWebhook);
 app.get("/", (req, res) => res.render("index"));
 
 // Components page
-app.get("/components", (req, res) => res.render("components"));
+app.get("/components", (req, res) => res.render("components", { hideFooter: true }));
 
 // Payment method pages
 app.get("/checkout/card", (req, res) =>
@@ -83,7 +83,7 @@ app.get("/checkout/card", (req, res) =>
 app.get("/checkout/dropin", (req, res) =>
   res.render("dropin", {
     clientKey: config.adyen.clientKey,
-    hideFooter: true
+    hideFooter: false
   })
 );
 
@@ -110,6 +110,13 @@ app.get("/checkout/sepa", (req, res) =>
 
 app.get("/checkout/vipps", (req, res) =>
   res.render("vipps", {
+    clientKey: config.adyen.clientKey,
+    hideFooter: true
+  })
+);
+
+app.get("/checkout/mobilepay", (req, res) =>
+  res.render("mobilepay", {
     clientKey: config.adyen.clientKey,
     hideFooter: true
   })

@@ -116,6 +116,9 @@ const handleShopperRedirect = asyncHandler(async (req, res) => {
       case "Refused":
         res.redirect(`/result/failed?orderRef=${orderRef}`);
         break;
+      case "Cancelled":
+        res.redirect(`/result/failed?orderRef=${orderRef}`);
+        break;
       default:
         console.warn(`Unknown result code: ${response.resultCode}`);
         res.redirect(`/result/error?orderRef=${orderRef}`);

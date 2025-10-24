@@ -89,7 +89,7 @@ class ErrorHandler {
       message,
       code,
       canRetry: this.canRetry(error),
-      originalError: process.env.NODE_ENV === 'development' ? error.message : undefined
+      originalError: window.location.hostname === 'localhost' ? error.message : undefined
     };
   }
 

@@ -47,6 +47,13 @@ const createSession = async (sessionData) => {
       lineItems = config.lineItems.vipps;
     }
 
+    // MobilePay-specific configuration (only for Denmark)
+    if (paymentMethod === 'mobilepay' || selectedCountry === 'DK') {
+      currency = "DKK";
+      countryCode = "DK";
+      lineItems = config.lineItems.mobilepay;
+    }
+
     const sessionRequest = {
       amount: { currency: currency, value: config.payment.defaultAmount },
       countryCode: countryCode,

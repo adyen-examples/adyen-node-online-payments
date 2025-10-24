@@ -8,6 +8,7 @@ class PaymentLogos {
       'sepa': 'sepa',
       'klarna': 'klarna',
       'vipps': 'vipps',
+      'mobilepay': 'mobilepay',
       'paypal': 'paypal',
       'applepay': 'applepay',
       'alipay': 'alipay',
@@ -83,7 +84,8 @@ class PaymentLogos {
       { id: 'googlepay', name: 'Google Pay' },
       { id: 'sepa', name: 'SEPA' },
       { id: 'klarna', name: 'Klarna' },
-      { id: 'vipps', name: 'Vipps' }
+      { id: 'vipps', name: 'Vipps' },
+      { id: 'mobilepay', name: 'MobilePay' }
     ];
 
     for (const component of components) {
