@@ -411,14 +411,14 @@ a:hover {
 
 /* Components page specific */
 .components-cards {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .integration-card {
   background: var(--color-gray-50);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-xl);
-  padding: var(--spacing-3xl) var(--spacing-2xl);
+  padding: var(--spacing-2xl) var(--spacing-lg);
   text-decoration: none;
   color: inherit;
   transition: all var(--transition-slow);
@@ -426,7 +426,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-sm);
-  min-height: 160px;
+  min-height: 120px;
 }
 
 .integration-card:hover {
@@ -449,10 +449,10 @@ a:hover {
 }
 
 .card-title {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-gray-900);
-  margin: 0 0 var(--spacing-md) 0;
+  margin: 0 0 var(--spacing-sm) 0;
   line-height: 1.2;
 }
 
@@ -511,6 +511,12 @@ a:hover {
 }
 
 /* Responsive Design for Integration Cards */
+@media (max-width: 1200px) {
+  .components-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 1024px) {
   .components-cards {
     grid-template-columns: repeat(2, 1fr);
@@ -547,16 +553,16 @@ a:hover {
   }
   
   .integration-card {
-    padding: 24px 20px;
-    min-height: 140px;
+    padding: var(--spacing-lg);
+    min-height: 100px;
   }
   
   .card-title {
-    font-size: 20px;
+    font-size: var(--font-size-lg);
   }
   
   .card-description {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
   
   .homepage-cards .integration-card {
@@ -581,8 +587,12 @@ a:hover {
   }
   
   .integration-card {
-    padding: 20px 16px;
-    min-height: 120px;
+    padding: var(--spacing-lg);
+    min-height: 90px;
+  }
+  
+  .card-title {
+    font-size: var(--font-size-base);
   }
 }
 
