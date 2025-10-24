@@ -7,8 +7,8 @@
     <div class="payment-section">
       <h2 class="section-title">SELECT YOUR PAYMENT METHOD</h2>
       <div class="payment-method-header">
-        <div class="payment-method-logo" id="ideal-payment-logo"></div>
-        <h3 class="payment-method-title">iDEAL Payment</h3>
+        <div class="payment-method-logo" id="vipps-payment-logo"></div>
+        <h3 class="payment-method-title">Vipps</h3>
       </div>
       <div class="payment-container">
         <div id="component-container" class="payment"></div>
@@ -51,10 +51,10 @@
 </div>
 
 {{!-- Adyen Component client code --}}
-<script type="text/javascript" src="/js/payment-methods/ideal.js"></script>
+<script type="text/javascript" src="/js/payment-methods/vipps.js"></script>
 <script src="/js/payment-logos.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    PaymentLogos.loadLogo('ideal', document.getElementById('ideal-payment-logo'));
+    PaymentLogos.loadLogo('vipps', document.getElementById('vipps-payment-logo'));
   });
 </script>
