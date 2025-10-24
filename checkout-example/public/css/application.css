@@ -124,11 +124,19 @@ a:hover {
   margin-bottom: 24px;
   padding: 14px 26px;
   position: fixed;
-  text-align: center;
+  text-align: left;
   top: 0;
   width: 100%;
   z-index: 2;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+#header img {
+  height: 24px;
+  width: auto;
+  max-width: 200px;
 }
 
 /* Buttons */

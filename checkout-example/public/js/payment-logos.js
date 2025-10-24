@@ -39,7 +39,7 @@ class PaymentLogos {
   static async loadLogo(paymentMethod, element) {
     try {
       const logoUrl = this.getLogoUrl(paymentMethod);
-      console.log('Loading logo for', paymentMethod, ':', logoUrl);
+      // Loading logo for payment method
       
       // Create image element
       const img = document.createElement('img');
@@ -52,7 +52,7 @@ class PaymentLogos {
       
       // Handle load success
       img.onload = () => {
-        console.log('Logo loaded successfully for', paymentMethod);
+        // Logo loaded successfully
         if (element) {
           element.innerHTML = '';
           element.appendChild(img);

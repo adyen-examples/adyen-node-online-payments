@@ -70,9 +70,9 @@ const createSession = asyncHandler(async (req, res) => {
 const handleShopperRedirect = asyncHandler(async (req, res) => {
   console.log('=== REDIRECT RECEIVED ===');
   console.log('Method:', req.method);
-  console.log('Query params:', req.query);
-  console.log('Body:', req.body);
-  console.log('Headers:', req.headers);
+  console.log('Query params:', Object.keys(req.query));
+  console.log('Body keys:', Object.keys(req.body || {}));
+  console.log('Headers keys:', Object.keys(req.headers));
   
   try {
     // Create the payload for submitting payment details

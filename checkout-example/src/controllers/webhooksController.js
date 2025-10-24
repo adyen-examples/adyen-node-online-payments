@@ -13,8 +13,8 @@ const paymentService = require('../services/paymentService');
  */
 const processWebhook = asyncHandler(async (req, res) => {
   console.log('=== WEBHOOK RECEIVED ===');
-  console.log('Headers:', req.headers);
-  console.log('Body:', req.body);
+  console.log('Headers keys:', Object.keys(req.headers));
+  console.log('Body keys:', Object.keys(req.body || {}));
 
   try {
     // Parse the webhook notification

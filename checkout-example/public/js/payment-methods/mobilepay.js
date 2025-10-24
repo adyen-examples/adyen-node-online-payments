@@ -32,7 +32,7 @@ async function createAdyenCheckout(session) {
 // Main function to start the checkout process
 async function startCheckout() {
   try {
-    console.log('Starting MobilePay checkout...');
+    // Starting MobilePay checkout
     
     // Fetch session from API
     const session = await fetch('/api/sessions?type=mobilepay', {
@@ -47,7 +47,7 @@ async function startCheckout() {
       type: 'mobilepay'
     }).mount('#mobilepay-container');
     
-    console.log('MobilePay component created and mounted');
+    // MobilePay component created and mounted
 
   } catch (error) {
     console.error('MobilePay checkout error:', error);
