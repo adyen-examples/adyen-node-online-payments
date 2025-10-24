@@ -1,6 +1,5 @@
 /**
  * Adyen Checkout Example - Main Application
- * Reorganized structure with proper separation of concerns
  */
 
 const express = require("express");

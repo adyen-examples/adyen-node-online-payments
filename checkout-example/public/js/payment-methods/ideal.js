@@ -14,7 +14,6 @@ async function createAdyenCheckout(session) {
     locale: "en_US",
     countryCode: 'NL',
     showPayButton: true,
-    // Note: For redirect payment methods like iDEAL, we don't set onPaymentCompleted/onPaymentFailed
     // The redirect flow will handle the result via /handleShopperRedirect
     onError: (error, component) => {
       console.error("onError", error.name, error.message, error.stack, component);
@@ -22,9 +21,6 @@ async function createAdyenCheckout(session) {
     },
   });
 }
-
-// Note: For redirect payment methods like iDEAL, the payment result is handled
-// by the server-side /handleShopperRedirect endpoint, not by client-side handlers
 
 // Function to start checkout
 async function startCheckout() {
