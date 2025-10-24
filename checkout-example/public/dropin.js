@@ -1,6 +1,9 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
 const { AdyenCheckout, Dropin } = window.AdyenWeb;
 
+// Import error handler (will be available globally)
+// Note: Make sure errorHandler.js is loaded before this file in the HTML
+
 // Global variables to store checkout instance
 let adyenCheckoutInstance = null;
 let dropinInstance = null;
@@ -31,16 +34,28 @@ async function startCheckout(countryCode = 'NL') {
         },
       },
       onPaymentCompleted: (result, component) => {
-        console.info("onPaymentCompleted", result, component);
-        handleOnPaymentCompleted(result.resultCode);
+        if (window.errorHandler) {
+          window.errorHandler.handlePaymentCompleted(result, component);
+        } else {
+          console.info("onPaymentCompleted", result, component);
+          handleOnPaymentCompleted(result.resultCode);
+        }
       },
       onPaymentFailed: (result, component) => {
-        console.info("onPaymentFailed", result, component);
-        handleOnPaymentFailed(result.resultCode);
+        if (window.errorHandler) {
+          window.errorHandler.handlePaymentFailed(result, component);
+        } else {
+          console.info("onPaymentFailed", result, component);
+          handleOnPaymentFailed(result.resultCode);
+        }
       },
       onError: (error, component) => {
-        console.error("onError", error.name, error.message, error.stack, component);
-        window.location.href = "/result/error";
+        if (window.errorHandler) {
+          window.errorHandler.handleGeneralError(error, component);
+        } else {
+          console.error("onError", error.name, error.message, error.stack, component);
+          window.location.href = "/result/error";
+        }
       },
     };
 
@@ -92,8 +107,19 @@ async function startCheckout(countryCode = 'NL') {
     window.adyenCheckoutInstance = adyenCheckoutInstance;
     
   } catch (error) {
-    console.error(error);
-    alert("Error occurred. Look at console for details.");
+    console.error('Dropin initialization error:', error);
+    
+    if (window.errorHandler) {
+      const errorInfo = window.errorHandler.handleError(error, 'dropin-initialization');
+      window.errorHandler.showErrorNotification(error, {
+        onRetry: () => {
+          // Retry initialization
+          startCheckout(countryCode);
+        }
+      });
+    } else {
+      alert("Error occurred. Look at console for details.");
+    }
   }
 }
 

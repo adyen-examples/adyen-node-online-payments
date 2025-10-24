@@ -22,16 +22,28 @@ async function createAdyenCheckout(session) {
         }
       },
       onPaymentCompleted: (result, component) => {
-        console.info("onPaymentCompleted", result, component);
-        handleOnPaymentCompleted(result.resultCode);
+        if (window.errorHandler) {
+          window.errorHandler.handlePaymentCompleted(result, component);
+        } else {
+          console.info("onPaymentCompleted", result, component);
+          handleOnPaymentCompleted(result.resultCode);
+        }
       },
       onPaymentFailed: (result, component) => {
-        console.info("onPaymentFailed", result, component);
-      handleOnPaymentFailed(result.resultCode);
-    },
+        if (window.errorHandler) {
+          window.errorHandler.handlePaymentFailed(result, component);
+        } else {
+          console.info("onPaymentFailed", result, component);
+          handleOnPaymentFailed(result.resultCode);
+        }
+      },
       onError: (error, component) => {
-        console.error("onError", error.name, error.message, error.stack, component);
-        window.location.href = "/result/error";
+        if (window.errorHandler) {
+          window.errorHandler.handleGeneralError(error, component);
+        } else {
+          console.error("onError", error.name, error.message, error.stack, component);
+          window.location.href = "/result/error";
+        }
       },
     }
   );

@@ -8,6 +8,22 @@ const { uuid } = require("uuidv4");
 const { hmacValidator } = require('@adyen/api-library');
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 
+// Import error handling utilities
+const { 
+  PaymentError, 
+  ValidationError, 
+  AdyenAPIError, 
+  SessionError,
+  ConfigurationError,
+  AuthenticationError,
+  handleServerError, 
+  asyncHandler, 
+  validateEnvironment,
+  safeJsonParse,
+  retryRequest,
+  handleAdyenError
+} = require('./utils/errorHandler');
+
 // init app
 const app = express();
 // setup request logging
@@ -25,11 +41,25 @@ dotenv.config({
   path: "./.env",
 });
 
+// Validate required environment variables
+try {
+  validateEnvironment();
+} catch (error) {
+  console.error('Environment validation failed:', error.message);
+  process.exit(1);
+}
+
 // Adyen NodeJS library configuration
 const config = new Config();
 config.apiKey = process.env.ADYEN_API_KEY;
+
+// Validate API key
+if (!config.apiKey) {
+  throw new PaymentError('ADYEN_API_KEY is required', 'CONFIGURATION_ERROR', 500);
+}
+
 const client = new Client({ config });
-client.setEnvironment("TEST");  // change to LIVE for production
+client.setEnvironment(process.env.NODE_ENV === 'production' ? "LIVE" : "TEST");
 const checkout = new CheckoutAPI(client);
 
 app.engine(
@@ -52,8 +82,7 @@ app.use((req, res, next) => {
 /* ################# API ENDPOINTS ###################### */
 
 // Invoke /sessions endpoint
-app.post("/api/sessions", async (req, res) => {
-
+app.post("/api/sessions", asyncHandler(async (req, res) => {
   try {
     // unique ref for the transaction
     const orderRef = uuid();
@@ -168,10 +197,19 @@ app.post("/api/sessions", async (req, res) => {
     console.log('Session created with returnUrl:', `${baseUrl}/handleShopperRedirect?orderRef=${orderRef}`);
     res.json(response);
   } catch (err) {
-    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
-    res.status(err.statusCode).json(err.message);
+    console.error('Session creation error:', {
+      message: err.message,
+      errorCode: err.errorCode,
+      statusCode: err.statusCode,
+      orderRef,
+      paymentMethod,
+      selectedCountry
+    });
+
+    // Use the new Adyen error handler to properly map Adyen errors
+    throw handleAdyenError(err);
   }
-});
+}));
 
 
 /* ################# end API ENDPOINTS ###################### */
@@ -243,29 +281,46 @@ app.get("/result/:type", (req, res) =>
 );
 
 // Handle redirect during payment. This gets called during the redirect flow
-app.all("/handleShopperRedirect", async (req, res) => {
+app.all("/handleShopperRedirect", asyncHandler(async (req, res) => {
   console.log('=== REDIRECT RECEIVED ===');
   console.log('Method:', req.method);
   console.log('Query params:', req.query);
   console.log('Body:', req.body);
   console.log('Headers:', req.headers);
   
-  // Create the payload for submitting payment details
-  const redirect = req.method === "GET" ? req.query : req.body;
-  const details = {};
-  if (redirect.redirectResult) {
-    details.redirectResult = redirect.redirectResult;
-  } else if (redirect.payload) {
-    details.payload = redirect.payload;
-  }
-  
-  console.log('Redirect details:', details);
-
   try {
-    const response = await checkout.PaymentsApi.paymentsDetails({ details });
-    // Conditionally handle different result codes for the shopper
-    const orderRef = redirect.orderRef || 'unknown';
+    // Create the payload for submitting payment details
+    const redirect = req.method === "GET" ? req.query : req.body;
+    const details = {};
     
+    if (redirect.redirectResult) {
+      details.redirectResult = redirect.redirectResult;
+    } else if (redirect.payload) {
+      details.payload = redirect.payload;
+    } else {
+      throw new ValidationError('Missing payment details', 'redirect_details');
+    }
+    
+    console.log('Redirect details:', details);
+
+    // Validate order reference
+    const orderRef = redirect.orderRef;
+    if (!orderRef) {
+      throw new ValidationError('Missing order reference', 'orderRef');
+    }
+
+    // Store payment status for tracking
+    const response = await retryRequest(async () => {
+      return await checkout.PaymentsApi.paymentsDetails({ details });
+    });
+
+    // Store the result code for status tracking
+    if (response.resultCode) {
+      paymentStatuses.set(orderRef, response.resultCode);
+      console.log(`Payment status stored for ${orderRef}: ${response.resultCode}`);
+    }
+
+    // Conditionally handle different result codes for the shopper
     switch (response.resultCode) {
       case "Authorised":
         res.redirect(`/result/success?orderRef=${orderRef}`);
@@ -278,14 +333,29 @@ app.all("/handleShopperRedirect", async (req, res) => {
         res.redirect(`/result/failed?orderRef=${orderRef}`);
         break;
       default:
+        console.warn(`Unknown result code: ${response.resultCode}`);
         res.redirect(`/result/error?orderRef=${orderRef}`);
         break;
     }
   } catch (err) {
-    console.error(`Error: ${err.message}, error code: ${err.errorCode}`);
-    res.redirect("/result/error");
+    console.error('Redirect handling error:', {
+      message: err.message,
+      errorCode: err.errorCode,
+      statusCode: err.statusCode,
+      redirectData: req.method === "GET" ? req.query : req.body
+    });
+
+    // Handle different types of errors
+    if (err instanceof ValidationError) {
+      throw err; // Re-throw validation errors
+    } else if (err.statusCode >= 400 && err.statusCode < 500) {
+      // Use the new Adyen error handler for API errors
+      throw handleAdyenError(err);
+    } else {
+      throw new PaymentError(`Redirect handling failed: ${err.message}`, 'REDIRECT_ERROR', 500);
+    }
   }
-});
+}));
 
 
 
@@ -355,5 +425,22 @@ function getPort() {
 
 /* ################# end UTILS ###################### */
 
+// Global error handler middleware (must be last)
+app.use(handleServerError);
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Not found',
+    code: 'NOT_FOUND',
+    path: req.path
+  });
+});
+
 // Start server
-app.listen(getPort(), () => console.log(`Server started -> http://localhost:${getPort()}`));
+const port = getPort();
+app.listen(port, () => {
+  console.log(`Server started -> http://localhost:${port}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Adyen Environment: ${process.env.NODE_ENV === 'production' ? 'LIVE' : 'TEST'}`);
+});
