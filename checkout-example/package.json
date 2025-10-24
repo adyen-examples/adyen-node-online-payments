@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "echo \"Linting not configured\" && exit 0",
-    "format": "echo \"Formatting not configured\" && exit 0"
+    "format": "echo \"Formatting not configured\" && exit 0",
+    "clean": "rm -rf node_modules package-lock.json && npm install"
   },
   "keywords": ["adyen", "payments", "checkout", "sessions-flow"],
   "author": "Adyen",

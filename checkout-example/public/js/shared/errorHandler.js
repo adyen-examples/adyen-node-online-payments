@@ -112,7 +112,7 @@ class ErrorHandler {
     notification.className = 'error-notification';
     notification.innerHTML = `
       <div class="error-content">
-        <div class="error-icon">⚠️</div>
+        <div class="error-icon">!</div>
         <div class="error-message">${errorInfo.message}</div>
         ${errorInfo.canRetry ? '<button class="retry-button">Try Again</button>' : ''}
         <button class="close-button">×</button>

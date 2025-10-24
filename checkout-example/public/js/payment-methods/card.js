@@ -3,50 +3,25 @@ const { AdyenCheckout, Card } = window.AdyenWeb;
 
 // Function to create AdyenCheckout instance
 async function createAdyenCheckout(session) {
-  return AdyenCheckout(
-    {
-      session: session,
-      clientKey,
-      environment: "test",
-      amount: {
-        value: 10000,
-        currency: 'EUR'
-      },
-      locale: "en_US",
-      countryCode: 'NL',
-      showPayButton: true,
-      // override Security Code label
-      translations: {
-        'en-US': {
-            'creditCard.securityCode.label': 'CVV/CVC'
-        }
-      },
-      onPaymentCompleted: (result, component) => {
-        if (window.errorHandler) {
-          window.errorHandler.handlePaymentCompleted(result, component);
-        } else {
-          console.info("onPaymentCompleted", result, component);
-          handleOnPaymentCompleted(result.resultCode);
-        }
-      },
-      onPaymentFailed: (result, component) => {
-        if (window.errorHandler) {
-          window.errorHandler.handlePaymentFailed(result, component);
-        } else {
-          console.info("onPaymentFailed", result, component);
-          handleOnPaymentFailed(result.resultCode);
-        }
-      },
-      onError: (error, component) => {
-        if (window.errorHandler) {
-          window.errorHandler.handleGeneralError(error, component);
-        } else {
-          console.error("onError", error.name, error.message, error.stack, component);
-          window.location.href = "/result/error";
-        }
-      },
+  // Use shared payment configuration
+  const configuration = window.PaymentHandlers.createPaymentConfiguration(session, {
+    clientKey,
+    environment: "test",
+    amount: {
+      value: 10000,
+      currency: 'EUR'
+    },
+    locale: "en_US",
+    countryCode: 'NL',
+    showPayButton: true,
+    translations: {
+      'en-US': {
+        'creditCard.securityCode.label': 'CVV/CVC'
+      }
     }
-  );
+  });
+
+  return AdyenCheckout(configuration);
 }
 
 // Function to handle payment completion redirects
