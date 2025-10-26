@@ -396,15 +396,8 @@ a:hover {
 /* Integration Intro */
 .integration-intro {
   margin: 16px 0 0 0;
-  padding: 0;
-  list-style: none;
   color: #6c757d;
-  line-height: 1.6;
-}
-
-.integration-intro li {
-  margin-bottom: 8px;
-  padding-left: 0;
+  line-height: 1.8;
 }
 
 .integration-intro strong a {
@@ -703,10 +696,7 @@ a:hover {
 
   .integration-intro {
     font-size: 14px;
-  }
-
-  .integration-intro li {
-    margin-bottom: 6px;
+    line-height: 1.6;
   }
 
   .demo-intro {

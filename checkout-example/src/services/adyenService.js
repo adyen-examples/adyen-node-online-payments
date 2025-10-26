@@ -4,24 +4,41 @@
  */
 
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
+const { hmacValidator } = require('@adyen/api-library');
 const { config, getCurrencyForCountry, getLineItemsForPaymentMethod } = require('../config');
-const { handleAdyenError, retryRequest } = require('../utils/errorHandler');
+const { PaymentError, AdyenAPIError, AuthenticationError, ConfigurationError, retryRequest, handleAdyenError } = require('../utils/errorHandler');
+
+// Adyen NodeJS library configuration
+const adyenConfig = new Config();
+adyenConfig.apiKey = config.adyen.apiKey;
+
+if (!adyenConfig.apiKey) {
+  throw new ConfigurationError('ADYEN_API_KEY is required', ['ADYEN_API_KEY']);
+}
+
+const client = new Client({ config: adyenConfig });
+client.setEnvironment(config.adyen.environment);
+const checkout = new CheckoutAPI(client);
 
 /**
- * Initialize Adyen client
+ * Get payment methods
  */
-const initializeAdyenClient = () => {
-  const adyenConfig = new Config();
-  adyenConfig.apiKey = config.adyen.apiKey;
-  
-  const client = new Client({ config: adyenConfig });
-  client.setEnvironment(config.adyen.environment);
-  
-  return new CheckoutAPI(client);
+const getPaymentMethods = async (countryCode, amount, shopperLocale) => {
+  try {
+    const response = await retryRequest(async () => {
+      return await checkout.PaymentMethodsApi.paymentMethods({
+        channel: "Web",
+        merchantAccount: config.adyen.merchantAccount,
+        countryCode,
+        amount,
+        shopperLocale,
+      });
+    });
+    return response;
+  } catch (error) {
+    throw handleAdyenError(error);
+  }
 };
-
-// Initialize the checkout API
-const checkout = initializeAdyenClient();
 
 /**
  * Create a payment session
@@ -124,33 +141,11 @@ const submitPaymentDetails = async (details) => {
   }
 };
 
-/**
- * Get payment status
- */
-const getPaymentStatus = async (orderRef) => {
-  try {
-    // In a real implementation, you would query your database
-    // For now, we'll return a mock status
-    const mockStatuses = ['Authorised', 'Pending', 'Refused', 'Error'];
-    const randomStatus = mockStatuses[Math.floor(Math.random() * mockStatuses.length)];
-    
-    return {
-      orderRef,
-      status: randomStatus,
-      timestamp: new Date().toISOString()
-    };
-  } catch (error) {
-    console.error('Get payment status failed:', {
-      message: error.message,
-      orderRef
-    });
-
-    throw error;
-  }
-};
 
 module.exports = {
+  getPaymentMethods,
   createSession,
   submitPaymentDetails,
-  getPaymentStatus
+  hmacValidator: new hmacValidator(),
+  adyenConfig: config.adyen // Export Adyen specific config
 };
