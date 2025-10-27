@@ -102,26 +102,41 @@ const handleShopperRedirect = asyncHandler(async (req, res) => {
     if (response.resultCode) {
       paymentService.storePaymentStatus(orderRef, response.resultCode);
       console.log(`Payment status stored for ${orderRef}: ${response.resultCode}`);
+      
+      // If payment status is "Received" or "Pending", note that this is a transient state
+      // The status will be updated via webhooks once processing completes
+      if (response.resultCode === 'Received' || response.resultCode === 'Pending') {
+        console.log(`Payment ${orderRef} is in transient state: ${response.resultCode}. Final status will be updated via webhook.`);
+      }
     }
+
+    // Store redirect data for potential status check
+    const redirectData = {
+      redirectResult: redirect.redirectResult || redirect.payload,
+      sessionId: redirect.sessionId
+    };
+    
+    // Encode the redirect data to pass to result page
+    const encodedRedirectData = encodeURIComponent(JSON.stringify(redirectData));
 
     // Redirect based on result code
     switch (response.resultCode) {
       case "Authorised":
-        res.redirect(`/result/success?orderRef=${orderRef}`);
+        res.redirect(`/result/success?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
         break;
       case "Pending":
       case "Received":
-        res.redirect(`/result/pending?orderRef=${orderRef}`);
+        res.redirect(`/result/pending?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
         break;
       case "Refused":
-        res.redirect(`/result/failed?orderRef=${orderRef}`);
+        res.redirect(`/result/failed?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
         break;
       case "Cancelled":
-        res.redirect(`/result/failed?orderRef=${orderRef}`);
+        res.redirect(`/result/failed?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
         break;
       default:
         console.warn(`Unknown result code: ${response.resultCode}`);
-        res.redirect(`/result/error?orderRef=${orderRef}`);
+        res.redirect(`/result/error?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
         break;
     }
   } catch (error) {
@@ -172,9 +187,70 @@ const getAllPaymentStatuses = asyncHandler(async (req, res) => {
   });
 });
 
+/**
+ * Re-check payment status using redirect result
+ */
+const recheckPaymentStatus = asyncHandler(async (req, res) => {
+  const { orderRef, redirectResult, sessionId } = req.body;
+  
+  if (!orderRef) {
+    return res.status(400).json({
+      error: 'Order reference is required',
+      code: 'MISSING_ORDER_REF'
+    });
+  }
+  
+  if (!redirectResult && !req.body.payload) {
+    return res.status(400).json({
+      error: 'Redirect result or payload is required',
+      code: 'MISSING_PAYMENT_DETAILS'
+    });
+  }
+  
+  try {
+    // Prepare payment details
+    const details = {};
+    if (redirectResult) {
+      details.redirectResult = redirectResult;
+    } else if (req.body.payload) {
+      details.payload = req.body.payload;
+    }
+    
+    // Submit payment details to Adyen to get updated status
+    const response = await adyenService.submitPaymentDetails(details);
+    
+    // Update stored status
+    if (response.resultCode) {
+      paymentService.storePaymentStatus(orderRef, response.resultCode);
+      console.log(`Payment status re-checked for ${orderRef}: ${response.resultCode}`);
+    }
+    
+    // Return the updated status
+    res.json({
+      orderRef,
+      status: response.resultCode,
+      pspReference: response.pspReference,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Status re-check error:', {
+      message: error.message,
+      errorCode: error.errorCode,
+      orderRef
+    });
+    
+    res.status(500).json({
+      error: 'Failed to re-check payment status',
+      code: 'RECHECK_ERROR',
+      details: error.message
+    });
+  }
+});
+
 module.exports = {
   createSession,
   handleShopperRedirect,
   getPaymentStatus,
-  getAllPaymentStatuses
+  getAllPaymentStatuses,
+  recheckPaymentStatus
 };

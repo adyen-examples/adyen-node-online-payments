@@ -58,6 +58,7 @@ app.use((req, res, next) => {
 app.post("/api/sessions", paymentsController.createSession);
 app.all("/handleShopperRedirect", paymentsController.handleShopperRedirect);
 app.get("/api/payment-status/:orderRef", paymentsController.getPaymentStatus);
+app.post("/api/recheck-payment-status", paymentsController.recheckPaymentStatus);
 app.get("/api/debug/payment-statuses", paymentsController.getAllPaymentStatuses);
 
 // Webhook endpoints
@@ -132,7 +133,8 @@ app.get("/checkout/googlepay", (req, res) =>
 app.get("/result/:type", (req, res) =>
   res.render("result", {
     type: req.params.type,
-    orderRef: req.query.orderRef || 'N/A'
+    orderRef: req.query.orderRef || 'N/A',
+    redirectData: req.query.redirectData || null
   })
 );
 

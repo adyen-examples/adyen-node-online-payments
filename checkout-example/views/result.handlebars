@@ -24,13 +24,19 @@
     <div class="status-details">
       <div class="detail-item">
         <span class="detail-label">Status:</span>
-        <span class="detail-value pending-badge">Processing</span>
+        <span class="detail-value pending-badge" id="current-status">Processing</span>
       </div>
       <div class="detail-item">
         <span class="detail-label">Order Reference:</span>
         <span class="detail-value">{{orderRef}}</span>
       </div>
     </div>
+    {{#if redirectData}}
+    <div class="status-check-section">
+      <button class="button secondary" id="check-status-btn">Check Updated Status</button>
+      <div id="status-check-result" class="status-check-result"></div>
+    </div>
+    {{/if}}
     <div class="developer-guidance">
       <h3>For Developers:</h3>
       <p>To check the payment status:</p>
@@ -42,6 +48,111 @@
       </ol>
       <p><strong>Note:</strong> In production, you would implement webhook handling to automatically update payment statuses in your database.</p>
     </div>
+    {{#if redirectData}}
+    <script>
+      (function() {
+        let redirectData;
+        try {
+          redirectData = JSON.parse(decodeURIComponent('{{{redirectData}}}'));
+        } catch (e) {
+          console.error('Failed to parse redirectData:', e);
+          return;
+        }
+        
+        const checkStatusBtn = document.getElementById('check-status-btn');
+        const statusResult = document.getElementById('status-check-result');
+        const currentStatus = document.getElementById('current-status');
+        
+        if (!checkStatusBtn) {
+          console.error('Check status button not found');
+          return;
+        }
+        
+        checkStatusBtn.addEventListener('click', async function() {
+          checkStatusBtn.disabled = true;
+          checkStatusBtn.textContent = 'Checking...';
+          statusResult.innerHTML = '';
+          
+          try {
+            const response = await fetch('/api/recheck-payment-status', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                orderRef: '{{orderRef}}',
+                redirectResult: redirectData.redirectResult,
+                sessionId: redirectData.sessionId
+              })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+              currentStatus.textContent = data.status;
+              currentStatus.className = 'detail-value ' + data.status.toLowerCase() + '-badge';
+              
+              // Show appropriate message based on status
+              if (data.status === 'Authorised') {
+                statusResult.innerHTML = `
+                  <div class="status-update success">
+                    <strong>Status Updated:</strong> ${data.status}
+                    <p>Payment completed successfully!</p>
+                  </div>
+                `;
+              } else if (data.status === 'Refused') {
+                statusResult.innerHTML = `
+                  <div class="status-update error">
+                    <strong>Status Updated:</strong> ${data.status}
+                    <p>Payment was refused. Redirecting...</p>
+                  </div>
+                `;
+              } else if (data.status === 'Cancelled') {
+                statusResult.innerHTML = `
+                  <div class="status-update error">
+                    <strong>Status Updated:</strong> ${data.status}
+                    <p>Payment was cancelled. Redirecting...</p>
+                  </div>
+                `;
+              } else {
+                statusResult.innerHTML = `
+                  <div class="status-update success">
+                    <strong>Status Updated:</strong> ${data.status}
+                  </div>
+                `;
+              }
+              
+              // Redirect based on status
+              if (data.status === 'Authorised') {
+                setTimeout(() => {
+                  window.location.href = '/result/success?orderRef={{orderRef}}';
+                }, 1500);
+              } else if (data.status === 'Refused' || data.status === 'Cancelled') {
+                setTimeout(() => {
+                  window.location.href = '/result/failed?orderRef={{orderRef}}';
+                }, 1500);
+              }
+            } else {
+              statusResult.innerHTML = `
+                <div class="status-update error">
+                  <strong>Error:</strong> ${data.error || 'Failed to check status'}
+                </div>
+              `;
+            }
+          } catch (error) {
+            statusResult.innerHTML = `
+              <div class="status-update error">
+                <strong>Error:</strong> ${error.message}
+              </div>
+            `;
+          } finally {
+            checkStatusBtn.disabled = false;
+            checkStatusBtn.textContent = 'Check Updated Status';
+          }
+        });
+      })();
+    </script>
+    {{/if}}
     {{/ifeq}}
     
     {{#ifeq type "failed" }}
