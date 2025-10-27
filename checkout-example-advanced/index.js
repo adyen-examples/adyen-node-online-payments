@@ -35,12 +35,13 @@ app.engine(
   "handlebars",
   hbs.engine({
     defaultLayout: "main",
-    layoutsDir: __dirname + "/views/layouts",
+    layoutsDir: path.join(__dirname, "views/layouts"),
     helpers: require("./util/helpers"),
   })
 );
 
 app.set("view engine", "handlebars");
+app.set("views", path.join(__dirname, "views"));
 
 // Set Cross-Origin-Opener-Policy header for PayPal popup support
 app.use((req, res, next) => {
@@ -307,8 +308,10 @@ function findCurrency(type) {
 
 /* ################# end UTILS ###################### */
 
-// Start server
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server started -> http://localhost:${PORT}`));
+// Start server (only for local development)
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 8080;
+  app.listen(PORT, () => console.log(`Server started -> http://localhost:${PORT}`));
+}
 
 module.exports = app;
