@@ -20,11 +20,11 @@ async function startCheckout() {
       clientKey,
       environment: "test",
       amount: {
-        value: 10000,
-        currency: 'EUR'
+        value: 1000,
+        currency: 'USD'
       },
       locale: "en_US",
-      countryCode: 'NL',
+      countryCode: 'US',
       showPayButton: true,
       // override Security Code label
       translations: {
@@ -34,8 +34,10 @@ async function startCheckout() {
       },
       onSubmit: async (state, component, actions) => {
         console.info("onSubmit", state, component, actions);
+        console.log("STATE DATA", state.data);
         try {
           if (state.isValid) {
+            console.log("STATE DATA", state.data);
             const { action, order, resultCode } = await fetch("/api/payments", {
               method: "POST",
               body: state.data ? JSON.stringify(state.data) : "",
@@ -70,7 +72,7 @@ async function startCheckout() {
       },
       onError: (error, component) => {
         console.error("onError", error.name, error.message, error.stack, component);
-        window.location.href = "/result/error";
+        window.open("/result/error", "_blank");
       },
       // Used for the Native 3DS2 Authentication flow, see: https://docs.adyen.com/online-payments/3d-secure/native-3ds2/
       onAdditionalDetails: async (state, component, actions) => {
@@ -104,8 +106,8 @@ async function startCheckout() {
         holderNameRequired: true,
         name: "Credit or debit card",
         amount: {
-          value: 10000,
-          currency: "EUR",
+          value: 1000,
+          currency: "USD",
         },
         placeholders: {
           cardNumber: '1234 5678 9012 3456',
@@ -114,6 +116,11 @@ async function startCheckout() {
           securityCodeFourDigits: '1234',
           holderName: 'J. Smith'
         }
+      },
+      paypal: {
+        "environment": "test",
+        merchantId: "BSNDBLAWPMZCE",
+        intent: "authorize", // Change to "capture" if you want to capture the payment directly
       }
     };
 
@@ -133,14 +140,14 @@ async function startCheckout() {
 function handleOnPaymentCompleted(resultCode) {
   switch (resultCode) {
     case "Authorised":
-      window.location.href = "/result/success";
+      window.open("/result/success", "_blank");
       break;
     case "Pending":
     case "Received":
-      window.location.href = "/result/pending";
+      window.open("/result/pending", "_blank");
       break;
     default:
-      window.location.href = "/result/error";
+      window.open("/result/error", "_blank");
       break;
   }
 }
@@ -150,10 +157,10 @@ function handleOnPaymentFailed(resultCode) {
   switch (resultCode) {
     case "Cancelled":
     case "Refused":
-      window.location.href = "/result/failed";
+      window.open("/result/failed", "_blank");
       break;
     default:
-      window.location.href = "/result/error";
+      window.open("/result/error", "_blank");
       break;
   }
 }

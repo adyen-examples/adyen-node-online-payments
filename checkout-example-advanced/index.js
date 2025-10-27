@@ -42,6 +42,12 @@ app.engine(
 
 app.set("view engine", "handlebars");
 
+// Set Cross-Origin-Opener-Policy header for PayPal popup support
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  next();
+});
+
 /* ################# API ENDPOINTS ###################### */
 
 // Get payment methods
@@ -63,17 +69,18 @@ app.post("/api/payments", async (req, res) => {
   const currency = findCurrency(req.body.paymentMethod.type);
   // find shopper IP from request
   const shopperIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-
+  console.log("REQ", req)
   try {
     // unique ref for the transaction
     const orderRef = uuid();
+    console.log("orderRef", orderRef);
     // allows for gitpod support
     const localhost = req.get('host');
     // const isHttps = req.connection.encrypted;
-    const protocol = req.socket.encrypted? 'https' : 'http';    
+    const protocol = req.socket.encrypted? 'https' : 'http';  
     // ideally the data passed here should be computed based on business logic
     const response = await checkout.PaymentsApi.payments({
-      amount: { currency, value: 10000 }, // value is 100€ in minor units
+      amount: { currency, value: 1000, }, // value is 100€ in minor units
       reference: orderRef, // required
       merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT, // required
       channel: "Web", // required
@@ -88,7 +95,7 @@ app.post("/api/payments", async (req, res) => {
         //}
       },
       returnUrl: `${protocol}://${localhost}/handleShopperRedirect?orderRef=${orderRef}`, // required for 3ds2 redirect flow
-      paymentMethod : req.body.paymentMethod,
+      paymentMethod : req.body.paymentMethod, // todo: validate
       // we strongly recommend that you the billingAddress in your request. 
       // card schemes require this for channel web, iOS, and Android implementations.
       billingAddress:
@@ -98,14 +105,17 @@ app.post("/api/payments", async (req, res) => {
       deliveryDate: new Date("2017-07-17T13:42:40.428+01:00"),
       shopperStatement: "Aceitar o pagamento até 15 dias após o vencimento.Não cobrar juros. Não aceitar o pagamento com cheque",
       // below fields are required for Klarna, line items included
-      countryCode: req.body.paymentMethod.type.includes("klarna") ? "DE" : null,
-      shopperReference: "12345",
-      shopperEmail: "youremail@email.com",
+      countryCode: "US",
+      shopperReference: "lol123",
+      shopperEmail: "lolloldemodemo@venmo-demo.com",
       shopperLocale: "en_US",
       lineItems: [
-        {quantity: 1, amountIncludingTax: 5000 , description: "Sunglasses"},
-        {quantity: 1, amountIncludingTax: 5000 , description: "Headphones"}
+        {sku: "A", quantity: 1, amountExcludingTax: 400, taxAmount: 100, description: "Sunglasses", itemCategory: "PHYSICAL_GOODS"},
+        {sku: "B", quantity: 1, amountExcludingTax: 400, taxAmount: 100, description: "Headphones", itemCategory: "PHYSICAL_GOODS"}
       ],
+      additionalData: {
+        paypalRisk: "{\"additional_data\":[{\"key\":\"sender_first_name\",\"value\":\"Simon\"},{\"key\":\"sender_last_name\",\"value\":\"Hopper\"},{\"key\":\"receiver_account_id\",\"value\":\"AH00000000000000000000001\"}]}"
+      }
     });
 
     res.json(response);
@@ -291,7 +301,7 @@ function findCurrency(type) {
     case "boletobancario_santander":
       return "BRL";
     default:
-      return "EUR";
+      return "USD";
   }
 }
 
