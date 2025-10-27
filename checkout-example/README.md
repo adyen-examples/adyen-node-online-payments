@@ -22,7 +22,6 @@ For a three-steps [advanced use case](https://docs.adyen.com/online-payments/bui
 - [Adyen API Credentials](https://docs.adyen.com/development-resources/api-credentials/)
 - Node.js 20+
 
-
 ## 1. Installation
 
 ```
