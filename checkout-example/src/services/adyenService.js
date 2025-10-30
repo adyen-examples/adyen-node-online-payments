@@ -6,7 +6,7 @@
 const { Client, Config, CheckoutAPI } = require("@adyen/api-library");
 const { hmacValidator } = require('@adyen/api-library');
 const { config, getCurrencyForCountry, getLineItemsForPaymentMethod } = require('../config');
-const { PaymentError, AdyenAPIError, AuthenticationError, ConfigurationError, retryRequest, handleAdyenError } = require('../utils/errorHandler');
+const { ConfigurationError, retryRequest, handleAdyenError } = require('../utils/errorHandler');
 
 // Adyen NodeJS library configuration
 const adyenConfig = new Config();
