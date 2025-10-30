@@ -7,6 +7,7 @@ const { asyncHandler } = require('../utils/errorHandler');
 const { getBaseUrl } = require('../config');
 const adyenService = require('../services/adyenService');
 const paymentService = require('../services/paymentService');
+const { shouldRouteCancelledToPending } = require('../utils/paymentMethodOverrides');
 
 /**
  * Create a payment session
@@ -22,6 +23,14 @@ const createSession = asyncHandler(async (req, res) => {
     // Get payment method type and country from query parameters
     const paymentMethod = req.query.type || 'default';
     let selectedCountry = req.query.country || 'NL';
+
+    // Enforce country per payment method where applicable
+    const methodLower = String(paymentMethod).toLowerCase();
+    if (methodLower === 'vipps') {
+      selectedCountry = 'NO';
+    } else if (methodLower === 'mobilepay') {
+      selectedCountry = 'DK';
+    }
     
     console.log('Session creation request:', {
       orderRef,
@@ -50,6 +59,13 @@ const createSession = asyncHandler(async (req, res) => {
     };
     
     const response = await adyenService.createSession(sessionData);
+
+    // Persist payment method metadata for later redirect handling
+    try {
+      paymentService.storeOrderMetadata(orderRef, { paymentMethod, selectedCountry });
+    } catch (e) {
+      console.warn('Failed to store order metadata', e);
+    }
     
     console.log('Session created with returnUrl:', `${baseUrl}/handleShopperRedirect?orderRef=${orderRef}`);
     res.json(response);
@@ -120,6 +136,11 @@ const handleShopperRedirect = asyncHandler(async (req, res) => {
     const encodedRedirectData = encodeURIComponent(JSON.stringify(redirectData));
 
     // Redirect based on result code
+    // Fetch stored metadata to enable method-specific handling (e.g., MobilePay workaround)
+    const metadata = paymentService.getOrderMetadata(orderRef) || {};
+    const method = (metadata.paymentMethod || '').toLowerCase();
+    const metaCountry = metadata.selectedCountry;
+
     switch (response.resultCode) {
       case "Authorised":
         res.redirect(`/result/success?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
@@ -131,8 +152,18 @@ const handleShopperRedirect = asyncHandler(async (req, res) => {
       case "Refused":
         res.redirect(`/result/failed?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
         break;
-      case "Cancelled":
+      case "Error":
+        // Treat generic Error as failed
         res.redirect(`/result/failed?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
+        break;
+      case "Cancelled":
+        // Workaround sandbox-specific behavior only (decoupled for easy removal)
+        if (shouldRouteCancelledToPending(method, metaCountry)) {
+          console.log(`Workaround active: routing Cancelled to pending for order ${orderRef} (method=${method || 'unknown'}, country=${metaCountry})`);
+          res.redirect(`/result/pending?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
+        } else {
+          res.redirect(`/result/failed?orderRef=${orderRef}&redirectData=${encodedRedirectData}`);
+        }
         break;
       default:
         console.warn(`Unknown result code: ${response.resultCode}`);

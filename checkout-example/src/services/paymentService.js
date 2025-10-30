@@ -7,6 +7,8 @@ const { v4: uuidv4 } = require('uuid');
 
 // In-memory storage for payment statuses (in production, use a database)
 const paymentStatuses = new Map();
+// In-memory storage for order metadata (e.g., payment method)
+const orderMetadata = new Map();
 
 /**
  * Generate a unique order reference
@@ -26,6 +28,22 @@ const storePaymentStatus = (orderRef, status) => {
   });
   
   console.log(`Payment status stored for ${orderRef}: ${status}`);
+};
+
+/**
+ * Store order metadata (e.g., paymentMethod)
+ */
+const storeOrderMetadata = (orderRef, metadata) => {
+  const existing = orderMetadata.get(orderRef) || {};
+  orderMetadata.set(orderRef, { ...existing, ...metadata, updatedAt: new Date().toISOString() });
+  console.log(`Order metadata stored for ${orderRef}:`, orderMetadata.get(orderRef));
+};
+
+/**
+ * Get order metadata
+ */
+const getOrderMetadata = (orderRef) => {
+  return orderMetadata.get(orderRef) || null;
 };
 
 /**
@@ -97,6 +115,8 @@ const clearPaymentStatuses = () => {
 module.exports = {
   generateOrderRef,
   storePaymentStatus,
+  storeOrderMetadata,
+  getOrderMetadata,
   getPaymentStatus,
   updatePaymentStatusFromWebhook,
   getAllPaymentStatuses,
