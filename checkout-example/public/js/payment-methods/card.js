@@ -15,7 +15,7 @@ async function createAdyenCheckout(session) {
     countryCode: 'NL',
     showPayButton: true,
     translations: {
-      'en-US': {
+      'en_US': {
         'creditCard.securityCode.label': 'CVV/CVC'
       }
     }

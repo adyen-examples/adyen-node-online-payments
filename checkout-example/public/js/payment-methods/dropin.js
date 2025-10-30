@@ -29,7 +29,7 @@ async function startCheckout(countryCode = 'NL') {
       countryCode: countryCode,
       showPayButton: true,
       translations: {
-        "en-US": {
+        "en_US": {
           "creditCard.securityCode.label": "CVV/CVC",
         },
       },
