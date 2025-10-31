@@ -33,7 +33,7 @@
     </div>
     {{#if redirectData}}
     <div class="status-check-section">
-      <button class="button secondary" id="check-status-btn">Check Updated Status</button>
+      <button class="button secondary" id="check-status-btn">Check updated status</button>
       <div id="status-check-result" class="status-check-result"></div>
     </div>
     {{/if}}
@@ -70,7 +70,7 @@
         
         checkStatusBtn.addEventListener('click', async function() {
           checkStatusBtn.disabled = true;
-          checkStatusBtn.textContent = 'Checking...';
+            checkStatusBtn.textContent = 'Checking…';
           statusResult.innerHTML = '';
           
           try {
@@ -147,7 +147,7 @@
             `;
           } finally {
             checkStatusBtn.disabled = false;
-            checkStatusBtn.textContent = 'Check Updated Status';
+            checkStatusBtn.textContent = 'Check updated status';
           }
         });
       })();
@@ -176,12 +176,12 @@
       {{/ifeq}}
 
     <div class="status-actions">
-      <a class="button primary" href="/">Return to Demo Types</a>
+      <a class="button primary" href="/">Return to demo types</a>
       {{#ifeq type "pending" }}
-      <a class="button secondary" href="/checkout/dropin">Try Again</a>
+      <a class="button secondary" href="/checkout/dropin">Try again</a>
       {{/ifeq}}
       {{#ifeq type "failed" }}
-      <a class="button secondary" href="/checkout/dropin">Try Different Payment</a>
+      <a class="button secondary" href="/checkout/dropin">Try different payment</a>
       {{/ifeq}}
     </div>
   </div>
