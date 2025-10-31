@@ -400,19 +400,28 @@ a:hover {
   line-height: 1.8;
 }
 
+
 .integration-intro strong a {
-  color: #212529;
+  color: var(--color-secondary);
   font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  display: inline;
+  vertical-align: baseline;
 }
 
-.integration-intro strong a:hover {
-  color: var(--color-primary);
+/* Ensure plain links in the intro align and style consistently */
+.integration-intro a {
+  color: var(--color-secondary);
   text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.integration-intro strong a:hover, .integration-intro a:hover {
+  color: var(--color-primary);
+  text-decoration-color: var(--color-primary);
 }
 
 .integration-intro strong a svg {
