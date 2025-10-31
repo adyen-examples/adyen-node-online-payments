@@ -7,10 +7,10 @@
     <div class="payment-section">
       <h2 class="section-title">Select your payment method</h2>
       <div class="payment-method-header">
-        <div class="payment-method-logo" id="sepa-payment-logo"></div>
-        <h3 class="payment-method-title">SEPA direct debit</h3>
+        <div class="payment-method-logo" id="vipps-payment-logo"></div>
+        <h3 class="payment-method-title">Vipps</h3>
       </div>
-    <div class="payment-container">
+      <div class="payment-container">
         <div id="component-container" class="payment"></div>
       </div>
     </div>
@@ -51,10 +51,10 @@
 </div>
 
 {{!-- Adyen Component client code --}}
-<script type="text/javascript" src="/js/payment-methods/sepa.js"></script>
+<script type="text/javascript" src="/js/payment-methods/vipps.js"></script>
 <script src="/js/payment-logos.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    PaymentLogos.loadLogo('sepa', document.getElementById('sepa-payment-logo'));
+    PaymentLogos.loadLogo('vipps', document.getElementById('vipps-payment-logo'));
   });
 </script>

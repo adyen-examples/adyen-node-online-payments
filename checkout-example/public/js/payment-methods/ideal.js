@@ -14,48 +14,12 @@ async function createAdyenCheckout(session) {
     locale: "en_US",
     countryCode: 'NL',
     showPayButton: true,
-    onPaymentCompleted: (result, component) => {
-      console.info("onPaymentCompleted", result, component);
-      handleOnPaymentCompleted(result.resultCode);
-    },
-    onPaymentFailed: (result, component) => {
-      console.info("onPaymentFailed", result, component);
-      handleOnPaymentFailed(result.resultCode);
-    },
+    // The redirect flow will handle the result via /handleShopperRedirect
     onError: (error, component) => {
       console.error("onError", error.name, error.message, error.stack, component);
       window.location.href = "/result/error";
     },
   });
-}
-
-// Function to handle payment completion redirects
-function handleOnPaymentCompleted(resultCode) {
-  switch (resultCode) {
-    case "Authorised":
-      window.location.href = "/result/success";
-      break;
-    case "Pending":
-    case "Received":
-      window.location.href = "/result/pending";
-      break;
-    default:
-      window.location.href = "/result/error";
-      break;
-  }
-}
-
-// Function to handle payment failure redirects
-function handleOnPaymentFailed(resultCode) {
-  switch (resultCode) {
-    case "Cancelled":
-    case "Refused":
-      window.location.href = "/result/failed";
-      break;
-    default:
-      window.location.href = "/result/error";
-      break;
-  }
 }
 
 // Function to start checkout
