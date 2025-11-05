@@ -1,4 +1,4 @@
-## Adyen [3D Secure 2 Authentication](https://docs.adyen.com/online-payments/3d-secure/) Integration Example
+# Adyen [3D Secure 2 Authentication](https://docs.adyen.com/online-payments/3d-secure/) Integration Example
 
 ## Description
 
