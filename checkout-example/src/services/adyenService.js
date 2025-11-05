@@ -10,14 +10,14 @@ const { ConfigurationError, retryRequest, handleAdyenError } = require('../utils
 
 // Adyen NodeJS library configuration
 const adyenConfig = new Config();
-adyenConfig.apiKey = config.adyen.apiKey;
+adyenConfig.apiKey = config.adyen.ADYEN_API_KEY;
 
 if (!adyenConfig.apiKey) {
   throw new ConfigurationError('ADYEN_API_KEY is required', ['ADYEN_API_KEY']);
 }
 
 const client = new Client({ config: adyenConfig });
-client.setEnvironment(config.adyen.environment);
+client.setEnvironment(config.adyen.ADYEN_ENVIRONMENT);
 const checkout = new CheckoutAPI(client);
 
 /**
@@ -28,7 +28,7 @@ const getPaymentMethods = async (countryCode, amount, shopperLocale) => {
     const response = await retryRequest(async () => {
       return await checkout.PaymentMethodsApi.paymentMethods({
         channel: "Web",
-        merchantAccount: config.adyen.merchantAccount,
+        merchantAccount: config.adyen.ADYEN_MERCHANT_ACCOUNT,
         countryCode,
         amount,
         shopperLocale,
@@ -74,7 +74,7 @@ const createSession = async (sessionData) => {
     const sessionRequest = {
       amount: { currency: currency, value: config.payment.defaultAmount },
       countryCode: countryCode,
-      merchantAccount: config.adyen.merchantAccount,
+      merchantAccount: config.adyen.ADYEN_MERCHANT_ACCOUNT,
       reference: orderRef,
       returnUrl: `${baseUrl}/handleShopperRedirect?orderRef=${orderRef}`,
       lineItems: lineItems

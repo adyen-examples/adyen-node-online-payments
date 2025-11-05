@@ -46,12 +46,6 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
-// Middleware to add current year to all responses
-app.use((req, res, next) => {
-  res.locals.currentYear = new Date().getFullYear();
-  next();
-});
-
 /* ################# API ENDPOINTS ###################### */
 
 // Payment endpoints
@@ -75,56 +69,56 @@ app.get("/components", (req, res) => res.render("components", { hideFooter: true
 // Payment method pages
 app.get("/checkout/card", (req, res) =>
   res.render("card", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
 
 app.get("/checkout/dropin", (req, res) =>
   res.render("dropin", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: false
   })
 );
 
 app.get("/checkout/ideal", (req, res) =>
   res.render("ideal", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
 
 app.get("/checkout/klarna", (req, res) =>
   res.render("klarna", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
 
 app.get("/checkout/sepa", (req, res) =>
   res.render("sepa", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
 
 app.get("/checkout/vipps", (req, res) =>
   res.render("vipps", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
 
 app.get("/checkout/mobilepay", (req, res) =>
   res.render("mobilepay", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
 
 app.get("/checkout/googlepay", (req, res) =>
   res.render("googlepay", {
-    clientKey: config.adyen.clientKey,
+    clientKey: config.adyen.ADYEN_CLIENT_KEY,
     hideFooter: true
   })
 );
@@ -158,6 +152,6 @@ const port = config.server.port;
 app.listen(port, () => {
   console.log(`Server started -> http://localhost:${port}`);
   console.log(`Environment: ${config.server.environment}`);
-  console.log(`Adyen Environment: ${config.adyen.environment}`);
+  console.log(`Adyen Environment: ${config.adyen.ADYEN_ENVIRONMENT}`);
   console.log(`Base URL: ${config.server.baseUrl || 'auto-detected'}`);
 });

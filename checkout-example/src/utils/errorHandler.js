@@ -218,7 +218,7 @@ const validateEnvironment = () => {
 /**
  * Safe JSON parsing with error handling
  */
-const safeJsonParse = (jsonString, defaultValue = {}) => {
+const tryJsonParse = (jsonString, defaultValue = {}) => {
   try {
     return JSON.parse(jsonString);
   } catch (error) {

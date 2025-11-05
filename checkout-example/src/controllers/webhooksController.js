@@ -45,7 +45,7 @@ const processWebhook = asyncHandler(async (req, res) => {
 
       // Validate HMAC signature
       const validator = new hmacValidator();
-      const hmacKey = config.adyen.hmacKey;
+      const hmacKey = config.adyen.ADYEN_HMAC_KEY;
       
       if (!validator.validateHMAC(notification, hmacKey)) {
         console.error('Invalid HMAC signature for notification:', notification.merchantReference);

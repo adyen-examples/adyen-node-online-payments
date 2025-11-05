@@ -23,11 +23,11 @@ const config = {
 
   // Adyen configuration
   adyen: {
-    apiKey: process.env.ADYEN_API_KEY,
-    merchantAccount: process.env.ADYEN_MERCHANT_ACCOUNT,
-    clientKey: process.env.ADYEN_CLIENT_KEY,
-    hmacKey: process.env.ADYEN_HMAC_KEY,
-    environment: process.env.NODE_ENV === 'production' ? 'LIVE' : 'TEST'
+    ADYEN_API_KEY: process.env.ADYEN_API_KEY,
+    ADYEN_MERCHANT_ACCOUNT: process.env.ADYEN_MERCHANT_ACCOUNT,
+    ADYEN_CLIENT_KEY: process.env.ADYEN_CLIENT_KEY,
+    ADYEN_HMAC_KEY: process.env.ADYEN_HMAC_KEY,
+    ADYEN_ENVIRONMENT: process.env.NODE_ENV === 'production' ? 'LIVE' : 'TEST'
   },
 
   // Payment configuration
