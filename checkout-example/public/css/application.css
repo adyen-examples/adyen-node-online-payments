@@ -130,6 +130,20 @@ a:hover {
   box-sizing: border-box;
 }
 
+/* Responsive header */
+@media (max-width: 768px) {
+  #header {
+    padding: 12px 16px;
+    height: 48px;
+    margin-bottom: 20px;
+  }
+  
+  #header img {
+    height: 20px;
+    max-width: 150px;
+  }
+}
+
 .header-content {
   display: flex;
   align-items: center;
@@ -162,6 +176,30 @@ a:hover {
   font-weight: 500;
   transition: all 0.2s ease;
   white-space: nowrap;
+  min-height: 32px; /* Touch-friendly */
+}
+
+/* Responsive docs button */
+@media (max-width: 768px) {
+  .docs-button {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-height: 36px; /* Larger touch target on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .docs-button {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 4px;
+    min-height: 40px; /* Even larger on small screens */
+  }
+  
+  .docs-button svg {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .docs-button:hover {
@@ -258,7 +296,7 @@ a:hover {
 
 .main-container {
   margin: 0 auto;
-  max-width: 1048px;
+  max-width: 943px;
   padding: 40px 16px;
   display: flex;
   flex-direction: column;
@@ -266,10 +304,23 @@ a:hover {
   width: 100%;
 }
 
+/* Responsive main container */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding: 20px 12px;
+  }
+}
+
 .integration-list {
   display: flex;
   margin-top: 6%;
-  max-width: 1048px;
+  max-width: 943px;
   flex-wrap: wrap;
   justify-content: space-between;
   list-style: none;
@@ -388,9 +439,10 @@ a:hover {
 .integration-cards {
   display: grid;
   gap: 24px;
-  max-width: 1048px;
+  max-width: 943px;
   margin: 40px auto 0;
   width: 100%;
+  align-items: stretch;
 }
 
 /* Integration Intro */
@@ -450,6 +502,7 @@ a:hover {
 .homepage-cards {
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
+  align-items: stretch;
 }
 
 .homepage-cards .integration-card {
@@ -461,6 +514,9 @@ a:hover {
   overflow: hidden;
   background: #f9fafb;
   border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .homepage-cards .integration-card:hover {
@@ -478,6 +534,7 @@ a:hover {
   height: 100%;
   position: relative;
   z-index: 2;
+  flex: 1;
 }
 
 .homepage-cards .card-title {
@@ -509,6 +566,7 @@ a:hover {
 /* Components page specific */
 .components-cards {
   grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
 }
 
 .integration-card {
@@ -520,10 +578,12 @@ a:hover {
   color: inherit;
   transition: all var(--transition-slow);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-sm);
   min-height: 120px;
+  height: 100%;
 }
 
 .integration-card:hover {
@@ -543,6 +603,10 @@ a:hover {
 .card-content {
   text-align: center;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
 }
 
 .card-title {
@@ -622,7 +686,7 @@ a:hover {
   
   .homepage-cards {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 20px;
   }
   
   .homepage-cards .integration-card {
@@ -631,13 +695,24 @@ a:hover {
   }
   
   .homepage-cards .card-title {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 12px;
   }
   
   .homepage-cards .card-description {
     font-size: 15px;
-    max-width: 300px;
+    max-width: 100%;
+  }
+}
+
+/* Tablet optimization for cards */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .integration-cards {
+    padding: 0 24px;
+  }
+  
+  .components-cards {
+    gap: 16px;
   }
 }
 
@@ -692,17 +767,6 @@ a:hover {
     font-size: var(--font-size-base);
   }
 
-  .docs-button {
-    padding: 4px 10px;
-    font-size: 11px;
-    gap: 4px;
-  }
-
-  .docs-button svg {
-    width: 14px;
-    height: 14px;
-  }
-
   .integration-intro {
     font-size: 14px;
     line-height: 1.6;
@@ -714,6 +778,13 @@ a:hover {
 
   .demo-intro p {
     font-size: 16px;
+  }
+  
+  /* Ensure touch-friendly buttons */
+  .button,
+  .back-button,
+  .integration-card {
+    min-height: 44px;
   }
 }
 
@@ -763,7 +834,7 @@ a:hover {
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1080px;
   padding: 0;
   gap: 40px;
   margin-top: 20px;
@@ -771,12 +842,12 @@ a:hover {
 
 .payment-section {
   flex: 1;
-  max-width: 600px;
+  max-width: 540px;
 }
 
 .order-summary-section {
-  flex: 0 0 350px;
-  max-width: 350px;
+  flex: 0 0 315px;
+  max-width: 315px;
 }
 
 .section-title {
@@ -803,6 +874,7 @@ a:hover {
   padding-right: 20px;
 }
 
+/* Tablet and below - stack checkout layout */
 @media screen and (max-width: 1076px) {
   .checkout-container {
     flex-direction: column;
@@ -816,6 +888,7 @@ a:hover {
   }
   
   .order-summary-section {
+    flex: 0 0 auto;
     max-width: 100%;
     width: 100%;
   }
@@ -825,10 +898,31 @@ a:hover {
   }
 }
 
+/* Tablet optimization */
+@media screen and (min-width: 769px) and (max-width: 1076px) {
+  .checkout-container {
+    max-width: 100%;
+    padding: 0 24px;
+  }
+  
+  .payment-section {
+    max-width: 600px;
+  }
+  
+  .order-summary-section {
+    max-width: 600px;
+  }
+}
+
 @media screen and (max-width: 768px) {
+  #payment-page {
+    padding-top: 20px;
+  }
+  
   .checkout-container {
     padding: 0 16px;
-    margin-top: 80px;
+    margin-top: 60px;
+    gap: 24px;
   }
   
   .order-summary-box {
@@ -846,6 +940,33 @@ a:hover {
   
   .total-label, .total-amount {
     font-size: 15px;
+  }
+  
+  .section-title {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .payment {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .checkout-container {
+    padding: 0 12px;
+    margin-top: 50px;
+    gap: 20px;
+  }
+  
+  .order-summary-box {
+    padding: 12px;
+  }
+  
+  .payment {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 
@@ -1304,7 +1425,7 @@ a:hover {
 }
 
 .footer-container {
-  max-width: 1048px;
+  max-width: 943px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -1450,6 +1571,10 @@ a:hover {
     padding: 20px 0;
   }
   
+  .footer-container {
+    padding: 0 16px;
+  }
+  
   .footer-content {
     flex-direction: column;
     gap: 16px;
@@ -1462,7 +1587,9 @@ a:hover {
   }
   
   .country-picker {
-    padding: 6px 10px;
+    padding: 8px 12px;
+    min-height: 40px; /* Touch-friendly */
+    width: 100%;
   }
   
   .copyright {
@@ -1475,6 +1602,23 @@ a:hover {
   
   .country-dropdown {
     max-height: 200px;
-    min-width: 180px;
+    min-width: 100%;
+    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-footer {
+    padding: 16px 0;
+  }
+  
+  .footer-container {
+    padding: 0 12px;
+  }
+  
+  .country-picker {
+    padding: 10px 12px;
+    min-height: 44px; /* Optimal touch target */
   }
 }
