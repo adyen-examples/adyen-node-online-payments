@@ -316,7 +316,7 @@ module.exports = {
   handleClientError,
   asyncHandler,
   validateEnvironment,
-  safeJsonParse,
+  tryJsonParse,
   retryRequest,
   handleAdyenError
 };
