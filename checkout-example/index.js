@@ -64,62 +64,55 @@ app.post("/api/webhooks/notifications", webhooksController.processWebhook);
 app.get("/", (req, res) => res.render("index"));
 
 // Components page
-app.get("/components", (req, res) => res.render("components", { hideFooter: true }));
+app.get("/components", (req, res) => res.render("components"));
 
 // Payment method pages
 app.get("/checkout/card", (req, res) =>
   res.render("card", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 
 app.get("/checkout/dropin", (req, res) =>
   res.render("dropin", {
     clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: false
+    showCountrySelector: true
   })
 );
 
 app.get("/checkout/ideal", (req, res) =>
   res.render("ideal", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 
 app.get("/checkout/klarna", (req, res) =>
   res.render("klarna", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 
 app.get("/checkout/sepa", (req, res) =>
   res.render("sepa", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 
 app.get("/checkout/vipps", (req, res) =>
   res.render("vipps", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 
 app.get("/checkout/mobilepay", (req, res) =>
   res.render("mobilepay", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 
 app.get("/checkout/googlepay", (req, res) =>
   res.render("googlepay", {
-    clientKey: config.adyen.ADYEN_CLIENT_KEY,
-    hideFooter: true
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
   })
 );
 

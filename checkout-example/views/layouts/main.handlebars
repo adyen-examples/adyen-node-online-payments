@@ -65,14 +65,13 @@
     </main>
     
     {{!-- Footer with conditional country picker --}}
-    <footer class="main-footer">
+    <footer class="main-footer {{#if showCountrySelector}}has-country-selector{{/if}}">
       <div class="footer-container">
         <div class="footer-content">
           <div class="footer-left">
             <span class="copyright">©2025 Adyen Devs</span>
           </div>
-          {{#unless hideFooter}}
-          <div class="footer-right">
+          <div class="footer-right" id="countrySelectorContainer" {{#unless showCountrySelector}}style="display: none;"{{/unless}}>
             <div class="country-picker" id="countryPicker">
               <img src="https://ca-test.adyen.com/ca/adl/img/flags/nl.svg" alt="Netherlands" class="country-flag" id="countryFlag">
               <span class="country-name" id="countryName">Netherlands</span>
@@ -84,7 +83,6 @@
               </div>
             </div>
           </div>
-          {{/unless}}
         </div>
       </div>
     </footer>

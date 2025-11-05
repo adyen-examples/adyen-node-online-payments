@@ -200,8 +200,7 @@ const validateEnvironment = () => {
   const requiredVars = [
     'ADYEN_API_KEY',
     'ADYEN_MERCHANT_ACCOUNT',
-    'ADYEN_CLIENT_KEY',
-    'ADYEN_HMAC_KEY'
+    'ADYEN_CLIENT_KEY'
   ];
 
   const missing = requiredVars.filter(varName => !process.env[varName]);
@@ -212,6 +211,11 @@ const validateEnvironment = () => {
       'CONFIGURATION_ERROR',
       500
     );
+  }
+  
+  // HMAC key is optional - only needed for webhook validation
+  if (!process.env.ADYEN_HMAC_KEY) {
+    console.log('Note: ADYEN_HMAC_KEY is not set. Webhook validation will be skipped.');
   }
 };
 

@@ -43,16 +43,20 @@ const processWebhook = asyncHandler(async (req, res) => {
         success: notification.success
       });
 
-      // Validate HMAC signature
-      const validator = new hmacValidator();
+      // Validate HMAC signature (if HMAC key is configured)
       const hmacKey = config.adyen.ADYEN_HMAC_KEY;
       
-      if (!validator.validateHMAC(notification, hmacKey)) {
-        console.error('Invalid HMAC signature for notification:', notification.merchantReference);
-        return res.status(401).json({
-          error: 'Invalid HMAC signature',
-          code: 'INVALID_HMAC'
-        });
+      if (hmacKey) {
+        const validator = new hmacValidator();
+        if (!validator.validateHMAC(notification, hmacKey)) {
+          console.error('Invalid HMAC signature for notification:', notification.merchantReference);
+          return res.status(401).json({
+            error: 'Invalid HMAC signature',
+            code: 'INVALID_HMAC'
+          });
+        }
+      } else {
+        console.log('Note: HMAC key not configured. Skipping webhook signature validation.');
       }
 
       // Update payment status based on webhook event

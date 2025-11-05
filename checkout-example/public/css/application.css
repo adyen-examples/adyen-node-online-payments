@@ -1295,6 +1295,14 @@ a:hover {
   margin-top: auto;
 }
 
+/* Make footer sticky when country selector is visible */
+.main-footer.has-country-selector {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
 .footer-container {
   max-width: 1048px;
   margin: 0 auto;
