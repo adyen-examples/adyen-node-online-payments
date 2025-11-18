@@ -36,10 +36,10 @@ git clone https://github.com/adyen-examples/adyen-node-online-payments.git
 
 Create a `./.env` file with the environment variables. 
 ```shell
-export ADYEN_API_KEY=yourAdyenApiKey
-export ADYEN_MERCHANT_ACCOUNT=yourAdyenMerchantAccount
-export ADYEN_CLIENT_KEY=yourAdyenClientKey
-export ADYEN_HMAC_KEY=yourHmacKey
+ADYEN_API_KEY=yourAdyenApiKey
+ADYEN_MERCHANT_ACCOUNT=yourAdyenMerchantAccount
+ADYEN_CLIENT_KEY=yourAdyenClientKey
+ADYEN_HMAC_KEY=yourHmacKey
 ```
 
 ## 3. Configure allowed origins (CORS)
@@ -50,6 +50,24 @@ In the Customer Area add `http://localhost:8080` in the list of Allowed Origins 
 
 
 ## 4. Run the application
+
+### Running on GitHub Codespaces
+
+This repository is equipped with a development container, enabling you to run the application in a pre-configured environment using [GitHub Codespaces](https://github.com/features/codespaces).
+
+To run this demo in Codespaces, ensure that the following secrets are set in your repository's secrets before launching the Codespace:
+
+- `ADYEN_API_KEY`: Your Adyen API key.
+- `ADYEN_MERCHANT_ACCOUNT`: Your Adyen merchant account.
+- `ADYEN_CLIENT_KEY`: Your Adyen client key.
+
+For more information on setting up repository secrets for Codespaces, refer to the [GitHub documentation](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-encrypted-secrets-for-your-codespaces).
+
+Once the secrets are set, you can launch a new Codespace. The application will start automatically.
+
+### Running locally
+
+To run the application on your local machine, follow these steps:
 
 ```
 cd checkout-example
