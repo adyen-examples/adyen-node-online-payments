@@ -58,7 +58,7 @@ updates:
     rebase-strategy: "disabled"
 
   - package-ecosystem: "npm" 
-    directory: "/in-person-example" 
+    directory: "/in-person-payments-example" 
     schedule:
       interval: "weekly"
     cooldown:
