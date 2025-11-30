@@ -1,7 +1,7 @@
 {
   "name": "Adyen Subscription Example",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "postAttachCommand": "bash .devcontainer/setup.sh",
+  "postAttachCommand": "bash ../.devcontainer/setup.sh",
   "customizations": {
     "vscode": {
       "extensions": [
