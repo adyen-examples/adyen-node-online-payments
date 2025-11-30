@@ -1,42 +1,24 @@
 {
-  "name": "3DS2 Example",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
+  "name": "Adyen 3DS2 Example",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "postAttachCommand": "bash .devcontainer/setup.sh",
   "customizations": {
     "vscode": {
       "extensions": [
-        "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        "ms-vscode.vscode-json",
-        "bradlc.vscode-tailwindcss",
-        "ms-vscode.vscode-typescript-next"
-      ],
-      "settings": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
-        },
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+        "esbenp.prettier-vscode"
+      ]
     }
   },
-  "forwardPorts": [8080, 3000],
   "portsAttributes": {
-    "8080": {
-      "label": "Backend",
-      "onAutoForward": "openPreview"
-    },
     "3000": {
       "label": "Frontend",
-      "onAutoForward": "openPreview"
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Backend",
+      "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "chmod +x .devcontainer/run_example.sh && cd 3ds2-example/frontend && npm install && cd ../backend && npm install && cd .. && npm install",
-  "postAttachCommand": ".devcontainer/run_example.sh 3ds2-example",
-  "remoteUser": "node",
-  "workspaceFolder": "/workspaces/adyen-node-online-payments/3ds2-example"
+  "forwardPorts": [3000, 8080]
 }
