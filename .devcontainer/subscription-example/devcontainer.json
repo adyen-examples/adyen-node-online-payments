@@ -16,5 +16,6 @@
       "onAutoForward": "notify"
     }
   },
-  "forwardPorts": [8080]
+  "forwardPorts": [8080],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/subscription-example"
 }

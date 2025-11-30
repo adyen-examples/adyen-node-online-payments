@@ -20,5 +20,6 @@
       "onAutoForward": "notify"
     }
   },
-  "forwardPorts": [3000, 8080]
+  "forwardPorts": [3000, 8080],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/3ds2-example"
 }
