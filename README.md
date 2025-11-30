@@ -5,7 +5,7 @@ The demos below leverages Adyen's API Library for Node.js ([GitHub](https://gith
 
 Get started by navigating to one of the supported demos below.
 
-## 🚀 Quick Start with GitHub Codespaces
+## Quick Start with GitHub Codespaces
 
 This repository is configured to work seamlessly with [GitHub Codespaces](https://github.com/features/codespaces). Each example can be opened in its own Codespace with all dependencies pre-installed.
 
