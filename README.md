@@ -39,10 +39,12 @@ export ADYEN_HMAC_KEY="your_hmac_key"
 ### Running an Example
 
 1. Click on any "Open in GitHub Codespaces" button below
-2. Wait for the Codespace to initialize (dependencies will be installed automatically)
-3. Navigate to your desired example directory
+2. Select an example to run
+3. Wait for the Codespace to initialize (dependencies will be installed automatically)
 4. Run `npm run dev` to start the development server
 5. Open the forwarded port in your browser
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
 | Demos | Description | Details |
 | --: | :-- | :-- |
