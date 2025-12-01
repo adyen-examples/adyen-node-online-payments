@@ -22,14 +22,6 @@ The sample app implements the following workflow:
 
 This demo leverages Adyen's API Library for Node.js ([GitHub](https://github.com/Adyen/adyen-node-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries#javascript)).
 
-
-## Run demo in one-click
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fsubscription-example%2Fdevcontainer.json)  
-[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
-
-For detailed setup instructions, see the [GitHub Codespaces Instructions](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md).
-
 ## Run integration on localhost using a proxy
 You will need Node.js 20+ to run this application locally.
 
@@ -109,7 +101,7 @@ npm run dev
 10. Update your webhook in your Customer Area with the public url that is generated.
     - In the Customer Area go to `Developers` → `Webhooks` → Select your `Webhook` that is created in step 6 → `Server Configuration`
     - Update the URL of your application/endpoint (e.g. `https://c991-80-113-16-28.ngrok.io/api/webhooks/notifications/`)
-    - Hit `Apply` → `Save changes` and the application should be able to receive notifications
+    - Hit `Apply` → `Save changes`
 
 > **Note** When exiting ngrok or Visual Studio a new URL is generated, make sure to **update the Webhook URL** in the Customer Area as described in the final step. 
 > You can find more information about webhooks in [this detailed blog post](https://www.adyen.com/blog/Integrating-webhooks-notifications-with-Adyen-Checkout).

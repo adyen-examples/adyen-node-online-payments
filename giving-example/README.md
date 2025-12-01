@@ -3,13 +3,6 @@
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-giving.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-giving.yml)
 [![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-giving.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-giving.yml)
 
-## Run demo in one-click
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fgiving-example%2Fdevcontainer.json)  
-[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
-
-For detailed setup instructions, see the [GitHub Codespaces Instructions](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md).
-
 ## Details
 
 This is a sample designed to demonstrate the Adyen Giving donations workflow.
@@ -83,9 +76,8 @@ This sample application provides two webhook integrations exposed at `/api/webho
 
 Your endpoint that will consume the incoming webhook must be publicly accessible.
 
-There are typically 3 options:
+There are typically 2 options:
 * deploy on your own cloud provider
-* deploy on Codespaces
 * expose your localhost with tunneling software (i.e. ngrok)
 
 #### Option 1: cloud deployment
@@ -95,15 +87,7 @@ If you deploy on your cloud provider (or your own public server) the webhook URL
   https://{cloud-provider}/api/webhooks/giving
 ```
 
-#### Option 2: Codespaces
-If you use Codespaces the webhook URL will be the host assigned by Codespaces
-```
-  https://my-codespace-name-8080.preview.app.github.dev/api/webhooks/notifications
-  https://my-codespace-name-8080.preview.app.github.dev/api/webhooks/giving
-```
-**Note:** when starting a new Codespace the host changes, make sure to **update the Webhook URL** in the Customer Area
-
-#### Option 3: localhost via tunneling software
+#### Option 2: localhost via tunneling software
 If you use a tunneling service like [ngrok](ngrok) the webhook URL will be the generated URL (ie `https://c991-80-113-16-28.ngrok.io`)
 
 ```bash

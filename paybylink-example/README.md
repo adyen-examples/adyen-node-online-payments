@@ -1,10 +1,5 @@
 # Adyen [Pay By Link](https://docs.adyen.com/unified-commerce/pay-by-link) Integration Demo
 
-## Run demo in one-click
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fpaybylink-example%2Fdevcontainer.json)  
-&nbsp;[First time with Codespaces?](https://docs.github.com/en/codespaces/getting-started/quickstart)
-
 # Description
 
 This repository includes an example of Pay By Link with Adyen.

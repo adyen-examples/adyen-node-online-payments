@@ -5,52 +5,70 @@ updates:
     directory: "/checkout-example-advanced" 
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
       
   - package-ecosystem: "npm" 
     directory: "/checkout-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
       
-  - package-ecosystem: "npm" 
+  - package-ecosystem: "npm"
     directory: "/giftcard-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
       
   - package-ecosystem: "npm" 
     directory: "/paybylink-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
 
   - package-ecosystem: "npm" 
     directory: "/subscription-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
 
   - package-ecosystem: "npm" 
     directory: "/authorisation-adjustment-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
 
   - package-ecosystem: "npm" 
     directory: "/giving-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
 
   - package-ecosystem: "npm" 
-    directory: "/in-person-example" 
+    directory: "/in-person-payments-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"
 
   - package-ecosystem: "npm" 
     directory: "/3ds2-example" 
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 21
     rebase-strategy: "disabled"

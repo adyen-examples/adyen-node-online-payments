@@ -5,11 +5,6 @@ Checkout sample application using `Adyen.Web Drop-in/Components v6.x.x`,  (see [
 [![Node.js CI](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout-advanced.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/build-checkout-advanced.yml)
 [![E2E (Playwright)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout-advanced.yml/badge.svg)](https://github.com/adyen-examples/adyen-node-online-payments/actions/workflows/e2e-checkout-advanced.yml)
 
-## Run demo in one-click
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&dev_container_path=.devcontainer%2Fcheckout-example-advanced%2Fdevcontainer.json)  
-&nbsp;[First time with Codespaces?](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md)
-
 # Description
 
 This repository showcases a PCI-compliant integration of the **Advanced Flow**. Explore this simplified e-commerce demo to discover the code, libraries and configuration you need to enable various payment options in your checkout experience.
