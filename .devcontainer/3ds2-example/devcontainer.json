@@ -1,7 +1,7 @@
 {
   "name": "Adyen 3DS2 Example",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "postAttachCommand": "bash ../.devcontainer/setup.sh",
+  "postAttachCommand": "bash ../.devcontainer/3ds2-example/setup.sh",
   "customizations": {
     "vscode": {
       "extensions": [

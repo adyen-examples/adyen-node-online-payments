@@ -15,10 +15,10 @@ For detailed setup instructions, see the [GitHub Codespaces Instructions](https:
 
 Before running any example, you'll need to set up the following environment variables in your Codespace:
 
-- `ADYEN_API_KEY` - Your Adyen API key
-- `ADYEN_CLIENT_KEY` - Your Adyen client key  
-- `ADYEN_MERCHANT_ACCOUNT` - Your Adyen merchant account
-- `ADYEN_HMAC_KEY` - Your Adyen HMAC key for webhook validation
+- `ADYEN_API_KEY` - [Your Adyen API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
+- `ADYEN_CLIENT_KEY` - [Your Adyen client key ](https://docs.adyen.com/user-management/client-side-authentication) 
+- `ADYEN_MERCHANT_ACCOUNT` - [Your Adyen merchant account](https://docs.adyen.com/account/account-structure)
+- `ADYEN_HMAC_KEY` - [Your Adyen HMAC key for webhook validation](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures) (optional)
 
 ### Setting Environment Variables
 
@@ -33,7 +33,6 @@ Alternatively, you can set them in the terminal:
 export ADYEN_API_KEY="your_api_key"
 export ADYEN_CLIENT_KEY="your_client_key"
 export ADYEN_MERCHANT_ACCOUNT="your_merchant_account"
-export ADYEN_HMAC_KEY="your_hmac_key"
 ```
 
 ### Running an Example
