@@ -5,6 +5,46 @@ The demos below leverages Adyen's API Library for Node.js ([GitHub](https://gith
 
 Get started by navigating to one of the supported demos below.
 
+## Quick Start with GitHub Codespaces
+
+This repository is configured to work seamlessly with [GitHub Codespaces](https://github.com/features/codespaces). Each example can be opened in its own Codespace with all dependencies pre-installed.
+
+For detailed setup instructions, see the [GitHub Codespaces Instructions](https://github.com/adyen-examples/.github/blob/main/pages/codespaces-instructions.md).
+
+### Prerequisites
+
+Before running any example, you'll need to set up the following environment variables in your Codespace:
+
+- `ADYEN_API_KEY` - [Your Adyen API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
+- `ADYEN_CLIENT_KEY` - [Your Adyen client key ](https://docs.adyen.com/user-management/client-side-authentication) 
+- `ADYEN_MERCHANT_ACCOUNT` - [Your Adyen merchant account](https://docs.adyen.com/account/account-structure)
+- `ADYEN_HMAC_KEY` - [Your Adyen HMAC key for webhook validation](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures) (optional)
+
+### Setting Environment Variables
+
+1. Open your Codespace
+2. Go to the "Codespaces" tab in VS Code
+3. Click on "Manage secrets and variables"
+4. Add the required environment variables
+5. Restart your Codespace
+
+Alternatively, you can set them in the terminal:
+```bash
+export ADYEN_API_KEY="your_api_key"
+export ADYEN_CLIENT_KEY="your_client_key"
+export ADYEN_MERCHANT_ACCOUNT="your_merchant_account"
+```
+
+### Running an Example
+
+1. Click on any "Open in GitHub Codespaces" button below
+2. Select an example to run
+3. Wait for the Codespace to initialize (dependencies will be installed automatically)
+4. Run `npm run dev` to start the development server
+5. Open the forwarded port in your browser
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/adyen-examples/adyen-node-online-payments?ref=main&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
 | Demos | Description | Details |
 | --: | :-- | :-- |
 | [`Checkout Example`](checkout-example) | E-commerce checkout flow with different payment methods. | [See below](#checkout-example) | 

@@ -1,0 +1,25 @@
+{
+  "name": "Adyen 3DS2 Example",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "postAttachCommand": "bash ../.devcontainer/3ds2-example/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "3000": {
+      "label": "Frontend",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Backend",
+      "onAutoForward": "notify"
+    }
+  },
+  "forwardPorts": [3000, 8080],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/3ds2-example"
+}

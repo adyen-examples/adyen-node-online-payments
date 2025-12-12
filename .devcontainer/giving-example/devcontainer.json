@@ -1,0 +1,21 @@
+{
+  "name": "Adyen Giving Example",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "postAttachCommand": "bash ../.devcontainer/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "8080": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    }
+  },
+  "forwardPorts": [8080],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/giving-example"
+}
