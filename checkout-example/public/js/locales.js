@@ -27,7 +27,7 @@ function getLocaleForCountry(countryId) {
     'CH': 'de_CH',
     'BE': 'nl_BE',
     'PT': 'pt_PT',
-    'IN': 'en_IN',
+    'IN': 'en_US',
     'SG': 'en_SG',
     'HK': 'en_HK',
     'MY': 'en_MY',

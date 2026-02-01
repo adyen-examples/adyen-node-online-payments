@@ -116,6 +116,12 @@ app.get("/checkout/googlepay", (req, res) =>
   })
 );
 
+app.get("/checkout/upi", (req, res) =>
+  res.render("upi", {
+    clientKey: config.adyen.ADYEN_CLIENT_KEY
+  })
+);
+
 // Result page
 app.get("/result/:type", (req, res) =>
   res.render("result", {

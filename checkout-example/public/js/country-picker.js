@@ -231,7 +231,7 @@ class CountryPicker {
             'MX': 'es_MX',
             'AU': 'en_AU',
             'CA': 'en_CA',
-            'IN': 'en_IN',
+            'IN': 'en_US',
             'SG': 'en_SG',
             'HK': 'en_HK',
             'MY': 'en_MY',
