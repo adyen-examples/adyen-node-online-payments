@@ -14,6 +14,7 @@ async function createAdyenCheckout(session) {
     locale: "en_US",
     countryCode: session.countryCode || 'IN',
     showPayButton: true,
+    // Note: For redirect payment methods like UPI, we don't set onPaymentCompleted/onPaymentFailed
     // The redirect flow will handle the result via /handleShopperRedirect
     onError: (error, component) => {
       console.error("onError", error.name, error.message, error.stack, component);
@@ -21,6 +22,9 @@ async function createAdyenCheckout(session) {
     },
   });
 }
+
+// Note: For redirect payment methods like UPI, the payment result is handled
+// by the server-side /handleShopperRedirect endpoint, not by client-side handlers
 
 // Function to start checkout
 async function startCheckout() {
@@ -34,20 +38,15 @@ async function startCheckout() {
 
     const checkout = await createAdyenCheckout(session);
     
-    // Try to use dedicated UPI component if available, otherwise use Redirect
-    let upi;
+    // Use UPI class if available, otherwise fall back to Redirect
+    let upiComponent;
     if (UPI && typeof UPI === 'function') {
-      upi = new UPI(checkout, {});
+      upiComponent = new UPI(checkout, {}).mount('#component-container');
     } else {
-      const upiType = session.paymentMethods?.find(pm => 
-        pm.type === 'upi' || pm.type === 'upi_qr' || pm.type === 'upi_collect'
-      )?.type || 'upi';
-      upi = new Redirect(checkout, {
-        type: upiType
-      });
+      upiComponent = new Redirect(checkout, {
+        type: 'upi'
+      }).mount('#component-container');
     }
-    
-    upi.mount('#component-container');
 
   } catch (error) {
     console.error(error);
