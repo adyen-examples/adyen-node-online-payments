@@ -71,6 +71,13 @@ const createSession = async (sessionData) => {
       lineItems = config.lineItems.mobilepay;
     }
 
+    // UPI-specific configuration (only for India)
+    if (paymentMethod === 'upi' || selectedCountry === 'IN') {
+      currency = "INR";
+      countryCode = "IN";
+      lineItems = config.lineItems.default;
+    }
+
     const sessionRequest = {
       amount: { currency: currency, value: config.payment.defaultAmount },
       countryCode: countryCode,

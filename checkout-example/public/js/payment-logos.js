@@ -29,7 +29,8 @@ class PaymentLogos {
       'ratepay': 'ratepay',
       'klarna_paynow': 'klarna',
       'klarna_paylater': 'klarna',
-      'klarna_payover': 'klarna'
+      'klarna_payover': 'klarna',
+      'upi': 'upi'
     };
 
     const logoKey = logoMap[paymentMethod.toLowerCase()] || paymentMethod.toLowerCase();
@@ -84,6 +85,7 @@ class PaymentLogos {
       { id: 'googlepay', name: 'Google Pay' },
       { id: 'sepa', name: 'SEPA' },
       { id: 'klarna', name: 'Klarna' },
+      { id: 'upi', name: 'UPI' },
       { id: 'vipps', name: 'Vipps' },
       { id: 'mobilepay', name: 'MobilePay' }
     ];
