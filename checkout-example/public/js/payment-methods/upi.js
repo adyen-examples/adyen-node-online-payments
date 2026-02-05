@@ -1,30 +1,56 @@
 const clientKey = document.getElementById("clientKey").innerHTML;
-const { AdyenCheckout, Redirect, UPI } = window.AdyenWeb;
+const { AdyenCheckout, UPI } = window.AdyenWeb;
 
 // Function to create AdyenCheckout instance
 async function createAdyenCheckout(session) {
-  return AdyenCheckout({
-    session: session,
-    clientKey,
-    environment: "test",
-    amount: session.amount || {
-      value: 10000,
-      currency: 'INR'
-    },
-    locale: "en_US",
-    countryCode: session.countryCode || 'IN',
-    showPayButton: true,
-    // Note: For redirect payment methods like UPI, we don't set onPaymentCompleted/onPaymentFailed
-    // The redirect flow will handle the result via /handleShopperRedirect
-    onError: (error, component) => {
-      console.error("onError", error.name, error.message, error.stack, component);
-      window.location.href = "/result/error";
-    },
-  });
-}
+  const configuration = window.PaymentHandlers?.createPaymentConfiguration
+    ? window.PaymentHandlers.createPaymentConfiguration(session, {
+        clientKey,
+        environment: 'test',
+        amount: session.amount || {
+          value: 10000,
+          currency: 'INR'
+        },
+        locale: 'en_US',
+        countryCode: session.countryCode || 'IN',
+        showPayButton: true
+      })
+    : {
+        session: session,
+        clientKey,
+        environment: 'test',
+        amount: session.amount || {
+          value: 10000,
+          currency: 'INR'
+        },
+        locale: 'en_US',
+        countryCode: session.countryCode || 'IN',
+        showPayButton: true,
+        onPaymentCompleted: (result, component) => {
+          console.info('onPaymentCompleted', result, component);
+          const resultCode = result?.resultCode;
+          if (resultCode === 'Authorised') {
+            window.location.href = '/result/success';
+          } else if (resultCode === 'Pending' || resultCode === 'Received') {
+            window.location.href = '/result/pending';
+          } else if (resultCode === 'Refused' || resultCode === 'Cancelled') {
+            window.location.href = '/result/failed';
+          } else {
+            window.location.href = '/result/error';
+          }
+        },
+        onPaymentFailed: (result, component) => {
+          console.info('onPaymentFailed', result, component);
+          window.location.href = '/result/failed';
+        },
+        onError: (error, component) => {
+          console.error('onError', error.name, error.message, error.stack, component);
+          window.location.href = '/result/error';
+        }
+      };
 
-// Note: For redirect payment methods like UPI, the payment result is handled
-// by the server-side /handleShopperRedirect endpoint, not by client-side handlers
+  return AdyenCheckout(configuration);
+}
 
 // Function to start checkout
 async function startCheckout() {
@@ -37,16 +63,14 @@ async function startCheckout() {
     }).then(response => response.json());
 
     const checkout = await createAdyenCheckout(session);
-    
-    // Use UPI class if available, otherwise fall back to Redirect
-    let upiComponent;
-    if (UPI && typeof UPI === 'function') {
-      upiComponent = new UPI(checkout, {}).mount('#component-container');
-    } else {
-      upiComponent = new Redirect(checkout, {
-        type: 'upi'
-      }).mount('#component-container');
-    }
+
+    const containerSelector = document.getElementById('upi-container')
+      ? '#upi-container'
+      : '#component-container';
+
+    const upiComponent = new UPI(checkout, {
+      // The configuration object for UPI that you created.
+    }).mount(containerSelector);
 
   } catch (error) {
     console.error(error);
