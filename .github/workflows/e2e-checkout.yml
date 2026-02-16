@@ -41,3 +41,5 @@ jobs:
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout/mobilepay/components --network host ghcr.io/adyen-examples/adyen-testing-suite:main
       - name: Run vipps E2E tests
         run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout/vipps/components --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+      - name: Run upi E2E tests
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout/upi/components --network host ghcr.io/adyen-examples/adyen-testing-suite:main
