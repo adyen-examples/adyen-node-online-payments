@@ -30,6 +30,8 @@ const createSession = asyncHandler(async (req, res) => {
       selectedCountry = 'NO';
     } else if (methodLower === 'mobilepay') {
       selectedCountry = 'DK';
+    } else if (methodLower === 'upi') {
+      selectedCountry = 'IN';
     }
     
     console.log('Session creation request:', {
@@ -84,12 +86,6 @@ const createSession = asyncHandler(async (req, res) => {
  * Handle shopper redirect
  */
 const handleShopperRedirect = asyncHandler(async (req, res) => {
-  console.log('=== REDIRECT RECEIVED ===');
-  console.log('Method:', req.method);
-  console.log('Query params:', Object.keys(req.query));
-  console.log('Body keys:', Object.keys(req.body || {}));
-  console.log('Headers keys:', Object.keys(req.headers));
-  
   try {
     // Create the payload for submitting payment details
     const redirect = req.method === "GET" ? req.query : req.body;
@@ -100,10 +96,13 @@ const handleShopperRedirect = asyncHandler(async (req, res) => {
     } else if (redirect.payload) {
       details.payload = redirect.payload;
     } else {
-      throw new Error('Missing payment details');
+      // Handle redirects without payment details (cancellation or error)
+      const orderRef = redirect.orderRef;
+      if (orderRef) {
+        return res.redirect(`/result/error?orderRef=${orderRef}&reason=missing_payment_details`);
+      }
+      throw new Error('Missing payment details and order reference');
     }
-    
-    console.log('Redirect details:', details);
 
     // Validate order reference
     const orderRef = redirect.orderRef;
