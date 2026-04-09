@@ -2,29 +2,41 @@
 
 <div class="status-container">
   <div class="status">
-    <img src="/images/{{type}}.svg" class="status-image" alt="">
+    <div class="status-icon {{type}}">
+      <img src="/images/{{type}}.svg" class="status-image" alt="">
+    </div>
 
     {{#ifeq type "success" }}
-    <img src="/images/thank-you.svg" class="status-image" alt="">
+    <h2 class="status-title">Payment Successful!</h2>
     {{/ifeq}}
     {{#ifeq type "pending" }}
-    <img src="/images/thank-you.svg" class="status-image" alt="">
+    <h2 class="status-title">Payment Pending</h2>
+    {{/ifeq}}
+    {{#ifeq type "failed" }}
+    <h2 class="status-title">Payment Failed</h2>
+    {{/ifeq}}
+    {{#ifeq type "error" }}
+    <h2 class="status-title">Error Occurred</h2>
     {{/ifeq}}
 
     <p class="status-message">
       {{#ifeq type "success" }}
-      Your order has been successfully placed.
+      Your subscription has been set up successfully. The payment token has been saved.
       {{/ifeq}}
       {{#ifeq type "pending" }}
-      Your order has been received! Payment completion pending.
+      Your payment is being processed. The token will be saved once confirmed.
       {{/ifeq}}
       {{#ifeq type "failed" }}
       The payment was refused. Please try a different payment method or card.
       {{/ifeq}}
       {{#ifeq type "error" }}
-      Error! Please review response in console and refer to <a href="https://docs.adyen.com/development-resources/response-handling">Response handling.</a>
+      Something went wrong. Please check the console and refer to <a href="https://docs.adyen.com/development-resources/response-handling">Response handling</a>.
       {{/ifeq}}
     </p>
-    <a class="button" href="/" to="#/">Return to Shopper View</a>
+
+    <div class="status-actions">
+      <a class="button primary" href="/">Return to Shopper View</a>
+      <a class="button secondary" href="/admin">View Admin Panel</a>
+    </div>
   </div>
 </div>

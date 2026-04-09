@@ -1,35 +1,53 @@
-<div class='main-container'>
+<h1 class="page-title">Admin Panel</h1>
 
-  <div class="info">
-    <h1>ADMIN PANEL</h1>
-    <div class="admin-panel-container">
-      <p>This <b>admin panel</b> shows all saved tokens that we have received through webhooks. Please follow the readme to ensure that you have setup your webhooks correctly to receive tokens asynchronously.</p>
-      <p>Note that a shopper can have multiple saved tokens per payment method.</p>
-      <p>Below you can find a list of saved tokens. Select a token to initiate a payment (or disable the token) on behalf of the shopper. To learn more, check out the documentation about <a href="https://docs.adyen.com/online-payments/tokenization"> tokenization.</a></p>
+<p class="integration-intro">
+  This <strong>admin panel</strong> shows all saved tokens received through webhooks. 
+  Please follow the readme to ensure webhooks are configured correctly to receive tokens asynchronously.
+</p>
+
+<p class="integration-intro">
+  Note that a shopper can have multiple saved tokens per payment method. 
+  Select a token to initiate a payment or disable it. 
+  Learn more about <a href="https://docs.adyen.com/online-payments/tokenization">tokenization</a>.
+</p>
+
+<div class="demo-intro">
+  <p>Saved Tokens:</p>
+</div>
+
+<div class="token-list">
+  {{#if data.length}}
+    {{#each data}}
+    <div class="token-card">
+      <div class="token-header">
+        <span class="token-label">Shopper Reference</span>
+        <span class="token-value">{{shopperReference}}</span>
+      </div>
+      <div class="token-details">
+        <div class="token-row">
+          <span class="token-label">Payment Method</span>
+          <span class="token-value">{{paymentMethod}}</span>
+        </div>
+        <div class="token-row">
+          <span class="token-label">Token ID</span>
+          <span class="token-value token-id">{{recurringDetailReference}}</span>
+        </div>
+      </div>
+      <div class="token-actions">
+        <a href="/admin/makepayment/{{recurringDetailReference}}" class="button primary">Make Payment</a>
+        <a href="/admin/disable/{{recurringDetailReference}}" class="button secondary">Disable Token</a>
+      </div>
     </div>
-  </div>
+    {{/each}}
+  {{else}}
+    <div class="empty-state">
+      <p>No tokens stored yet.</p>
+      <p>Complete a payment in the <a href="/">Shopper View</a> to save a token.</p>
+    </div>
+  {{/if}}
+</div>
 
-  <br/>
-    
-  <div class="admin-panel-token-container"> 
-    {{#if data.length}}
-
-      {{#each data}}
-      <b>ShopperReference: {{shopperReference}}</b><br/><br/>
-      <ul class="adminList">
-        <li>
-          PaymentMethod: {{paymentMethod}}<br/>
-          RecurringDetailReference: {{recurringDetailReference}}<br/>
-          <a href="/admin/makepayment/{{recurringDetailReference}}">Make Payment</a> | 
-          <a href="/admin/disable/{{recurringDetailReference}}">Disable</a>
-        </li>
-      </ul>
-      {{/each}}
-    {{else}}
-      <p><b>No RecurringDetailReferences (tokens) are stored. You can add a token by purchasing a subscription in the <a href="/">Shopper View</a>.</b></p>
-    {{/if}}
-
-  </div>  
-
+<div class="back-link">
+  <a href="/" class="back-button">← Back to Shopper View</a>
 </div>
 
