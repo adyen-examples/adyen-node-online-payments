@@ -206,21 +206,37 @@ app.get("/admin/disable/:recurringDetailReference", async (req, res) => {
 // consume the event asynchronously, send response status code 202
 app.post("/api/webhooks/notifications", async (req, res) => {
 
-  // YOUR_HMAC_KEY from the Customer Area
-  const hmacKey = process.env.ADYEN_HMAC_KEY;
-  const validator = new hmacValidator()
   // Notification Request JSON
   const notificationRequest = req.body;
-  const notificationRequestItems = notificationRequest.notificationItems
+  const notificationRequestItems = notificationRequest.notificationItems;
+
+  if (!notificationRequestItems || !Array.isArray(notificationRequestItems) || notificationRequestItems.length === 0) {
+    console.log("Invalid webhook format: missing notificationItems");
+    res.status(400).send('Invalid webhook format');
+    return;
+  }
 
   // fetch first (and only) NotificationRequestItem
-  const notification = notificationRequestItems[0].NotificationRequestItem
+  const notification = notificationRequestItems[0].NotificationRequestItem;
 
-  if (!validator.validateHMAC(notification, hmacKey)) {
-    // invalid hmac
-    console.log("Invalid HMAC signature: " + notification);
-    res.status(401).send('Invalid HMAC signature');
+  if (!notification) {
+    console.log("Invalid webhook format: missing NotificationRequestItem");
+    res.status(400).send('Invalid webhook format');
     return;
+  }
+
+  // YOUR_HMAC_KEY from the Customer Area
+  const hmacKey = process.env.ADYEN_HMAC_KEY;
+
+  if (hmacKey) {
+    const validator = new hmacValidator();
+    if (!validator.validateHMAC(notification, hmacKey)) {
+      console.log("Invalid HMAC signature: " + JSON.stringify(notification));
+      res.status(401).send('Invalid HMAC signature');
+      return;
+    }
+  } else {
+    console.log("Note: ADYEN_HMAC_KEY not configured. Skipping webhook signature validation.");
   }
 
   console.log("-- webhook payload ------");
@@ -228,12 +244,13 @@ app.post("/api/webhooks/notifications", async (req, res) => {
 
   // valid hmac: process event
 
-  const shopperReference = notification.additionalData['recurring.shopperReference'];
+  const additionalData = notification.additionalData || {};
+  const shopperReference = additionalData['recurring.shopperReference'];
   
   // read about eventcode "RECURRING_CONTRACT" here: https://docs.adyen.com/online-payments/tokenization/create-and-use-tokens?tab=subscriptions_2#pending-and-refusal-result-codes-1
   if (notification.eventCode == "RECURRING_CONTRACT" && shopperReference) {
     // webhook with recurring token
-    const recurringDetailReference = notification.additionalData['recurring.recurringDetailReference'];
+    const recurringDetailReference = additionalData['recurring.recurringDetailReference'];
     const paymentMethod = notification.paymentMethod;
 
     console.log("Recurring authorized - recurringDetailReference:" + recurringDetailReference + " shopperReference:" + shopperReference +
@@ -245,6 +262,15 @@ app.post("/api/webhooks/notifications", async (req, res) => {
   } else if (notification.eventCode == "AUTHORISATION") {
     // webhook with payment authorisation
     console.log("Payment authorized - pspReference:" + notification.pspReference + " eventCode:" + notification.eventCode);
+    
+    // Also save token from AUTHORISATION if recurring data is present
+    const recurringRef = additionalData['recurring.recurringDetailReference'] || additionalData['tokenization.storedPaymentMethodId'];
+    const shopperRef = additionalData['recurring.shopperReference'] || additionalData['tokenization.shopperReference'];
+    if (recurringRef && shopperRef) {
+      const paymentMethod = notification.paymentMethod;
+      console.log("Saving token from AUTHORISATION - recurringDetailReference:" + recurringRef + " shopperReference:" + shopperRef + " paymentMethod:" + paymentMethod);
+      put(recurringRef, paymentMethod, shopperRef);
+    }
   } else {
     console.log("Unexpected eventCode: " + notification.eventCode);
   }
