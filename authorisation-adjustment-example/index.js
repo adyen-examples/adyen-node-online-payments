@@ -31,6 +31,7 @@ dotenv.config({
 // Adyen Node.js API library boilerplate (configuration, etc.)
 const config = new Config();
 config.apiKey = process.env.ADYEN_API_KEY;
+config.applicationName = "adyen-node-online-payments-authorisation-adjustment-example";
 const client = new Client({ config });
 client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
