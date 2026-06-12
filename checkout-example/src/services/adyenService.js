@@ -11,7 +11,7 @@ const { ConfigurationError, retryRequest, handleAdyenError } = require('../utils
 // Adyen NodeJS library configuration
 const adyenConfig = new Config();
 adyenConfig.apiKey = config.adyen.ADYEN_API_KEY;
-adyenConfig.applicationName = "adyen-node-online-payments-checkout-example";
+adyenConfig.applicationName = "[adyen-node-online-payments checkout-example adyen-web/6.6.0]";
 
 if (!adyenConfig.apiKey) {
   throw new ConfigurationError('ADYEN_API_KEY is required', ['ADYEN_API_KEY']);

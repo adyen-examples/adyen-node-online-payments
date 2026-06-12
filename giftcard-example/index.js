@@ -28,7 +28,7 @@ dotenv.config({
 // Setup Adyen Node.js API library
 const config = new Config();
 config.apiKey = process.env.ADYEN_API_KEY;
-config.applicationName = "adyen-node-online-payments-giftcard-example";
+config.applicationName = "[adyen-node-online-payments giftcard-example adyen-web/5.33.0]";
 const client = new Client({ config });
 client.setEnvironment("TEST");  // change to LIVE for production
 const checkout = new CheckoutAPI(client);
