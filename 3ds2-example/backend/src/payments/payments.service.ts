@@ -35,6 +35,7 @@ export class PaymentsService {
     const client: Client = new Client({
       apiKey: this.API_KEY,
       environment: "TEST",
+      applicationName: "[adyen-node-online-payments 3ds2-example adyen-web/5.55.1]",
     });
 
     // intialise the API object with the client object

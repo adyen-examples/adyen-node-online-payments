@@ -41,6 +41,7 @@ dotenv.config({
 // Adyen Node.js API library boilerplate (configuration, etc.)
 const config = new Config();
 config.apiKey = process.env.ADYEN_API_KEY;
+config.applicationName = "[adyen-node-online-payments giving-example adyen-web/5.40.0]";
 const client = new Client({ config });
 client.setEnvironment("TEST");
 const checkout = new CheckoutAPI(client);
