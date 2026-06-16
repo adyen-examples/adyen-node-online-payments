@@ -33,7 +33,7 @@ function client_init() {
   const config = new Config({
     apiKey: process.env.ADYEN_API_KEY,
     environment: "TEST", // change to LIVE for production
-    applicationName: "[adyen-node-online-payments in-person-payments-example adyen-web/6.6.0]"
+    applicationName: "[adyen-node-online-payments in-person-payments-example]"
   });
   const client = new Client({ config });
 
