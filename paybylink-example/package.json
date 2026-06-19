@@ -16,7 +16,7 @@
     "ansi-regex": "^6.1.0",
     "dotenv": "^16.4.7",
     "dot-prop": "^9.0.0",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "express-handlebars": "^8.0.1",
     "minimist": "^1.2.8",
     "morgan": "^1.10.0",
